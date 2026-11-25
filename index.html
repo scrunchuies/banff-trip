@@ -297,7 +297,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
 
   <!-- PLAN -->
   <section class="view" id="v-plan" hidden>
-    <div><h1>The plan</h1><p class="muted">Five nights: one by the Calgary airport, four in Banff.</p></div>
+    <div><h1>The plan</h1><p class="muted">Five nights: one by the Calgary airport, three at our Banff hotel, and the night of Jan 3 still to book.</p></div>
 
     <div class="card">
       <div class="card-head"><h2>Flights</h2><span class="pill good">$179 round trip</span></div>
@@ -308,8 +308,16 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
       <p class="small muted">Cheapest on Google Flights through BudgetAir ($179; Kiwi.com $185). These are two separate tickets booked together, so if one flight is cancelled the other airline won't rebook you. Carry-on and checked bags cost extra.</p>
     </div>
 
+    <div class="card">
+      <div class="card-head"><h2>Banff hotel</h2><span class="pill good">$715 · 3 nights</span></div>
+      <div class="rows">
+        <div class="r"><span class="icon-tile">🏨</span><div><div class="t">Thu Dec 31 → Sun Jan 3</div><div class="s">$715 total, about $178.75 each split 4 ways</div></div><span class="pill good">Booked</span></div>
+        <div class="r"><span class="icon-tile">🌙</span><div><div class="t">Night of Sun Jan 3</div><div class="s" id="j3Note"></div></div><a class="btn sm" href="#vote" style="text-decoration:none">Vote</a></div>
+      </div>
+    </div>
+
     <div class="section-title"><h2>Day by day</h2></div>
-    <div class="field"><span class="lbl">YOUR TWO SKI DAYS (TICKET IS VALID ANY 2 OF JAN 1–3)</span><div class="seg" id="planSki"></div></div>
+    <div class="field" id="planSkiField"><span class="lbl" id="planSkiLbl">YOUR SKI DAYS</span><div class="seg" id="planSki"></div></div>
     <div class="card" id="days"></div>
 
     <div class="section-title"><h2>Getting around</h2><span class="muted small">No car needed</span></div>
@@ -347,9 +355,10 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
     <div><h1>Costs per person</h1><p class="muted">In USD. Your settings stay on your device.</p></div>
     <div class="grid2">
       <div class="card">
-        <div class="field"><span class="lbl">ARE YOU SKIING?</span><div class="seg" id="cSkier"><button data-v="yes" type="button">⛷ Skiing</button><button data-v="no" type="button">🚶 Not skiing</button></div></div>
-        <label class="toggle" for="cRent" id="rentRow"><span>I need ski rentals<br><span class="small muted">2 days × $39.69 + GST</span></span><span class="sw"><input type="checkbox" id="cRent"><i></i></span></label>
-        <div class="field"><label for="cLodge">BANFF LODGING (4 NIGHTS)</label><select id="cLodge"></select></div>
+        <div class="field"><span class="lbl">HOW MUCH ARE YOU SKIING?</span><div class="seg" id="cDays"><button data-v="2" type="button">⛷ 2 days</button><button data-v="1" type="button">⛷ 1 day</button><button data-v="0" type="button">🚶 Not skiing</button></div></div>
+        <label class="toggle" for="cDisc" id="discRow"><span>I get 25% off my lift ticket</span><span class="sw"><input type="checkbox" id="cDisc"><i></i></span></label>
+        <label class="toggle" for="cRent" id="rentRow"><span>I need ski rentals<br><span class="small muted" id="rentSub"></span></span><span class="sw"><input type="checkbox" id="cRent"><i></i></span></label>
+        <div class="field"><label for="cLodge">NIGHT OF JAN 3 (NOT BOOKED YET)</label><select id="cLodge"></select></div>
         <div class="field"><span class="lbl">FOOD BUDGET</span><div class="seg" id="cFood"><button data-v="budget" type="button">Budget</button><button data-v="mid" type="button">Mid</button><button data-v="comfy" type="button">Eat out</button></div></div>
         <div class="toggle"><span>People sharing rooms</span><span class="stepper"><button class="btn sm" id="gMinus" type="button" aria-label="Fewer people">−</button><b id="gVal">4</b><button class="btn sm" id="gPlus" type="button" aria-label="More people">+</button></span></div>
       </div>
@@ -362,11 +371,11 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
 
   <!-- VOTE -->
   <section class="view" id="v-vote" hidden>
-    <div><h1>Vote</h1><p class="muted">Pick our ski days and where to stay, and heart anything you'd do off the slopes.</p></div>
+    <div><h1>Vote</h1><p class="muted">Pick our ski days and where to sleep on Jan 3, and heart anything you'd do off the slopes.</p></div>
     <div class="section-title"><h2>Which two ski days?</h2><span class="muted small">Lift ticket: any 2 of Jan 1–3</span></div>
     <div class="hscroll" id="skiVote"></div>
 
-    <div class="section-title"><h2>Where to stay in Banff</h2><span class="muted small">Room for 4, per night</span></div>
+    <div class="section-title"><h2>Where do we sleep on Jan 3?</h2><span class="muted small">The hotel covers Dec 31 – Jan 3</span></div>
     <div class="card"><div class="rows" id="lodges"></div></div>
 
     <div class="section-title"><h2>Off the slopes</h2><span class="muted small">Great for non-skiers and rest days</span></div>
@@ -402,13 +411,14 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
 (function(){
 "use strict";
 /* ---------- trip data (USD unless noted) ---------- */
-const FLIGHT=179, FLIX=45, S8=60, LIFT=344.00, RENT_DAY=39.69, GST=1.05, FX=0.72;
+const FLIGHT=179, FLIX=45, S8=60, HOTEL=715, RENT_DAY=39.69, GST=1.05, FX=0.72, DISC=0.25;
+const LIFT={1:172.00,2:344.00};     // SkiBig3 adult, Jan 1–3 (CAD 203 / 406)
 const ACT_BUDGET_CAD=85;            // non-skiers: hot springs + gondola, roughly
 const FOOD_DAYS=4.5;                // Dec 31 – Jan 4 afternoon
+/* Night of Jan 3 isn't booked yet. Stored in the vote's "lodge" field. */
 const LODGES={
-  hi:{name:"HI Banff Alpine Centre",night:215,note:"Hostel · private room or 4 beds",emoji:"🏔"},
-  samesun:{name:"Samesun Banff",night:235,note:"Hostel on Banff Ave, by the ski-bus stops",emoji:"🛏"},
-  inn:{name:"Banff Inn",night:255,note:"Hotel on Banff Ave · ~$245–270",emoji:"🏨"}
+  banff:{name:"Stay in Banff",night:215,note:"Cheapest hostel room for 4, ~$215 · ski Jan 3, bus to the airport Jan 4",emoji:"🏔"},
+  yyc:{name:"Calgary airport (Super 8)",night:60,note:"~$60 room · bus back Jan 3 evening, easy airport day Jan 4",emoji:"🛬"}
 };
 const FOOD={budget:45,mid:55,comfy:80};
 /* Ski-day choice. Stored in the vote's "flight" field so the existing
@@ -456,12 +466,12 @@ const TASKS=[
   ["passport","Valid passport","Everyone needs one to fly into Canada",""],
   ["flight","Flights, $179 round trip","Porter out Dec 30, WestJet home Jan 4",""],
   ["pluscard","Bags for the flights","Carry-on and checked bags cost extra",""],
-  ["tickets","SkiBig3 2-day lift ticket","Skiers only · $344 + GST",""],
-  ["rentals","Ski rentals","Fix the date (cart says Dec 14) and pickup spot",""],
+  ["tickets","SkiBig3 lift tickets","1 day $172 or 2 days $344, + GST",""],
+  ["rentals","Ski rentals","$39.69/day · fix the date (cart says Dec 14)",""],
   ["airporter","FlixBus both ways","Airport → Banff Dec 31, back Jan 4",""],
   ["super8","Super 8 + airport shuttle","Night of Dec 30",""],
-  ["banff","Banff lodging, 4 nights","Dec 31 – Jan 4, New Year's prices rise",""],
-  ["skibus","Check holiday ski-bus times","Posted mid-December","Mid-Dec"],
+  ["banff","Banff hotel, Dec 31 – Jan 3","$715 for 3 nights",""],
+  ["skibus","Place for the night of Jan 3","Banff or by the Calgary airport, per the vote",""],
   ["groceries","Groceries","Stores may close Jan 1","Dec 31"]
 ];
 
@@ -488,24 +498,26 @@ let toastT=0;
 function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true;},3800);}
 
 /* ---------- settings (this device) ---------- */
-const DEF={ski:"12",lodge:"hi",group:4,food:"mid",skier:true,rent:false,filter:"all"};
+const DEF={ski:"12",ski1:"1",days:2,disc:false,lodge:"banff",group:4,food:"mid",rent:false,filter:"all"};
 let set=Object.assign({},DEF);
-try{const s=JSON.parse(localStorage.getItem("banffTripSettings2")||"null");if(s&&typeof s==="object")set=Object.assign({},DEF,s);}catch(e){}
-if(!SKI[set.ski])set.ski="12";if(!LODGES[set.lodge])set.lodge="hi";if(!(set.food in FOOD))set.food="mid";
-set.group=Math.min(8,Math.max(1,parseInt(set.group,10)||4));set.skier=set.skier!==false;
-function saveSet(){try{localStorage.setItem("banffTripSettings2",JSON.stringify(set));}catch(e){}}
+try{const s=JSON.parse(localStorage.getItem("banffTripSettings3")||"null");if(s&&typeof s==="object")set=Object.assign({},DEF,s);}catch(e){}
+if(!SKI[set.ski])set.ski="12";if(!["1","2","3"].includes(set.ski1))set.ski1="1";if(!LODGES[set.lodge])set.lodge="banff";set.days=[0,1,2].includes(+set.days)?+set.days:2;set.disc=!!set.disc;if(!(set.food in FOOD))set.food="mid";
+set.group=Math.min(8,Math.max(1,parseInt(set.group,10)||4));
+function saveSet(){try{localStorage.setItem("banffTripSettings3",JSON.stringify(set));}catch(e){}}
 
-function costs(skier){
-  const rooms=Math.ceil(set.group/4);
-  const lodging=rooms*(S8+4*LODGES[set.lodge].night)/set.group;
+function costs(){
+  const d=set.days,g=set.group;
   const rows=[
     ["Flights",FLIGHT,"Porter out, WestJet home · BudgetAir"],
-    ["Lodging",lodging,"1 Super 8 + 4 Banff nights, split "+set.group+" ways"],
+    ["Banff hotel",HOTEL/g,"Dec 31 – Jan 3, $715 split "+g+" ways"],
+    ["Super 8, Dec 30",S8/g,"~$60 room split "+g+" ways"],
+    ["Night of Jan 3",LODGES[set.lodge].night/g,LODGES[set.lodge].name+" · not booked yet, estimate"],
     ["FlixBus",FLIX,"Calgary airport ⇄ Banff"]
   ];
-  if(skier){
-    rows.push(["Lift ticket",LIFT*GST,"SkiBig3 2-day, $344 + 5% GST"]);
-    rows.push(["Ski rentals",set.rent?2*RENT_DAY*GST:0,set.rent?"2 days × $39.69 + GST":"Not renting"]);
+  if(d>0){
+    const base=LIFT[d],disc=set.disc?base*DISC:0;
+    rows.push(["Lift ticket",(base-disc)*GST,"SkiBig3 "+d+"-day $"+base.toFixed(0)+(set.disc?" − 25%":"")+" + 5% GST"]);
+    rows.push(["Ski rentals",set.rent?d*RENT_DAY*GST:0,set.rent?d+" day"+(d>1?"s":"")+" × $39.69 + GST":"Not renting"]);
     rows.push(["Ski bus",0,"Free from Banff hotels"]);
   }else{
     rows.push(["Activities",ACT_BUDGET_CAD*FX,"Hot springs + gondola, roughly"]);
@@ -588,15 +600,15 @@ function renderHome(){
   if(going.length){const sk=voters(v=>v.rsvp==="in").length,ns=voters(v=>v.rsvp==="noski").length;
     crew.append(el("span","muted small",sk+" skiing · "+ns+" not skiing"));}
 
-  $("#sTotal").textContent=usd(costs(set.skier).total);
-  $("#sTotalSub").textContent=set.skier?"if you ski":"if you don't ski";
-  $("#sSki").textContent=set.skier?"2 days":"Not skiing";
-  $("#sSkiSub").textContent=set.skier?SKI[set.ski].short:"Banff day trips";
+  $("#sTotal").textContent=usd(costs().total);
+  $("#sTotalSub").textContent=set.days?"skiing "+set.days+" day"+(set.days>1?"s":""):"not skiing";
+  $("#sSki").textContent=set.days?set.days+" day"+(set.days>1?"s":""):"Not skiing";
+  $("#sSkiSub").textContent=set.days===2?SKI[set.ski].short:set.days===1?"Jan "+set.ski1:"Banff day trips";
 
   const dec=$("#decide");dec.replaceChildren();
   const lead=(field,map,labelOf)=>{const counts={};Object.values(st.votes).forEach(v=>{if(v&&v[field]&&map[v[field]])counts[v[field]]=(counts[v[field]]||0)+1;});
     const best=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];return best?{n:best[1],label:labelOf(best[0])}:null;};
-  [["⛷","Ski days",SKI_FIELD,SKI,k=>SKI[k].label],["🛏","Where to stay","lodge",LODGES,k=>LODGES[k].name]].forEach(([emo,title,field,map,labelOf])=>{
+  [["⛷","Ski days",SKI_FIELD,SKI,k=>SKI[k].label],["🌙","Night of Jan 3","lodge",LODGES,k=>LODGES[k].name]].forEach(([emo,title,field,map,labelOf])=>{
     const r=el("div","r");r.append(el("span","icon-tile",emo));
     const d=el("div");d.append(el("div","t",title));const L=lead(field,map,labelOf);
     d.append(el("div","s",L?"Leading: "+L.label+" ("+L.n+" vote"+(L.n>1?"s":"")+")":"No votes yet"));r.append(d);
@@ -620,21 +632,31 @@ function renderHome(){
   $("#taskCount").textContent=doneN+" of "+TASKS.length+" done";
   $("#taskCount").className="pill"+(doneN===TASKS.length?" good":"");
 }
+function skiDaysMine(){return set.days===2?SKI[set.ski].days:set.days===1?[+set.ski1]:[];}
 function dayItems(n){
-  const ski=set.skier&&SKI[set.ski].days.includes(n);
-  if(ski)return [["8:30 AM","Free ski bus from a Banff hotel stop"],["9:30–4:30","Ski "+(n===SKI[set.ski].days[0]?"day 1":"day 2")+" (SkiBig3 ticket)"],["4:45 PM","Ski bus back to Banff"],["Night","Banff"]];
-  return [["All day",set.skier?"Rest day: hot springs, gondola, Banff Ave (see Vote → Off the slopes)":"Off-slope day: icewalk, hot springs, skating, gondola"],["Night","Banff"]];
+  const mine=skiDaysMine(),ski=mine.includes(n),night=n===3?(set.lodge==="yyc"?"Super 8 Calgary Airport (not booked yet)":"Banff (not booked yet)"):"Our Banff hotel";
+  const out=[];
+  if(n===3)out.push(["11:00 AM","Check out of the hotel, leave bags"]);
+  if(ski)out.push(["8:30 AM","Free ski bus from a Banff hotel stop"],["9:30–4:30","Ski"+(mine.length>1?" day "+(mine.indexOf(n)+1):"")+" (SkiBig3 ticket)"],["4:45 PM","Ski bus back to Banff"]);
+  else out.push(["All day",set.days?"Rest day: hot springs, gondola, Banff Ave":"Off-slope day: icewalk, hot springs, skating, gondola"]);
+  if(n===3&&set.lodge==="yyc")out.push(["Evening","FlixBus to the Calgary airport"]);
+  out.push(["Night",night]);
+  return out;
 }
 function renderPlan(){
   const ps=$("#planSki");ps.replaceChildren();
-  Object.entries(SKI).forEach(([k,o])=>{const b=el("button",set.ski===k?"on":null,o.short);b.type="button";b.disabled=!set.skier;b.addEventListener("click",()=>{set.ski=k;saveSet();renderAll();});ps.append(b);});
+  $("#planSkiField").hidden=!set.days;
+  $("#planSkiLbl").textContent=set.days===2?"YOUR TWO SKI DAYS (ANY 2 OF JAN 1–3)":"YOUR SKI DAY";
+  if(set.days===2)Object.entries(SKI).forEach(([k,o])=>{const b=el("button",set.ski===k?"on":null,o.short);b.type="button";b.addEventListener("click",()=>{set.ski=k;saveSet();renderAll();});ps.append(b);});
+  else ["1","2","3"].forEach(k=>{const b=el("button",set.ski1===k?"on":null,"Jan "+k);b.type="button";b.addEventListener("click",()=>{set.ski1=k;saveSet();renderAll();});ps.append(b);});
+  $("#j3Note").textContent="Not booked yet · "+LODGES[set.lodge].name+" (~$"+LODGES[set.lodge].night+" room)";
   const DAYS=[
     {dow:"Wed",d:"30",m:"Dec",items:[["7:25 PM","Fly PHX → YYC, Porter nonstop"],["11:40 PM","Land in Calgary, customs, Super 8 shuttle"],["Night","Super 8 Calgary Airport"]]},
-    {dow:"Thu",d:"31",m:"Dec",items:[["Morning","Super 8 breakfast, FlixBus to Banff (~2 h)"],["Afternoon","Check in, groceries, Banff Ave"],["Evening","New Year's Eve in Banff 🎉"],["Night","Banff"]]},
+    {dow:"Thu",d:"31",m:"Dec",items:[["Morning","Super 8 breakfast, FlixBus to Banff (~2 h)"],["Afternoon","Check in, groceries, Banff Ave"],["Evening","New Year's Eve in Banff 🎉"],["Night","Our Banff hotel"]]},
     {dow:"Fri",d:"1",m:"Jan",items:dayItems(1)},
     {dow:"Sat",d:"2",m:"Jan",items:dayItems(2)},
     {dow:"Sun",d:"3",m:"Jan",items:dayItems(3)},
-    {dow:"Mon",d:"4",m:"Jan",items:[["11:00 AM","Check out, leave bags at the hotel"],["Afternoon","FlixBus to Calgary airport, arrive by ~5:30 PM"],["8:00 PM","Fly YYC → PHX, WestJet nonstop, land 10:15 PM"]]}
+    {dow:"Mon",d:"4",m:"Jan",items:set.lodge==="yyc"?[["Day","Free day near the Calgary airport"],["8:00 PM","Fly YYC → PHX, WestJet nonstop, land 10:15 PM"]]:[["11:00 AM","Check out, leave bags"],["Afternoon","FlixBus to Calgary airport, arrive by ~5:30 PM"],["8:00 PM","Fly YYC → PHX, WestJet nonstop, land 10:15 PM"]]}
   ];
   const box=$("#days");box.replaceChildren();
   DAYS.forEach((day,i)=>{
@@ -644,11 +666,13 @@ function renderPlan(){
     row.append(ol);box.append(row);});
 }
 function renderCosts(){
-  document.querySelectorAll("#cSkier button").forEach(b=>b.classList.toggle("on",(b.dataset.v==="yes")===set.skier));
+  document.querySelectorAll("#cDays button").forEach(b=>b.classList.toggle("on",+b.dataset.v===set.days));
+  $("#discRow").hidden=!set.days;$("#cDisc").checked=set.disc;
+  $("#rentSub").textContent=set.days+" day"+(set.days>1?"s":"")+" × $39.69 + GST";
   document.querySelectorAll("#cFood button").forEach(b=>b.classList.toggle("on",b.dataset.v===set.food));
-  $("#rentRow").hidden=!set.skier;
+  $("#rentRow").hidden=!set.days;
   $("#cLodge").value=set.lodge;$("#gVal").textContent=set.group;$("#cRent").checked=set.rent;
-  const {rows,total}=costs(set.skier);const box=$("#bill");box.replaceChildren();
+  const {rows,total}=costs();const box=$("#bill");box.replaceChildren();
   rows.forEach(([a,b,c])=>{const l=el("div","line");const d=el("div");d.append(el("span",null,a));d.append(el("small",null,c));l.append(d);l.append(el("span","amt",b?usd(b):"$0"));box.append(l);});
   $("#billTotal").textContent=usd(total);
 }
@@ -669,7 +693,7 @@ function renderVote(){
   const lb=$("#lodges");lb.replaceChildren();
   Object.entries(LODGES).forEach(([k,l])=>{
     const r=el("div","r");r.append(el("span","icon-tile",l.emoji));
-    const d=el("div");d.append(el("div","t",l.name));d.append(el("div","s","~"+usd(l.night)+"/night · ~"+usd(l.night/4)+" each · "+l.note));r.append(d);
+    const d=el("div");d.append(el("div","t",l.name));d.append(el("div","s","~"+usd(l.night/4)+" each · "+l.note));r.append(d);
     const a=el("div","act");const ws=voters(v=>v.lodge===k);
     if(ws.length){const s=el("span","stack");ws.slice(0,5).forEach(w=>s.append(avatar(w)));a.append(s);}
     const b=el("button","btn sm"+(myV.lodge===k?" primary":""),myV.lodge===k?"Picked ✓":"Pick");b.type="button";
@@ -710,9 +734,10 @@ function renderIdeas(){
 function renderAll(){renderMe();renderLive();renderHome();renderPlan();renderCosts();renderVote();renderIdeas();}
 
 /* ---------- controls ---------- */
-Object.entries(LODGES).forEach(([k,l])=>{const o=el("option",null,l.name+" (~"+usd(l.night)+"/night)");o.value=k;$("#cLodge").append(o);});
+Object.entries(LODGES).forEach(([k,l])=>{const o=el("option",null,l.name+" (~"+usd(l.night)+" room)");o.value=k;$("#cLodge").append(o);});
 const onSet=()=>{saveSet();renderAll();};
-document.querySelectorAll("#cSkier button").forEach(b=>b.addEventListener("click",()=>{set.skier=b.dataset.v==="yes";onSet();}));
+document.querySelectorAll("#cDays button").forEach(b=>b.addEventListener("click",()=>{set.days=+b.dataset.v;onSet();}));
+$("#cDisc").addEventListener("change",e=>{set.disc=e.target.checked;onSet();});
 $("#cLodge").addEventListener("change",e=>{set.lodge=e.target.value;onSet();});
 document.querySelectorAll("#cFood button").forEach(b=>b.addEventListener("click",()=>{set.food=b.dataset.v;onSet();}));
 $("#cRent").addEventListener("change",e=>{set.rent=e.target.checked;onSet();});
@@ -720,7 +745,7 @@ $("#gMinus").addEventListener("click",()=>{set.group=Math.max(1,set.group-1);onS
 $("#gPlus").addEventListener("click",()=>{set.group=Math.min(8,set.group+1);onSet();});
 document.querySelectorAll("#rsvp button").forEach(b=>b.addEventListener("click",()=>{
   const val=b.dataset.v;
-  if(val==="in"){set.skier=true;saveSet();}else if(val==="noski"){set.skier=false;saveSet();}
+  if(val==="in"&&!set.days){set.days=2;saveSet();}else if(val==="noski"){set.days=0;saveSet();}
   saveMyVote(v=>{v.rsvp=v.rsvp===val?null:val;});
   if(!st.fs||!st.nick)renderAll();
 }));
