@@ -367,6 +367,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
         <label class="toggle" for="cDisc" id="discRow"><span>I get 25% off my lift ticket</span><span class="sw"><input type="checkbox" id="cDisc"><i></i></span></label>
         <label class="toggle" for="cRent" id="rentRow"><span>I need ski rentals<br><span class="small muted" id="rentSub"></span></span><span class="sw"><input type="checkbox" id="cRent"><i></i></span></label>
         <div class="field"><span class="lbl">FLY HOME</span><div class="seg" id="cRet"><button data-v="d3" type="button">Sun Jan 3 · $200</button><button data-v="d4" type="button">Mon Jan 4 · $179</button></div></div>
+        <div class="field"><span class="lbl">OFF-SLOPE ACTIVITIES</span><div class="seg" id="cAct"><button data-v="none" type="button">None</button><button data-v="light" type="button">Light</button><button data-v="mid" type="button">Mid</button><button data-v="big" type="button">Big</button></div><span class="small muted" id="actSub"></span></div>
         <div class="field"><span class="lbl">FOOD BUDGET</span><div class="seg" id="cFood"><button data-v="budget" type="button">Budget</button><button data-v="mid" type="button">Mid</button><button data-v="comfy" type="button">Eat out</button></div></div>
         <div class="toggle"><span>People sharing rooms</span><span class="stepper"><button class="btn sm" id="gMinus" type="button" aria-label="Fewer people">−</button><b id="gVal">4</b><button class="btn sm" id="gPlus" type="button" aria-label="More people">+</button></span></div>
       </div>
@@ -421,7 +422,12 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
 /* ---------- trip data (USD unless noted) ---------- */
 const FLIX=45, HOTEL=715, RENT_DAY=39.69, GST=1.05, FX=0.72, DISC=0.25;
 const LIFT={1:172.00,2:344.00};     // SkiBig3 adult, Jan 1–3 (CAD 203 / 406)
-const ACT_BUDGET_CAD=85;            // non-skiers: hot springs + gondola, roughly
+const ACT_BUDGET={                  // rough CAD budgets for off-slope plans, for skiers and non-skiers
+  none:{cad:0,note:"No paid activities"},
+  light:{cad:30,note:"Hot springs and a treat"},
+  mid:{cad:85,note:"Hot springs + Banff Gondola"},
+  big:{cad:200,note:"Hot springs, gondola and a Johnston Canyon icewalk"}
+};
 /* Return day. Stored in the vote's "lodge" field (no longer used for lodging). */
 const RET={
   d3:{label:"Sun Jan 3 · 11:40 AM",short:"Sun Jan 3",time:"11:40 AM",flight:200,food:3.25,emoji:"🛬",note:"$200 round trip · early bus Jan 3, ski Jan 1 + 2, home by 2 PM"},
@@ -506,10 +512,10 @@ let toastT=0;
 function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true;},3800);}
 
 /* ---------- settings (this device) ---------- */
-const DEF={ski:"12",ski1:"1",days:2,disc:false,pass:false,ret:"d4",group:4,food:"mid",rent:false,filter:"all"};
+const DEF={ski:"12",ski1:"1",days:2,disc:false,pass:false,ret:"d4",act:"mid",group:4,food:"mid",rent:false,filter:"all"};
 let set=Object.assign({},DEF);
 try{const s=JSON.parse(localStorage.getItem("banffTripSettings3")||"null");if(s&&typeof s==="object")set=Object.assign({},DEF,s);}catch(e){}
-if(!SKI[set.ski])set.ski="12";if(!["1","2","3"].includes(set.ski1))set.ski1="1";if(!RET[set.ret])set.ret="d4";set.days=[0,1,2].includes(+set.days)?+set.days:2;set.disc=!!set.disc;set.pass=!!set.pass;if(!(set.food in FOOD))set.food="mid";
+if(!SKI[set.ski])set.ski="12";if(!["1","2","3"].includes(set.ski1))set.ski1="1";if(!RET[set.ret])set.ret="d4";if(!ACT_BUDGET[set.act])set.act="mid";set.days=[0,1,2].includes(+set.days)?+set.days:2;set.disc=!!set.disc;set.pass=!!set.pass;if(!(set.food in FOOD))set.food="mid";
 set.group=Math.min(8,Math.max(1,parseInt(set.group,10)||4));
 function saveSet(){try{localStorage.setItem("banffTripSettings3",JSON.stringify(set));}catch(e){}}
 
@@ -527,9 +533,8 @@ function costs(){
       rows.push(["Lift ticket",(base-disc)*GST,"SkiBig3 "+d+"-day $"+base.toFixed(0)+(set.disc?" − 25%":"")+" + 5% GST"]);}
     rows.push(["Ski rentals",set.rent?d*RENT_DAY*GST:0,set.rent?d+" day"+(d>1?"s":"")+" × $39.69 + GST":"Not renting"]);
     rows.push(["Ski bus",0,"Free from Banff hotels"]);
-  }else{
-    rows.push(["Activities",ACT_BUDGET_CAD*FX,"Hot springs + gondola, roughly"]);
   }
+  rows.push(["Activities",ACT_BUDGET[set.act].cad*FX,ACT_BUDGET[set.act].note+(set.act==="none"?"":", ~CA$"+ACT_BUDGET[set.act].cad)]);
   rows.push(["Food",RET[set.ret].food*FOOD[set.food]*FX,"~CA$"+FOOD[set.food]+"/day × "+RET[set.ret].food+" days"]);
   return {rows,total:rows.reduce((a,r)=>a+r[1],0)};
 }
@@ -688,6 +693,8 @@ function renderCosts(){
   $("#discRow").hidden=!set.days||set.pass;$("#cDisc").checked=set.disc;
   $("#rentSub").textContent=set.days+" day"+(set.days>1?"s":"")+" × $39.69 + GST";
   document.querySelectorAll("#cFood button").forEach(b=>b.classList.toggle("on",b.dataset.v===set.food));
+  document.querySelectorAll("#cAct button").forEach(b=>b.classList.toggle("on",b.dataset.v===set.act));
+  $("#actSub").textContent=ACT_BUDGET[set.act].note+(set.act==="none"?"":" · ~US$"+Math.round(ACT_BUDGET[set.act].cad*FX));
   $("#rentRow").hidden=!set.days;
   document.querySelectorAll("#cRet button").forEach(b=>b.classList.toggle("on",b.dataset.v===set.ret));$("#gVal").textContent=set.group;$("#cRent").checked=set.rent;
   const {rows,total}=costs();const box=$("#bill");box.replaceChildren();
@@ -758,6 +765,7 @@ $("#cDisc").addEventListener("change",e=>{set.disc=e.target.checked;onSet();});
 $("#cPass").addEventListener("change",e=>{set.pass=e.target.checked;onSet();});
 document.querySelectorAll("#cRet button").forEach(b=>b.addEventListener("click",()=>{set.ret=b.dataset.v;onSet();}));
 document.querySelectorAll("#cFood button").forEach(b=>b.addEventListener("click",()=>{set.food=b.dataset.v;onSet();}));
+document.querySelectorAll("#cAct button").forEach(b=>b.addEventListener("click",()=>{set.act=b.dataset.v;onSet();}));
 $("#cRent").addEventListener("change",e=>{set.rent=e.target.checked;onSet();});
 $("#gMinus").addEventListener("click",()=>{set.group=Math.max(1,set.group-1);onSet();});
 $("#gPlus").addEventListener("click",()=>{set.group=Math.min(8,set.group+1);onSet();});
