@@ -357,6 +357,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
     <div class="grid2">
       <div class="card">
         <div class="field"><span class="lbl">HOW MUCH ARE YOU SKIING?</span><div class="seg" id="cDays"><button data-v="2" type="button">⛷ 2 days</button><button data-v="1" type="button">⛷ 1 day</button><button data-v="0" type="button">🚶 Not skiing</button></div></div>
+        <label class="toggle" for="cPass" id="passRow"><span>I have a season pass<br><span class="small muted">Ikon, or a Sunshine, Lake Louise or Norquay pass · no lift ticket to buy</span></span><span class="sw"><input type="checkbox" id="cPass"><i></i></span></label>
         <label class="toggle" for="cDisc" id="discRow"><span>I get 25% off my lift ticket</span><span class="sw"><input type="checkbox" id="cDisc"><i></i></span></label>
         <label class="toggle" for="cRent" id="rentRow"><span>I need ski rentals<br><span class="small muted" id="rentSub"></span></span><span class="sw"><input type="checkbox" id="cRent"><i></i></span></label>
         <div class="field"><span class="lbl">FLY HOME</span><div class="seg" id="cRet"><button data-v="d3" type="button">Sun Jan 3 · $200</button><button data-v="d4" type="button">Mon Jan 4 · $179</button></div></div>
@@ -467,7 +468,7 @@ const TASKS=[
   ["passport","Valid passport","Everyone needs one to fly into Canada",""],
   ["flight","Flights","Porter out Dec 30 · WestJet home Jan 3 ($200) or Jan 4 ($179)",""],
   ["pluscard","Bags for the flights","Carry-on and checked bags cost extra",""],
-  ["tickets","SkiBig3 lift tickets","1 day $172 or 2 days $344, + GST",""],
+  ["tickets","SkiBig3 lift tickets","1 day $172 or 2 days $344, + GST · not needed with a season pass",""],
   ["rentals","Ski rentals","$39.69/day · fix the date (cart says Dec 14)",""],
   ["airporter","FlixBus both ways","Airport → Banff Dec 31, back Jan 4",""],
   ["super8","Arrival night plan","Ride to the casino and back, where to nap",""],
@@ -499,10 +500,10 @@ let toastT=0;
 function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true;},3800);}
 
 /* ---------- settings (this device) ---------- */
-const DEF={ski:"12",ski1:"1",days:2,disc:false,ret:"d4",group:4,food:"mid",rent:false,filter:"all"};
+const DEF={ski:"12",ski1:"1",days:2,disc:false,pass:false,ret:"d4",group:4,food:"mid",rent:false,filter:"all"};
 let set=Object.assign({},DEF);
 try{const s=JSON.parse(localStorage.getItem("banffTripSettings3")||"null");if(s&&typeof s==="object")set=Object.assign({},DEF,s);}catch(e){}
-if(!SKI[set.ski])set.ski="12";if(!["1","2","3"].includes(set.ski1))set.ski1="1";if(!RET[set.ret])set.ret="d4";set.days=[0,1,2].includes(+set.days)?+set.days:2;set.disc=!!set.disc;if(!(set.food in FOOD))set.food="mid";
+if(!SKI[set.ski])set.ski="12";if(!["1","2","3"].includes(set.ski1))set.ski1="1";if(!RET[set.ret])set.ret="d4";set.days=[0,1,2].includes(+set.days)?+set.days:2;set.disc=!!set.disc;set.pass=!!set.pass;if(!(set.food in FOOD))set.food="mid";
 set.group=Math.min(8,Math.max(1,parseInt(set.group,10)||4));
 function saveSet(){try{localStorage.setItem("banffTripSettings3",JSON.stringify(set));}catch(e){}}
 
@@ -515,8 +516,9 @@ function costs(){
     ["FlixBus",FLIX,"Calgary airport ⇄ Banff"]
   ];
   if(d>0){
-    const base=LIFT[d],disc=set.disc?base*DISC:0;
-    rows.push(["Lift ticket",(base-disc)*GST,"SkiBig3 "+d+"-day $"+base.toFixed(0)+(set.disc?" − 25%":"")+" + 5% GST"]);
+    if(set.pass)rows.push(["Lift ticket",0,"Season pass, nothing to buy"]);
+    else{const base=LIFT[d],disc=set.disc?base*DISC:0;
+      rows.push(["Lift ticket",(base-disc)*GST,"SkiBig3 "+d+"-day $"+base.toFixed(0)+(set.disc?" − 25%":"")+" + 5% GST"]);}
     rows.push(["Ski rentals",set.rent?d*RENT_DAY*GST:0,set.rent?d+" day"+(d>1?"s":"")+" × $39.69 + GST":"Not renting"]);
     rows.push(["Ski bus",0,"Free from Banff hotels"]);
   }else{
@@ -645,7 +647,7 @@ function dayItems(n){
       return out;
     }
   }
-  if(ski)out.push(["8:30 AM","Free ski bus from a Banff hotel stop"],["9:30–4:30","Ski"+(mine.length>1?" day "+(mine.indexOf(n)+1):"")+" (SkiBig3 ticket)"],["4:45 PM","Ski bus back to Banff"]);
+  if(ski)out.push(["8:30 AM","Free ski bus from a Banff hotel stop"],["9:30–4:30","Ski"+(mine.length>1?" day "+(mine.indexOf(n)+1):"")+(set.pass?" (season pass)":" (SkiBig3 ticket)")],["4:45 PM","Ski bus back to Banff"]);
   else out.push(["All day",set.days?"Rest day: hot springs, gondola, Banff Ave":"Off-slope day: icewalk, hot springs, skating, gondola"]);
   out.push(["Night",n===3?"No hotel booked":"Our Banff hotel"]);
   return out;
@@ -676,7 +678,8 @@ function renderPlan(){
 }
 function renderCosts(){
   document.querySelectorAll("#cDays button").forEach(b=>b.classList.toggle("on",+b.dataset.v===set.days));
-  $("#discRow").hidden=!set.days;$("#cDisc").checked=set.disc;
+  $("#passRow").hidden=!set.days;$("#cPass").checked=set.pass;
+  $("#discRow").hidden=!set.days||set.pass;$("#cDisc").checked=set.disc;
   $("#rentSub").textContent=set.days+" day"+(set.days>1?"s":"")+" × $39.69 + GST";
   document.querySelectorAll("#cFood button").forEach(b=>b.classList.toggle("on",b.dataset.v===set.food));
   $("#rentRow").hidden=!set.days;
@@ -746,6 +749,7 @@ function renderAll(){renderMe();renderLive();renderHome();renderPlan();renderCos
 const onSet=()=>{saveSet();renderAll();};
 document.querySelectorAll("#cDays button, #planDays button").forEach(b=>b.addEventListener("click",()=>{set.days=+b.dataset.v;onSet();}));
 $("#cDisc").addEventListener("change",e=>{set.disc=e.target.checked;onSet();});
+$("#cPass").addEventListener("change",e=>{set.pass=e.target.checked;onSet();});
 document.querySelectorAll("#cRet button").forEach(b=>b.addEventListener("click",()=>{set.ret=b.dataset.v;onSet();}));
 document.querySelectorAll("#cFood button").forEach(b=>b.addEventListener("click",()=>{set.food=b.dataset.v;onSet();}));
 $("#cRent").addEventListener("change",e=>{set.rent=e.target.checked;onSet();});
