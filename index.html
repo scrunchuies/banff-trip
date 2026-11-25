@@ -180,7 +180,7 @@ main{padding:16px max(16px,env(safe-area-inset-right,0px)) calc(var(--tabbar) + 
 /* Costs */
 .field{display:flex;flex-direction:column;gap:8px}
 .field > label,.field > .lbl{font-size:.78rem;font-weight:800;color:var(--muted);letter-spacing:.03em}
-select,textarea,input[type=text]{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#0f1729;width:100%}
+select,textarea,input[type=text],input[type=password]{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#0f1729;width:100%}
 .toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:600;font-size:.9rem}
 .sw{position:relative;width:46px;height:28px;flex:none}
 .sw input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
@@ -220,6 +220,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
 .seg button:disabled{opacity:.45;cursor:not-allowed}
 #rsvp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:520px){#rsvp{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#pwBox:not([hidden]){display:flex}
 </style>
 </head>
 <body>
@@ -417,6 +418,8 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
     <h2 id="nameTitle">What should we call you?</h2>
     <p class="muted small">Your name shows next to your votes and ideas. No account needed.</p>
     <input type="text" id="nameInput" maxlength="24" placeholder="e.g. Sam" autocomplete="nickname">
+    <div id="pwBox" hidden style="flex-direction:column;gap:6px"><label for="pwInput" class="small muted">Piotr is the trip admin. Enter the admin password.</label><input type="password" id="pwInput" autocomplete="current-password"></div>
+    <button class="btn sm" type="button" id="signOutBtn" hidden style="align-self:flex-start">Sign out of admin</button>
     <div class="btns"><button class="btn" type="button" id="nameSkip">Just looking</button><button class="btn primary" type="submit">Save</button></div>
   </form>
 </div>
@@ -455,6 +458,7 @@ const HOTELS={
   rmsl:{name:"Rocky Mountain Ski Lodge",total:637,where:"Canmore · 11 mi from Banff",note:"Cheapest option, a short drive or bus from Banff",emoji:"⛷"},
   llinn:{name:"Lake Louise Inn",total:716,where:"Lake Louise village, near the ski resort",note:"Ikon discount price · far from Banff (about 35 mi), close to Lake Louise skiing",emoji:"🎿",ikon:true},
   canmoreinn:{name:"Canmore Inn & Suites",total:677,where:"Canmore",note:"Hot tub, indoor pool, waterslide · fully refundable · rated 8.4/10 · was $753",emoji:"🛝"},
+  gateway:{name:"Gateway Suites studio",total:525,where:"Harvie Heights · near Canmore, ~16 min drive to Banff",note:"Cheapest that sleeps 4 · 2 queen beds in a 269 sq ft studio · $478 + 11% tax on Booking.com",emoji:"💸"},
   condo:{name:"Relaxing condo with pool and hot tub",total:605,where:"Canmore",note:"Free parking, Banff park pass included · cheapest option",emoji:"🏠"}
 };
 const DAYSV={
@@ -508,7 +512,7 @@ const TASKS=[
   ["rentals","Ski rentals","$39.69/day · fix the date (cart says Dec 14)",""],
   ["airporter","FlixBus both ways","Airport → Banff Dec 31, back Jan 4",""],
   ["super8","Arrival night plan","Ride to the casino and back, where to nap",""],
-  ["banff","Book lodging, Dec 31 – Jan 3","Per the vote · $605–$864 total",""],
+  ["banff","Book lodging, Dec 31 – Jan 3","Per the vote · $525–$864 total",""],
   ["skibus","Check holiday ski-bus times","Posted mid-December","Mid-Dec"],
   ["groceries","Groceries","Stores may close Jan 1","Dec 31"]
 ];
@@ -566,7 +570,9 @@ function costs(){
 /* ---------- shared state (Firebase) ---------- */
 const FIREBASE_CONFIG={apiKey:"AIzaSyDJKMCT-zHJrOPTJmAA9_Owi3hTcsGLmwg",authDomain:"red-air-296505.firebaseapp.com",projectId:"red-air-296505",storageBucket:"red-air-296505.firebasestorage.app",messagingSenderId:"808516215098",appId:"1:808516215098:web:e4e03cbd3dc70a78987003"};
 const FB_VER="10.12.2";
-const st={me:null,nick:null,votes:{},ideas:[],tasks:{},fs:null,loaded:false,conn:"connecting"};
+const ADMIN_EMAIL="piotr@piotrexplores.com";
+const isPiotr=n=>String(n||"").trim().toLowerCase()==="piotr";
+const st={admin:false,auth:null,authM:null,me:null,nick:null,votes:{},ideas:[],tasks:{},fs:null,loaded:false,conn:"connecting"};
 try{const n=localStorage.getItem("banffTripNick");if(n)st.nick=n.slice(0,24);}catch(e){}
 const myVote=()=>(st.me&&st.votes[st.me])||{};
 const voters=pred=>Object.values(st.votes).filter(v=>v&&v.who&&pred(v)).map(v=>v.who);
@@ -617,7 +623,7 @@ window.addEventListener("hashchange",show);
 /* ---------- renderers ---------- */
 function renderMe(){
   [$("#meTop"),$("#meSide")].forEach(b=>{b.replaceChildren();
-    if(st.nick){b.append(avatar({uid:st.me,n:st.nick}));b.append(el("span",null,st.nick));}
+    if(st.nick){b.append(avatar({uid:st.me,n:st.nick}));b.append(el("span",null,st.nick));if(st.admin){const p=el("span","pill good","Admin");p.style.marginLeft="2px";b.append(p);}}
     else{const a=el("span","av","+");a.style.background="var(--muted)";b.append(a);b.append(el("span",null,"Add your name"));}});
 }
 function renderLive(){
@@ -632,8 +638,10 @@ function renderHome(){
   const going=voters(v=>v.rsvp==="in"||v.rsvp==="noski"),maybes=voters(v=>v.rsvp==="maybe");
   if(!going.length&&!maybes.length)crew.append(el("span","muted small","No one has answered yet. Be the first!"));
   const tagOf=w=>RSVP_TAG[(st.votes[w.uid]||{}).rsvp]||"";
-  going.forEach(w=>{const p=el("span","person");p.append(avatar(w));p.append(el("span",null,nameOf(w)+" "+tagOf(w)));crew.append(p);});
-  maybes.forEach(w=>{const p=el("span","person");p.append(avatar(w));p.append(el("span",null,nameOf(w)+" · maybe"));p.style.opacity=".7";crew.append(p);});
+  const rm=(p,w)=>{if(!st.admin||w.uid===st.me)return;const x=el("button","link","×");x.type="button";x.title="Remove "+(w.n||"this person")+"'s votes";x.style.cssText="font-size:1rem;margin-left:2px;color:var(--muted)";
+    x.addEventListener("click",()=>{if(window.confirm("Remove all of "+(w.n||"this person")+"'s votes?"))queueWrite("votes/"+w.uid,()=>st.fs.del("votes/"+w.uid));});p.append(x);};
+  going.forEach(w=>{const p=el("span","person");p.append(avatar(w));p.append(el("span",null,nameOf(w)+" "+tagOf(w)));rm(p,w);crew.append(p);});
+  maybes.forEach(w=>{const p=el("span","person");p.append(avatar(w));p.append(el("span",null,nameOf(w)+" · maybe"));p.style.opacity=".7";rm(p,w);crew.append(p);});
   if(going.length){const sk=voters(v=>v.rsvp==="in").length,ns=voters(v=>v.rsvp==="noski").length;
     crew.append(el("span","muted small",sk+" skiing · "+ns+" not skiing"));}
 
@@ -816,7 +824,7 @@ function renderIdeas(){
   st.ideas.forEach(i=>{
     const c=el("div","card idea");c.append(avatar(i.who));
     const b=el("div","body");const m=el("div","meta");m.append(el("b",null,nameOf(i.who)));if(typeof i.at==="number")m.append(el("span",null,ago(i.at)));
-    if(i.who&&i.who.uid===st.me){const del=el("button","link","Delete");del.type="button";del.style.fontSize=".78rem";
+    if((i.who&&i.who.uid===st.me)||st.admin){const del=el("button","link","Delete");del.type="button";del.style.fontSize=".78rem";
       del.addEventListener("click",()=>{if(st.fs)queueWrite("ideas/"+i.id,()=>st.fs.del("ideas/"+i.id));});m.append(del);}
     b.append(m);b.append(el("div","text",String(i.text||"")));c.append(b);box.append(c);
   });
@@ -849,17 +857,44 @@ $("#ideaForm").addEventListener("submit",e=>{
   $("#ideaText").value="";$("#ideaCount").textContent="0 / 400";
   queueWrite("ideas/"+id,()=>st.fs.set("ideas/"+id,body));toast("Posted");
 });
-function openName(){$("#nameInput").value=st.nick||"";$("#nameSheet").hidden=false;setTimeout(()=>$("#nameInput").focus(),30);}
-function closeName(){$("#nameSheet").hidden=true;}
+function syncPw(){$("#pwBox").hidden=!(isPiotr($("#nameInput").value)&&!st.admin);$("#signOutBtn").hidden=!st.admin;}
+function openName(){$("#nameInput").value=st.nick||"";$("#pwInput").value="";syncPw();$("#nameSheet").hidden=false;setTimeout(()=>$("#nameInput").focus(),30);}
+function closeName(){$("#nameSheet").hidden=true;$("#pwInput").value="";}
 [$("#meTop"),$("#meSide")].forEach(b=>b.addEventListener("click",openName));
+$("#nameInput").addEventListener("input",syncPw);
 $("#nameSkip").addEventListener("click",closeName);
 $("#nameSheet").addEventListener("click",e=>{if(e.target===e.currentTarget)closeName();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#nameSheet").hidden)closeName();});
-$("#nameForm").addEventListener("submit",e=>{
+async function adoptPiotrVotes(oldUid){
+  /* Bring Piotr's earlier anonymous vote(s) over to the admin account, then remove the old copies. */
+  const olds=Object.entries(st.votes).filter(([id,v])=>id!==st.me&&(id===oldUid||isPiotr(v&&v.n))).sort((a,b)=>((b[1].at||0)-(a[1].at||0)));
+  if(olds.length&&!st.votes[st.me]){const v=JSON.parse(JSON.stringify(olds[0][1]));delete v.who;v.n="Piotr";v.at=Date.now();try{await st.fs.set("votes/"+st.me,v);}catch(e){}}
+  for(const [id] of olds){try{await st.fs.del("votes/"+id);}catch(e){}}
+}
+$("#nameForm").addEventListener("submit",async e=>{
   e.preventDefault();const n=$("#nameInput").value.trim().slice(0,24);if(!n)return;
+  if(st.admin){closeName();return;}
+  if(isPiotr(n)){
+    const pw=$("#pwInput").value;
+    if(!pw){toast("Enter the admin password to use the name Piotr.");$("#pwInput").focus();return;}
+    if(!st.auth){toast("Can't reach the login right now. Try again in a moment.");return;}
+    const oldUid=st.me;
+    try{const cred=await st.authM.signInWithEmailAndPassword(st.auth,ADMIN_EMAIL,pw);st.me=cred.user.uid;st.admin=true;}
+    catch(err){toast("That password didn't work.");$("#pwInput").select();return;}
+    st.nick="Piotr";try{localStorage.setItem("banffTripNick","Piotr");}catch(err){}
+    closeName();toast("Signed in as admin.");renderAll();
+    adoptPiotrVotes(oldUid);
+    return;
+  }
   st.nick=n;try{localStorage.setItem("banffTripNick",n);}catch(err){}
   closeName();toast("Hi "+n+"! You can vote now.");
   if(st.me&&st.votes[st.me])saveMyVote(()=>{});else renderAll();
+});
+$("#signOutBtn").addEventListener("click",async()=>{
+  if(!st.auth)return;
+  try{await st.authM.signOut(st.auth);const c=await st.authM.signInAnonymously(st.auth);st.me=c.user.uid;}catch(e){}
+  st.admin=false;st.nick=null;try{localStorage.removeItem("banffTripNick");}catch(e){}
+  renderAll();openName();toast("Signed out of admin.");
 });
 
 /* ---------- countdown: Wed Dec 30, 2026, 11:40 PM in Calgary (MST, UTC-7) ---------- */
@@ -873,7 +908,7 @@ if(tick()){const iv=setInterval(()=>{if(!tick())clearInterval(iv);},1000);}
 
 show();renderAll();
 
-/* ---------- connect (Firebase, anonymous sign-in) ---------- */
+/* ---------- connect (Firebase: anonymous sign-in, or Piotr's admin login) ---------- */
 (async()=>{
   let fsM,db;
   try{
@@ -881,7 +916,12 @@ show();renderAll();
     const [appM,authM,fsMod]=await Promise.all([import(base+"firebase-app.js"),import(base+"firebase-auth.js"),import(base+"firebase-firestore.js")]);
     fsM=fsMod;const app=appM.initializeApp(FIREBASE_CONFIG);
     db=fsM.getFirestore(app);
-    st.me=(await authM.signInAnonymously(authM.getAuth(app))).user.uid;
+    const auth=authM.getAuth(app);st.auth=auth;st.authM=authM;
+    await auth.authStateReady();
+    if(!auth.currentUser)await authM.signInAnonymously(auth);
+    st.me=auth.currentUser.uid;st.admin=!!auth.currentUser.email&&auth.currentUser.email===ADMIN_EMAIL;
+    if(st.admin)st.nick="Piotr";
+    else if(isPiotr(st.nick)){st.nick=null;try{localStorage.removeItem("banffTripNick");}catch(e){}}
   }catch(e){st.conn="down";st.loaded=true;renderAll();toast("Can't reach the shared votes. Everything else still works.");return;}
   st.fs={set:(p,d)=>fsM.setDoc(fsM.doc(db,p),d),del:p=>fsM.deleteDoc(fsM.doc(db,p)),newId:()=>fsM.doc(fsM.collection(db,"ideas")).id};
   if(!st.nick)setTimeout(openName,600);
