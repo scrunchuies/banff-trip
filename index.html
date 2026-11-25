@@ -380,7 +380,10 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
 
   <!-- VOTE -->
   <section class="view" id="v-vote" hidden>
-    <div><h1>Vote</h1><p class="muted">Pick our ski days and return day, and heart anything you'd do off the slopes.</p></div>
+    <div><h1>Vote</h1><p class="muted">Vote on how many days to ski, which days, and when to fly home, and heart anything you'd do off the slopes.</p></div>
+    <div class="section-title"><h2>1 or 2 ski days?</h2><span class="muted small">SkiBig3: 1 day $172, 2 days $344</span></div>
+    <div class="grid2" id="daysVote"></div>
+
     <div class="section-title"><h2>Which two ski days?</h2><span class="muted small">Lift ticket: any 2 of Jan 1–3</span></div>
     <div class="hscroll" id="skiVote"></div>
 
@@ -438,6 +441,10 @@ const FOOD={budget:45,mid:55,comfy:80};
 /* Ski-day choice. Stored in the vote's "flight" field so the existing
    database rules keep working (the flight vote is no longer needed). */
 const SKI_FIELD="flight";
+const DAYSV={
+  "1":{label:"Ski 1 day",note:"$172 ticket + GST · more time to explore Banff"},
+  "2":{label:"Ski 2 days",note:"$344 ticket + GST · two full days on the mountain"}
+};
 const SKI={
   "12":{label:"Fri Jan 1 + Sat Jan 2",short:"Jan 1 + 2",days:[1,2],note:"Ski first, then a lazy Sunday before travel day."},
   "13":{label:"Fri Jan 1 + Sun Jan 3",short:"Jan 1 + 3",days:[1,3],note:"Rest day in the middle for tired legs."},
@@ -622,7 +629,7 @@ function renderHome(){
   const dec=$("#decide");dec.replaceChildren();
   const lead=(field,map,labelOf)=>{const counts={};Object.values(st.votes).forEach(v=>{if(v&&v[field]&&map[v[field]])counts[v[field]]=(counts[v[field]]||0)+1;});
     const best=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];return best?{n:best[1],label:labelOf(best[0])}:null;};
-  [["⛷","Ski days",SKI_FIELD,SKI,k=>SKI[k].label],["🛬","Fly home","lodge",RET,k=>RET[k].label]].forEach(([emo,title,field,map,labelOf])=>{
+  [["🎿","1 or 2 ski days","days",DAYSV,k=>DAYSV[k].label],["⛷","Ski days",SKI_FIELD,SKI,k=>SKI[k].label],["🛬","Fly home","lodge",RET,k=>RET[k].label]].forEach(([emo,title,field,map,labelOf])=>{
     const r=el("div","r");r.append(el("span","icon-tile",emo));
     const d=el("div");d.append(el("div","t",title));const L=lead(field,map,labelOf);
     d.append(el("div","s",L?"Leading: "+L.label+" ("+L.n+" vote"+(L.n>1?"s":"")+")":"No votes yet"));r.append(d);
@@ -703,6 +710,22 @@ function renderCosts(){
 }
 function renderVote(){
   const myV=myVote();
+  const dv=$("#daysVote");dv.replaceChildren();
+  Object.entries(DAYSV).forEach(([k,o])=>{
+    const mine=myV.days===k;
+    const c=el("div","card fl"+(mine?" mine":""));
+    const saved=set.days;set.days=+k;const tot=costs().total;set.days=saved;
+    c.append(el("h3",null,o.label));
+    const pr=el("div");pr.append(el("span","price",usd(tot)));pr.append(el("span","muted small"," /person"));c.append(pr);
+    c.append(el("p","small muted",o.note));
+    const row=el("div","row");const ws=voters(v=>v.days===k);
+    const left=el("div");left.style.cssText="display:flex;align-items:center;gap:8px";
+    if(ws.length){const s=el("span","stack");ws.slice(0,6).forEach(w=>s.append(avatar(w)));left.append(s);}
+    left.append(el("span","small muted",ws.length?ws.length+" vote"+(ws.length>1?"s":""):"No votes"));row.append(left);
+    const b=el("button","btn sm"+(mine?" primary":""),mine?"Your pick ✓":"Pick");b.type="button";
+    b.addEventListener("click",()=>{if(myV.days!==k){set.days=+k;saveSet();}saveMyVote(v=>{v.days=v.days===k?null:k;});});
+    row.append(b);c.append(row);dv.append(c);
+  });
   const sv=$("#skiVote");sv.replaceChildren();
   Object.entries(SKI).forEach(([k,o])=>{
     const mine=myV[SKI_FIELD]===k;
