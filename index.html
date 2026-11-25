@@ -281,7 +281,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
     <div class="grid3">
       <a class="stat" href="#costs"><span>Per person</span><b id="sTotal">$—</b><span id="sTotalSub">all-in estimate</span></a>
       <a class="stat" href="#plan"><span>On the slopes</span><b id="sSki">—</b><span id="sSkiSub"></span></a>
-      <a class="stat" href="#plan"><span>Fly home</span><b id="sHome">—</b><span id="sHomeSub">WestJet 8 PM</span></a>
+      <a class="stat" href="#plan"><span>Fly home</span><b id="sHome">—</b><span id="sHomeSub">WestJet</span></a>
     </div>
 
     <div class="card">
@@ -297,16 +297,16 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
 
   <!-- PLAN -->
   <section class="view" id="v-plan" hidden>
-    <div><h1>The plan</h1><p class="muted">One night by the Calgary airport, then three at our Banff hotel (Dec 31 – Jan 3). We fly home Jan 3 or Jan 4.</p></div>
+    <div><h1>The plan</h1><p class="muted">Land late Dec 30 and do the casino plus an airport nap, then three nights at our Banff hotel (Dec 31 – Jan 3). We fly home Jan 3 or Jan 4.</p></div>
 
     <div class="card">
-      <div class="card-head"><h2>Flights</h2><span class="pill good">$179–$247 round trip</span></div>
+      <div class="card-head"><h2>Flights</h2><span class="pill good">$179–$200 round trip</span></div>
       <div class="rows">
         <div class="r"><span class="icon-tile">🛫</span><div><div class="t">Wed Dec 30 · 7:25 PM → 11:40 PM</div><div class="s">PHX → YYC · Porter Airlines · nonstop, 3 h 15 m</div></div><span class="pill">Out</span></div>
-        <div class="r"><span class="icon-tile">🛬</span><div><div class="t">Sun Jan 3 · 8:00 PM → 10:15 PM</div><div class="s">YYC → PHX · WestJet · nonstop · $247 round trip</div></div><span class="pill" id="pillD3">Option</span></div>
+        <div class="r"><span class="icon-tile">🛬</span><div><div class="t">Sun Jan 3 · 11:40 AM → 1:55 PM</div><div class="s">YYC → PHX · WestJet · nonstop · $200 round trip</div></div><span class="pill" id="pillD3">Option</span></div>
         <div class="r"><span class="icon-tile">🛬</span><div><div class="t">Mon Jan 4 · 8:00 PM → 10:15 PM</div><div class="s">YYC → PHX · WestJet · nonstop · $179 round trip</div></div><span class="pill" id="pillD4">Option</span></div>
       </div>
-      <p class="small muted">Return day is still being decided (see Vote). Both prices are with the Porter flight out, from Google Flights. The $179 deal (BudgetAir) and the $247 Jan 3 fare are separate tickets, so if one flight is cancelled the other airline won't rebook you. Porter's own Jan 3 return ($218, one ticket) leaves at 7:30 AM, too early to get there from Banff. Bags cost extra.</p>
+      <p class="small muted">Return day is still being decided (see Vote). Both prices are with the Porter flight out, cheapest on BudgetAir via Google Flights. They're separate tickets, so if one flight is cancelled the other airline won't rebook you. Bags cost extra.</p>
     </div>
 
     <div class="card">
@@ -324,7 +324,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
     <div class="grid2">
       <div class="card">
         <div class="card-head"><h3>FlixBus · Calgary airport ⇄ Banff</h3><span class="pill">$45</span></div>
-        <p class="small muted">About 2 hours each way. Out on Thu Dec 31 in the morning, back on the afternoon of our flight day. For the 8 PM flight, pick a bus that reaches the airport by about 5:30 PM, since US customs is done in Calgary before you board.</p>
+        <p class="small muted">About 2 hours each way. Out on Thu Dec 31 in the morning, straight from the airport. Back on flight day: be at the airport about 2 hours early, since US customs is done in Calgary before you board. For the 11:40 AM Jan 3 flight that means an early-morning bus, so check FlixBus has one.</p>
       </div>
       <div class="card">
         <div class="card-head"><h3>Free ski buses from Banff</h3><span class="pill good">Free</span></div>
@@ -333,8 +333,8 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
         <p class="small muted">Pickups at Banff hotels like Banff Caribou Lodge and Banff Park Lodge. Holiday times are posted mid-December.</p>
       </div>
       <div class="card">
-        <div class="card-head"><h3>Super 8 Calgary Airport</h3><span class="pill">~$60/night</span></div>
-        <p class="small muted">3030 Barlow Trail NE, 5 km from the terminal, free breakfast. For the Dec 30 late arrival only. Reserve the airport shuttle ahead (may be about CA$10 per room).</p>
+        <div class="card-head"><h3>Arrival night · casino + airport nap</h3><span class="pill good">No hotel</span></div>
+        <p class="small muted">Land 11:40 PM Dec 30, head to a Calgary casino (minimum age in Alberta is 18), then back to the airport to nap until the morning FlixBus. Airport lounges are past security and usually need a boarding pass for a departing flight, so plan on the public seating areas if a lounge won't let you in. Rides to and from the casino aren't in the cost estimate.</p>
       </div>
       <div class="card">
         <div class="card-head"><h3>Ski rentals</h3><span class="pill">$39.69/day</span></div>
@@ -358,7 +358,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
         <div class="field"><span class="lbl">HOW MUCH ARE YOU SKIING?</span><div class="seg" id="cDays"><button data-v="2" type="button">⛷ 2 days</button><button data-v="1" type="button">⛷ 1 day</button><button data-v="0" type="button">🚶 Not skiing</button></div></div>
         <label class="toggle" for="cDisc" id="discRow"><span>I get 25% off my lift ticket</span><span class="sw"><input type="checkbox" id="cDisc"><i></i></span></label>
         <label class="toggle" for="cRent" id="rentRow"><span>I need ski rentals<br><span class="small muted" id="rentSub"></span></span><span class="sw"><input type="checkbox" id="cRent"><i></i></span></label>
-        <div class="field"><span class="lbl">FLY HOME</span><div class="seg" id="cRet"><button data-v="d3" type="button">Sun Jan 3 · $247</button><button data-v="d4" type="button">Mon Jan 4 · $179</button></div></div>
+        <div class="field"><span class="lbl">FLY HOME</span><div class="seg" id="cRet"><button data-v="d3" type="button">Sun Jan 3 · $200</button><button data-v="d4" type="button">Mon Jan 4 · $179</button></div></div>
         <div class="field"><span class="lbl">FOOD BUDGET</span><div class="seg" id="cFood"><button data-v="budget" type="button">Budget</button><button data-v="mid" type="button">Mid</button><button data-v="comfy" type="button">Eat out</button></div></div>
         <div class="toggle"><span>People sharing rooms</span><span class="stepper"><button class="btn sm" id="gMinus" type="button" aria-label="Fewer people">−</button><b id="gVal">4</b><button class="btn sm" id="gPlus" type="button" aria-label="More people">+</button></span></div>
       </div>
@@ -411,13 +411,13 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
 (function(){
 "use strict";
 /* ---------- trip data (USD unless noted) ---------- */
-const FLIX=45, S8=60, HOTEL=715, RENT_DAY=39.69, GST=1.05, FX=0.72, DISC=0.25;
+const FLIX=45, HOTEL=715, RENT_DAY=39.69, GST=1.05, FX=0.72, DISC=0.25;
 const LIFT={1:172.00,2:344.00};     // SkiBig3 adult, Jan 1–3 (CAD 203 / 406)
 const ACT_BUDGET_CAD=85;            // non-skiers: hot springs + gondola, roughly
 /* Return day. Stored in the vote's "lodge" field (no longer used for lodging). */
 const RET={
-  d3:{label:"Sun Jan 3 · 8 PM",short:"Sun Jan 3",flight:247,food:3.5,emoji:"🛬",note:"$247 round trip · skip the Jan 3 night, ski Jan 1 + 2"},
-  d4:{label:"Mon Jan 4 · 8 PM",short:"Mon Jan 4",flight:179,food:4.5,emoji:"🛬",note:"$179 round trip · no hotel booked for the night of Jan 3"}
+  d3:{label:"Sun Jan 3 · 11:40 AM",short:"Sun Jan 3",time:"11:40 AM",flight:200,food:3.25,emoji:"🛬",note:"$200 round trip · early bus Jan 3, ski Jan 1 + 2, home by 2 PM"},
+  d4:{label:"Mon Jan 4 · 8 PM",short:"Mon Jan 4",time:"8 PM",flight:179,food:4.5,emoji:"🛬",note:"$179 round trip · no hotel booked for the night of Jan 3"}
 };
 const LODGES=RET;
 const FOOD={budget:45,mid:55,comfy:80};
@@ -464,12 +464,12 @@ const TIER={free:"Free",cheap:"Cheap",splurge:"Splurge"};
 /* Task ids are fixed by the database rules; labels can change. */
 const TASKS=[
   ["passport","Valid passport","Everyone needs one to fly into Canada",""],
-  ["flight","Flights","Porter out Dec 30 · WestJet home Jan 3 ($247) or Jan 4 ($179)",""],
+  ["flight","Flights","Porter out Dec 30 · WestJet home Jan 3 ($200) or Jan 4 ($179)",""],
   ["pluscard","Bags for the flights","Carry-on and checked bags cost extra",""],
   ["tickets","SkiBig3 lift tickets","1 day $172 or 2 days $344, + GST",""],
   ["rentals","Ski rentals","$39.69/day · fix the date (cart says Dec 14)",""],
   ["airporter","FlixBus both ways","Airport → Banff Dec 31, back Jan 4",""],
-  ["super8","Super 8 + airport shuttle","Night of Dec 30",""],
+  ["super8","Arrival night plan","Ride to the casino and back, where to nap",""],
   ["banff","Banff hotel, Dec 31 – Jan 3","$715 for 3 nights",""],
   ["skibus","Check holiday ski-bus times","Posted mid-December","Mid-Dec"],
   ["groceries","Groceries","Stores may close Jan 1","Dec 31"]
@@ -510,7 +510,7 @@ function costs(){
   const rows=[
     ["Flights",RET[set.ret].flight,"Porter out Dec 30, WestJet home "+RET[set.ret].short],
     ["Banff hotel",HOTEL/g,"Dec 31 – Jan 3, $715 split "+g+" ways"],
-    ["Super 8, Dec 30",S8/g,"~$60 room split "+g+" ways"],
+    ["Arrival night",0,"Casino + airport nap, no hotel (rides and gambling not included)"],
     ["FlixBus",FLIX,"Calgary airport ⇄ Banff"]
   ];
   if(d>0){
@@ -602,7 +602,7 @@ function renderHome(){
   $("#sTotal").textContent=usd(costs().total);
   $("#sTotalSub").textContent=set.days?"skiing "+set.days+" day"+(set.days>1?"s":""):"not skiing";
   $("#sSki").textContent=set.days?set.days+" day"+(set.days>1?"s":""):"Not skiing";
-  $("#sHome").textContent=RET[set.ret].short;
+  $("#sHome").textContent=RET[set.ret].short;$("#sHomeSub").textContent="WestJet "+RET[set.ret].time;
   $("#sSkiSub").textContent=set.days===2?SKI[set.ski].short:set.days===1?"Jan "+set.ski1:"Banff day trips";
 
   const dec=$("#decide");dec.replaceChildren();
@@ -638,8 +638,9 @@ function dayItems(n){
   if(n===3){
     out.push(["11:00 AM","Check out of the hotel, leave bags"]);
     if(set.ret==="d3"){
-      out.push([ski?"Morning":"Midday",ski?"Short ski morning only if the bus times allow":"Last walk around Banff"]);
-      out.push(["Afternoon","FlixBus to Calgary airport, arrive by ~5:30 PM"],["8:00 PM","Fly YYC → PHX, WestJet nonstop, land 10:15 PM"]);
+      out.length=0;
+      out.push(["Early AM","Check out, FlixBus to Calgary airport, arrive by ~9:40 AM"],["11:40 AM","Fly YYC → PHX, WestJet nonstop, land 1:55 PM"]);
+      if(ski)out.push(["Note","No time to ski today, so pick Jan 1 + 2 as ski days"]);
       return out;
     }
   }
@@ -651,14 +652,14 @@ function dayItems(n){
 function renderPlan(){
   const ps=$("#planSki");ps.replaceChildren();
   $("#planSkiField").hidden=!set.days;
-  $("#planSkiLbl").textContent=set.days===2?"YOUR TWO SKI DAYS (ANY 2 OF JAN 1–3)":"YOUR SKI DAY";
+  $("#planSkiLbl").textContent=(set.days===2?"YOUR TWO SKI DAYS (ANY 2 OF JAN 1–3)":"YOUR SKI DAY")+(set.ret==="d3"?" · FLYING JAN 3, SO SKI JAN 1–2":"");
   if(set.days===2)Object.entries(SKI).forEach(([k,o])=>{const b=el("button",set.ski===k?"on":null,o.short);b.type="button";b.addEventListener("click",()=>{set.ski=k;saveSet();renderAll();});ps.append(b);});
   else ["1","2","3"].forEach(k=>{const b=el("button",set.ski1===k?"on":null,"Jan "+k);b.type="button";b.addEventListener("click",()=>{set.ski1=k;saveSet();renderAll();});ps.append(b);});
   $("#pillD3").textContent=set.ret==="d3"?"Your pick":"Option";$("#pillD3").className="pill"+(set.ret==="d3"?" good":"");
   $("#pillD4").textContent=set.ret==="d4"?"Your pick":"Option";$("#pillD4").className="pill"+(set.ret==="d4"?" good":"");
   const DAYS=[
-    {dow:"Wed",d:"30",m:"Dec",items:[["7:25 PM","Fly PHX → YYC, Porter nonstop"],["11:40 PM","Land in Calgary, customs, Super 8 shuttle"],["Night","Super 8 Calgary Airport"]]},
-    {dow:"Thu",d:"31",m:"Dec",items:[["Morning","Super 8 breakfast, FlixBus to Banff (~2 h)"],["Afternoon","Check in, groceries, Banff Ave"],["Evening","New Year's Eve in Banff 🎉"],["Night","Our Banff hotel"]]},
+    {dow:"Wed",d:"30",m:"Dec",items:[["7:25 PM","Fly PHX → YYC, Porter nonstop"],["11:40 PM","Land in Calgary, clear customs"],["Late night","Casino 🎰, then back to the airport"],["Night","Nap at the airport, no hotel"]]},
+    {dow:"Thu",d:"31",m:"Dec",items:[["Morning","FlixBus from the airport to Banff (~2 h)"],["Afternoon","Check in, groceries, Banff Ave"],["Evening","New Year's Eve in Banff 🎉"],["Night","Our Banff hotel"]]},
     {dow:"Fri",d:"1",m:"Jan",items:dayItems(1)},
     {dow:"Sat",d:"2",m:"Jan",items:dayItems(2)},
     {dow:"Sun",d:"3",m:"Jan",items:dayItems(3)},
