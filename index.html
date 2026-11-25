@@ -4,479 +4,513 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Banff New Year's Trip</title>
-<meta name="description" content="Our Banff and Lake Louise New Year's ski trip: costs, day-by-day plan, shuttles, and group votes.">
+<meta name="description" content="Our Banff and Lake Louise New Year's ski trip: plan, costs, votes and ideas.">
 <meta property="og:title" content="Banff New Year's Trip">
 <meta property="og:description" content="Ski Lake Louise, sleep in Banff. Vote on the plan, add ideas, claim something to book.">
-<meta name="theme-color" content="#060a19">
+<meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1212" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <style>
-/* Layout: a night sky over Banff — live aurora and stars behind drifting peaks, a countdown hero, then frosted-glass panels floating down one column. Deliberately single-theme (night). */
+/* Layout: a travel app — sidebar on desktop, top bar + bottom tabs on phones, one screen at a time built from rounded cards. */
 :root{
-  --bg:#060a19; --surface:#111a38; --glass:rgba(14,22,52,.58); --glass-hi:rgba(22,34,78,.66);
-  --ink:#eaf1ff; --muted:#a2b2d2; --line:rgba(170,190,255,.17);
-  --accent:#6ff2c0; --accent-ink:#04231a; --teal:#8fd3ff; --violet:#b48eff; --pink:#ff8ac9;
-  --soft:rgba(160,180,255,.07); --sun:#ffd47a; --wood:#b48eff;
-  --green:#5ee08f; --blue:#6aa7ff; --black:#eaf1ff; --warn:#ffd08c; --warn-bg:rgba(255,190,90,.13);
-  --display:"Syne","Avenir Next","Segoe UI",sans-serif;
-  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
-  color-scheme:dark;
+  --bg:#f7f7f5; --surface:#ffffff; --ink:#1f2222; --muted:#6b7171; --line:#e7e9e8;
+  --accent:#0f8b8d; --accent-2:#0a6f71; --accent-ink:#ffffff; --accent-soft:#e3f4f3;
+  --sun:#d98a1c; --sun-soft:#fdf1df; --green:#2f9e5b; --blue:#2f6fd0; --black:#1f2222;
+  --chip:#f1f3f2; --shadow:0 1px 2px rgba(16,24,24,.06),0 10px 30px -12px rgba(16,24,24,.14);
+  --font:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:20px; --tabbar:64px;
+  color-scheme:light;
 }
+@media (prefers-color-scheme: dark){:root{
+  --bg:#0f1212; --surface:#181c1c; --ink:#eef2f1; --muted:#9aa5a4; --line:#262c2c;
+  --accent:#35b7b8; --accent-2:#5fd0d0; --accent-ink:#062222; --accent-soft:#143233;
+  --sun:#f2b35c; --sun-soft:#2b2214; --green:#57c886; --blue:#7aa8f0; --black:#eef2f1;
+  --chip:#222828; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -12px rgba(0,0,0,.6);
+  color-scheme:dark}}
 *{box-sizing:border-box}
-body{background:radial-gradient(130% 90% at 50% 0%,#16245a 0%,#0a1130 38%,var(--bg) 70%) fixed,var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6}
-#sky,#aurora{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
-#aurora{filter:blur(10px) saturate(1.25);opacity:.9;mix-blend-mode:screen}
-.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.02}
-h2{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;letter-spacing:-.01em;display:flex;flex-direction:column;gap:12px}
-h2::after{content:"";display:block;width:72px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--teal),var(--violet))}
-h3{font-size:1.12rem;font-weight:700}
-p{margin:0}
-a{color:var(--teal)}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5}
+[hidden]{display:none!important}
+img,svg{max-width:100%}
 button,input,select,textarea{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.num{font-variant-numeric:tabular-nums}
+button{cursor:pointer}
+a{color:var(--accent)}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:8px}
+h1,h2,h3,p{margin:0}
+h1{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+h2{font-size:1.2rem;font-weight:800;letter-spacing:-.01em}
+h3{font-size:1rem;font-weight:700}
 .muted{color:var(--muted)}
-.eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+.num{font-variant-numeric:tabular-nums}
+.small{font-size:.82rem}
+
+/* App shell */
+.side{display:none}
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:calc(env(safe-area-inset-top,0px) + 10px) max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));
+  background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em}
+.logo{width:34px;height:34px;border-radius:11px;background:linear-gradient(160deg,#5cc6c4,#0f8b8d 60%,#0b5d63);display:grid;place-items:center;flex:none}
+.logo svg{width:20px;height:20px}
+.brand small{display:block;font-weight:500;color:var(--muted);font-size:.75rem;letter-spacing:0}
+.me{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px 4px 4px;font-weight:600;font-size:.86rem}
+.av{width:28px;height:28px;border-radius:50%;display:inline-grid;place-items:center;font-size:.78rem;font-weight:800;color:#fff;flex:none}
+main{padding:16px max(16px,env(safe-area-inset-right,0px)) calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 28px) max(16px,env(safe-area-inset-left,0px))}
+.view{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(5,1fr);
+  padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px));
+  background:color-mix(in srgb,var(--surface) 92%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;text-decoration:none;color:var(--muted);font-size:.7rem;font-weight:700;border-radius:12px}
+.tab svg{width:23px;height:23px}
+.tab.on{color:var(--accent)}
+@media (min-width:900px){
+  .topbar,.tabbar{display:none}
+  .side{display:flex;flex-direction:column;gap:22px;position:fixed;top:0;bottom:0;left:0;width:250px;padding:28px 18px;border-right:1px solid var(--line);background:var(--surface)}
+  .side nav{display:flex;flex-direction:column;gap:4px}
+  .side .tab{flex-direction:row;gap:12px;padding:11px 14px;font-size:.95rem;font-weight:600;color:var(--ink)}
+  .side .tab svg{width:21px;height:21px;color:var(--muted)}
+  .side .tab:hover{background:var(--chip)}
+  .side .tab.on{background:var(--accent-soft);color:var(--accent-2)}
+  .side .tab.on svg{color:var(--accent-2)}
+  .side .grow{flex:1}
+  main{margin-left:250px;padding:32px 40px 60px}
+}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.link{border:0;background:none;color:var(--accent);font-weight:700;font-size:.88rem;padding:0;text-decoration:none}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.grid2{grid-template-columns:1fr}.grid3{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}}
+
+/* Buttons & chips */
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:9px 14px;font-weight:700;font-size:.88rem}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{background:var(--accent-2);border-color:var(--accent-2)}
+.btn.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.btn.sm{padding:6px 11px;font-size:.82rem;border-radius:10px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.seg{display:flex;background:var(--chip);border-radius:14px;padding:4px;gap:4px;overflow-x:auto;scrollbar-width:none}
+.seg button{flex:1;border:0;background:transparent;border-radius:10px;padding:8px 10px;font-weight:700;font-size:.84rem;color:var(--muted);white-space:nowrap}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:700;font-size:.84rem;display:inline-flex;gap:7px;align-items:center}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:.75rem;font-weight:700;background:var(--chip);color:var(--muted)}
+.pill.good{background:var(--accent-soft);color:var(--accent-2)}
+.pill.sun{background:var(--sun-soft);color:var(--sun)}
 
 /* Hero */
-.hero{position:relative;padding-block:64px 230px;overflow:hidden}
-.peaks{position:absolute;left:0;right:0;bottom:-2px;height:280px;pointer-events:none}
-.peaks svg{position:absolute;left:0;bottom:0;width:100%;height:100%;will-change:transform}
-.hero-inner{position:relative;display:flex;flex-direction:column;gap:20px}
-h1{font-weight:800;text-transform:uppercase;letter-spacing:-.03em;line-height:.86;display:flex;flex-direction:column;gap:10px;color:var(--ink)}
-h1 .h1-top{font-size:clamp(4rem,15vw,9.5rem)}
-h1 .h1-sub{font-size:clamp(1.3rem,3.6vw,2.2rem);letter-spacing:.12em;font-weight:700;color:var(--teal)}
-@supports ((-webkit-background-clip:text) or (background-clip:text)){
-  h1 .h1-top{background:linear-gradient(180deg,#ffffff 20%,#c9ecff 55%,var(--accent) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-}
-.lede{max-width:58ch;font-size:1.06rem;color:var(--muted)}
-.cd-wrap{display:flex;flex-direction:column;gap:8px}
-.countdown{display:flex;gap:10px;flex-wrap:wrap}
-.cd{min-width:84px;padding:12px 14px 10px;border-radius:16px;background:var(--glass);border:1px solid var(--line);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);text-align:center;display:flex;flex-direction:column;gap:2px}
-.cd b{font-family:var(--mono);font-size:2.1rem;font-weight:500;line-height:1.05;font-variant-numeric:tabular-nums;color:var(--ink)}
-.cd span{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.cd-done{font-family:var(--display);font-weight:800;font-size:1.4rem;color:var(--accent)}
-.cd-label{font-size:.85rem;color:var(--muted)}
-.facts{display:flex;flex-wrap:wrap;gap:8px}
-.fact{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:.84rem;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.hero{position:relative;border-radius:26px;overflow:hidden;min-height:250px;color:#fff;box-shadow:var(--shadow);isolation:isolate}
+.hero svg.art{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.hero .in{position:relative;padding:22px;display:flex;flex-direction:column;gap:6px;min-height:250px;justify-content:flex-end;background:linear-gradient(180deg,transparent 30%,rgba(6,28,34,.55))}
+.hero .tag{align-self:flex-start;background:rgba(255,255,255,.22);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:999px;padding:4px 11px;font-size:.75rem;font-weight:700;margin-bottom:auto}
+.hero h1{color:#fff;font-size:clamp(1.8rem,5vw,2.4rem);text-shadow:0 1px 12px rgba(0,0,0,.25)}
+.hero p{color:rgba(255,255,255,.9);font-weight:500}
+.count{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.count div{background:rgba(255,255,255,.18);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:12px;padding:6px 10px;text-align:center;min-width:56px}
+.count b{display:block;font-size:1.25rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.count span{font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
 
-/* Sticky nav */
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:rgba(6,10,25,.92)}
-nav.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgba(6,10,25,.72);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-nav.jump .wrap{display:flex;gap:2px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
-nav.jump a{flex:none;text-decoration:none;color:var(--muted);font-size:.84rem;font-weight:600;padding:6px 12px;border-radius:999px}
-nav.jump a:hover{color:var(--ink);background:rgba(143,211,255,.1)}
+/* Stats */
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:14px;display:flex;flex-direction:column;gap:4px;text-decoration:none;color:inherit;min-width:0}
+.stat b{font-size:1.35rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{font-size:.78rem;color:var(--muted);font-weight:600}
+@media (max-width:640px){.stat{padding:12px}.stat b{font-size:1.1rem}}
 
-/* Status */
-.status{padding:10px 16px;border-radius:999px;font-size:.88rem;background:var(--glass);border:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap;align-self:flex-start;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
-.status.warn{background:var(--warn-bg);color:var(--warn);border-radius:14px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
-.status.live .dot{background:var(--accent);box-shadow:0 0 10px var(--accent)}
-
-main section{padding-block:56px}
-main section > .wrap{display:flex;flex-direction:column;gap:20px}
-.sec-head{display:flex;flex-direction:column;gap:8px}
-.sec-head p{max-width:64ch;color:var(--muted)}
-
-/* Frosted glass panels */
-.crew,.opt,.controls,.bill,.days,.panel,.list,.idea-form,.idea{background:var(--glass);border:1px solid var(--line);border-radius:20px;-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);box-shadow:0 24px 60px -36px rgba(0,0,0,.9)}
-.opt,.panel,.idea{transition:border-color .25s,box-shadow .25s,transform .25s}
-.opt:hover,.panel:hover,.idea:hover{border-color:rgba(111,242,192,.45);box-shadow:0 0 0 1px rgba(111,242,192,.18),0 22px 60px -22px rgba(111,242,192,.38)}
-.opt:hover{transform:translateY(-3px)}
-@media (prefers-reduced-motion:reduce){.opt,.panel,.idea{transition:none}.opt:hover{transform:none}}
-
-/* Trail-sign difficulty markers */
-.mk{display:inline-block;width:13px;height:13px;flex:none;vertical-align:-2px;margin-top:4px}
-.mk.free{border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
-.mk.cheap{background:var(--blue);box-shadow:0 0 8px var(--blue)}
-.mk.splurge{background:var(--black);transform:rotate(45deg) scale(.8);box-shadow:0 0 8px rgba(255,255,255,.5)}
-.legend{display:flex;flex-wrap:wrap;gap:18px;font-size:.85rem;color:var(--muted)}
-.legend span{display:inline-flex;gap:8px;align-items:center}
-.legend .mk{margin-top:0}
-
-/* Controls */
-.btn{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:999px;padding:7px 15px;cursor:pointer;font-size:.88rem;font-weight:700;color:var(--ink)}
-.btn:hover{border-color:rgba(143,211,255,.5);background:rgba(143,211,255,.09)}
-.btn.on{background:linear-gradient(135deg,var(--accent),#9ee8ff);border-color:transparent;color:var(--accent-ink);box-shadow:0 0 26px -6px rgba(111,242,192,.75)}
-.btn.small{padding:5px 12px;font-size:.82rem}
-.btn[disabled]{opacity:.45;cursor:not-allowed}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:rgba(0,0,0,.2);flex-wrap:wrap}
-.seg button{border:0;background:transparent;padding:7px 14px;cursor:pointer;font-size:.86rem;font-weight:700;color:var(--muted)}
-.seg button+button{border-left:1px solid var(--line)}
-.seg button.on{background:linear-gradient(135deg,var(--accent),#9ee8ff);color:var(--accent-ink)}
-select,textarea,.nick input{border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:rgba(0,0,0,.28);color:var(--ink)}
-select option{background:var(--surface)}
-
-/* Crew */
-.crew{display:flex;flex-direction:column;gap:14px;padding:18px}
-.crew-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.people{display:flex;flex-wrap:wrap;gap:6px}
-.person{display:inline-flex;align-items:center;gap:6px;background:rgba(143,211,255,.1);border:1px solid var(--line);border-radius:999px;padding:3px 11px 3px 3px;font-size:.85rem}
-.person img,.av{width:22px;height:22px;border-radius:50%;object-fit:cover;background:var(--line)}
-.nick{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.nick input{min-width:0}
-
-/* Return-flight cards */
-.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-@media (max-width:780px){.opts{grid-template-columns:1fr}}
-.opt{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.opt.mine{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 0 50px -14px rgba(111,242,192,.55)}
-.opt .price{font-family:var(--display);font-size:2.6rem;font-weight:800;line-height:1;color:var(--accent);text-shadow:0 0 34px rgba(111,242,192,.4)}
-.opt .meta{font-size:.86rem;color:var(--muted)}
-.pick{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sun)}
-.voters{display:flex;align-items:center;gap:6px;min-height:24px;font-size:.82rem;color:var(--muted);flex-wrap:wrap}
-.stack{display:flex}
-.stack img,.stack .gchip{width:24px;height:24px;border-radius:50%;border:2px solid #0d1533;margin-left:-7px;background:var(--line)}
-.stack img:first-child,.stack .gchip:first-child{margin-left:0}
-.stack .gchip{background:var(--teal);color:var(--surface);font-size:.66rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
-
-/* Calculator */
-.calc{display:grid;grid-template-columns:minmax(0,310px) minmax(0,1fr);gap:20px;align-items:start}
-@media (max-width:780px){.calc{grid-template-columns:1fr}}
-.controls{display:flex;flex-direction:column;gap:16px;padding:18px}
-.field{display:flex;flex-direction:column;gap:7px}
-.field label,.field .lbl{font-size:.76rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.check{display:flex;gap:9px;align-items:flex-start;font-size:.9rem}
-.check input{margin-top:5px;accent-color:var(--accent)}
-.stepper{display:flex;align-items:center;gap:10px}
-.stepper .num{font-family:var(--mono);font-size:1.1rem;min-width:2ch;text-align:center}
-.bill{overflow:hidden;min-width:0}
-.bill table{width:100%;border-collapse:collapse}
-.bill td{padding:12px 18px;border-bottom:1px solid var(--line);vertical-align:top}
-.bill td.amt{text-align:right;white-space:nowrap;font-family:var(--mono);font-variant-numeric:tabular-nums}
-.bill td small{display:block;color:var(--muted);font-size:.8rem}
-.bill tr.total td{border-bottom:0;background:linear-gradient(90deg,rgba(111,242,192,.16),rgba(180,142,255,.18));font-family:var(--display);font-size:1.7rem;font-weight:800}
-.bill tr.total td.amt{font-family:var(--display);color:var(--accent)}
-.note{font-size:.82rem;color:var(--muted)}
-
-/* Itinerary */
-.days{display:flex;flex-direction:column;overflow:hidden}
-.day{display:grid;grid-template-columns:130px minmax(0,1fr);border-bottom:1px solid var(--line)}
-.day:last-child{border-bottom:0}
-.day .d{padding:16px 18px;font-family:var(--display);font-size:1.15rem;font-weight:800;color:var(--teal);background:rgba(143,211,255,.05)}
-.day ol{list-style:none;margin:0;padding:12px 18px;display:flex;flex-direction:column;gap:8px}
-.day li{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px}
-.day li b{font-family:var(--mono);font-weight:500;font-size:.85rem;color:var(--accent);padding-top:2px}
-@media (max-width:560px){.day{grid-template-columns:1fr}.day li{grid-template-columns:1fr;gap:0}}
-
-/* Transit */
-.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-@media (max-width:780px){.two{grid-template-columns:1fr}}
-.panel{padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.times{display:flex;flex-wrap:wrap;gap:6px}
-.times span{font-family:var(--mono);font-size:.8rem;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:3px 8px}
-.times span.key{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+/* People */
+.people{display:flex;flex-wrap:wrap;gap:8px}
+.person{display:inline-flex;align-items:center;gap:8px;background:var(--chip);border-radius:999px;padding:3px 12px 3px 3px;font-size:.86rem;font-weight:600}
+.person .av{width:26px;height:26px;font-size:.72rem}
+.stack{display:inline-flex}
+.stack .av{width:26px;height:26px;font-size:.7rem;border:2px solid var(--surface);margin-left:-8px}
+.stack .av:first-child{margin-left:0}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;color:var(--muted);font-weight:600}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.live.ok i{background:var(--green);box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 25%,transparent)}
+.live.bad i{background:var(--sun)}
 
 /* Lists */
-.list{display:flex;flex-direction:column;overflow:hidden}
-.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line);align-items:center}
-.row:last-child{border-bottom:0}
-.row .t{display:flex;gap:12px;align-items:flex-start;min-width:0}
-.row .t > div{min-width:0}
-.row .name{font-weight:700}
-.row .sub{font-size:.85rem;color:var(--muted)}
-.row .act{display:flex;align-items:center;gap:8px;justify-content:flex-end;flex-wrap:wrap}
-.groupname{padding:10px 18px;background:rgba(255,255,255,.035);font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--line);color:var(--muted)}
-.groupname .mk{margin-top:0}
-.vote{display:inline-flex;align-items:center;gap:6px}
-.count{font-family:var(--mono);font-variant-numeric:tabular-nums;min-width:1ch}
-.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.rows{display:flex;flex-direction:column}
+.r{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.r:first-child{border-top:0;padding-top:2px}
+.r .t{font-weight:700}
+.r .s{font-size:.82rem;color:var(--muted)}
+.r .act{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.check{width:22px;height:22px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;background:var(--surface);padding:0}
+.check.on{background:var(--accent);border-color:var(--accent)}
+.check svg{width:14px;height:14px;color:var(--accent-ink);visibility:hidden}
+.check.on svg{visibility:visible}
+.r.done .t{text-decoration:line-through;color:var(--muted)}
+.due{color:var(--sun);font-weight:800;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
+.mk{width:12px;height:12px;flex:none;display:inline-block}
+.mk.free{border-radius:50%;background:var(--green)}
+.mk.cheap{background:var(--blue);border-radius:2px}
+.mk.splurge{background:var(--black);transform:rotate(45deg) scale(.82)}
+.icon-tile{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--chip)}
+.heart{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 11px;display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:.84rem;font-variant-numeric:tabular-nums}
+.heart svg{width:17px;height:17px}
+.heart.on{background:#ffe9ec;border-color:#ffc9d1;color:#d23a55}
+@media (prefers-color-scheme: dark){.heart.on{background:#3a1920;border-color:#5a2632;color:#ff7d93}}
+
+/* Flight cards */
+.hscroll{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 8px;margin:0 -2px;scrollbar-width:none}
+.hscroll > *{scroll-snap-align:start}
+.fl{position:relative}
+.fl.mine{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent),var(--shadow)}
+.fl .price{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.fl .ribbon{position:absolute;top:14px;right:14px}
+.fl .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+
+/* Itinerary */
+.day{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px}
+.date{background:var(--accent-soft);color:var(--accent-2);border-radius:16px;text-align:center;padding:8px 4px;align-self:start}
+.date b{display:block;font-size:1.5rem;font-weight:800;line-height:1}
+.date span{font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.tl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;position:relative}
+.tl li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;align-items:start}
+.tl .time{font-weight:800;font-size:.8rem;color:var(--accent-2);background:var(--accent-soft);border-radius:8px;padding:3px 8px;justify-self:start;font-variant-numeric:tabular-nums}
+@media (max-width:480px){.tl li{grid-template-columns:1fr;gap:4px}}
+.times{display:flex;flex-wrap:wrap;gap:6px}
+.times span{background:var(--chip);border-radius:8px;padding:4px 9px;font-size:.8rem;font-weight:700;font-variant-numeric:tabular-nums}
+.times span.key{background:var(--accent);color:var(--accent-ink)}
+
+/* Costs */
+.field{display:flex;flex-direction:column;gap:8px}
+.field > label,.field > .lbl{font-size:.78rem;font-weight:800;color:var(--muted);letter-spacing:.03em}
+select,textarea,input[type=text]{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);width:100%}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:600;font-size:.9rem}
+.sw{position:relative;width:46px;height:28px;flex:none}
+.sw input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.sw i{position:absolute;inset:0;border-radius:999px;background:var(--line);transition:background .2s}
+.sw i::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.sw input:checked + i{background:var(--accent)}
+.sw input:checked + i::after{transform:translateX(18px)}
+.sw input:focus-visible + i{outline:2.5px solid var(--accent);outline-offset:2px}
+.stepper{display:flex;align-items:center;gap:12px}
+.stepper b{min-width:2ch;text-align:center;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.bill .line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.bill .line:first-child{border-top:0;padding-top:0}
+.bill .line small{display:block;color:var(--muted);font-size:.78rem}
+.bill .amt{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.total{display:flex;justify-content:space-between;align-items:baseline;background:var(--accent-soft);color:var(--accent-2);border-radius:16px;padding:14px 16px}
+.total b{font-size:1.8rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 
 /* Ideas */
-.idea-form{display:flex;flex-direction:column;gap:10px;padding:18px}
-.idea-form textarea{resize:vertical;min-height:76px;width:100%}
-.idea-form .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.ideas{display:flex;flex-direction:column;gap:12px}
-.idea{padding:14px 18px;display:flex;flex-direction:column;gap:8px}
+.composer textarea{resize:vertical;min-height:84px}
+.composer .bar{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.idea{display:flex;gap:12px}
+.idea .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.idea .meta{display:flex;gap:8px;align-items:center;font-size:.78rem;color:var(--muted);flex-wrap:wrap}
 .idea .text{white-space:pre-wrap;overflow-wrap:anywhere}
-.idea .by{display:flex;gap:8px;align-items:center;font-size:.8rem;color:var(--muted);flex-wrap:wrap}
-.linkbtn{border:0;background:none;color:var(--muted);text-decoration:underline;cursor:pointer;padding:0;font-size:.8rem}
-.empty{padding:18px;border:1px dashed var(--line);border-radius:20px;color:var(--muted);font-size:.9rem;background:rgba(6,10,25,.4)}
+.empty{border:1.5px dashed var(--line);border-radius:var(--r);padding:22px;text-align:center;color:var(--muted)}
 
-/* Tasks */
-.task{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line);align-items:center}
-.task:last-child{border-bottom:0}
-.task input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
-.task.done .name{text-decoration:line-through;color:var(--muted)}
-.task .name{font-weight:700}
-.task .due{font-size:.7rem;font-weight:700;color:var(--sun);text-transform:uppercase;letter-spacing:.12em}
-@media (max-width:560px){.task{grid-template-columns:auto minmax(0,1fr)}.task .act{grid-column:2;justify-content:flex-start}}
-
-.sources{columns:2;column-gap:28px;font-size:.88rem;padding-left:18px;margin:0}
-.sources li{break-inside:avoid;margin-bottom:5px}
-@media (max-width:560px){.sources{columns:1}}
-footer{padding-block:28px 56px;font-size:.82rem;color:var(--muted)}
-@media (prefers-reduced-motion:no-preference){.btn,.seg button{transition:background .15s,border-color .15s,box-shadow .2s}}
+/* Sheet & toast */
+.scrim{position:fixed;inset:0;z-index:50;background:rgba(10,16,16,.45);display:flex;align-items:flex-end;justify-content:center;padding:16px}
+@media (min-width:640px){.scrim{align-items:center}}
+.sheet{width:100%;max-width:420px;background:var(--surface);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.3);margin-bottom:env(safe-area-inset-bottom,0px)}
+.sheet .btns{display:flex;gap:10px;justify-content:flex-end}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 14px);z-index:60;background:var(--ink);color:var(--bg);border-radius:14px;padding:10px 16px;font-weight:600;font-size:.88rem;max-width:calc(100% - 32px);box-shadow:var(--shadow)}
+@media (min-width:900px){.toast{bottom:24px;left:calc(50% + 125px)}}
+.section-title{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:6px}
+footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
-<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 </head>
 <body>
 
-<canvas id="sky" aria-hidden="true"></canvas>
-<canvas id="aurora" aria-hidden="true"></canvas>
+<aside class="side" aria-label="Main">
+  <div class="brand"><span class="logo" data-icon="peak"></span><span>Banff '27<small>Dec 31 – Jan 4</small></span></div>
+  <nav id="sideNav"></nav>
+  <div class="grow"></div>
+  <button class="me" id="meSide" type="button"></button>
+</aside>
 
-<header class="hero">
-  <div class="peaks" aria-hidden="true">
-    <svg class="pk" data-depth="0.45" viewBox="0 0 1440 280" preserveAspectRatio="none">
-      <defs><linearGradient id="pkBack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b4c96"/><stop offset="1" stop-color="#141c48"/></linearGradient></defs>
-      <path fill="url(#pkBack)" d="M0 280V150L90 110L170 145L300 40L380 110L460 85L560 150L680 55L770 120L880 70L990 140L1090 60L1180 115L1300 45L1380 100L1440 80V280Z"/>
-      <path fill="#dfe8ff" fill-opacity=".55" d="M300 40L272 64L292 60L304 72L318 58L330 66ZM680 55L656 76L674 72L686 82L698 70L708 76ZM1090 60L1068 80L1086 76L1096 86L1108 74L1118 79ZM1300 45L1276 66L1294 62L1306 73L1318 61L1328 67Z"/>
-    </svg>
-    <svg class="pk" data-depth="0.22" viewBox="0 0 1440 280" preserveAspectRatio="none">
-      <path fill="#0f1739" d="M0 280V200L120 150L220 190L350 120L470 185L600 140L720 200L850 130L960 185L1080 150L1200 205L1320 150L1440 185V280Z"/>
-    </svg>
-    <svg class="pk" data-depth="0" viewBox="0 0 1440 280" preserveAspectRatio="none">
-      <path fill="#060a19" d="M0 280V240L70 228L80 200L90 228L160 236L172 205L184 236L300 246L420 232L432 204L444 232L560 248L700 238L820 250L940 236L952 208L964 236L1100 246L1230 234L1242 206L1254 234L1360 244L1440 236V280Z"/>
-    </svg>
-  </div>
-  <div class="wrap hero-inner">
-    <span class="eyebrow">Phoenix → Calgary → Banff · Dec 31, 2026 – Jan 3/4, 2027</span>
-    <h1><span class="h1-top">Banff</span><span class="h1-sub">New Year's Trip</span></h1>
-    <p class="lede">Ski Lake Louise, sleep in Banff, no rental car. Pick your return flight, vote on where to stay and what to do off the slopes, drop ideas, and claim something to book.</p>
-    <div class="cd-wrap">
-      <div class="countdown" id="cd">
-        <div class="cd"><b id="cdD">--</b><span>days</span></div>
-        <div class="cd"><b id="cdH">--</b><span>hours</span></div>
-        <div class="cd"><b id="cdM">--</b><span>min</span></div>
-        <div class="cd"><b id="cdS">--</b><span>sec</span></div>
-      </div>
-      <div class="cd-label">until we land in Calgary · Thu Dec 31, 11:40 PM</div>
-    </div>
-    <div class="facts">
-      <span class="fact">✈ Land YYC Thu Dec 31, 11:40 PM</span>
-      <span class="fact">🚐 Banff Airporter + free ski bus</span>
-      <span class="fact">⛷ Lake Louise, CA$185/day holiday rate</span>
-      <span class="fact num">≈ $570–$780 per person</span>
-    </div>
-    <div id="status" class="status" role="status"><span class="dot"></span><span id="statusText">Connecting to the shared votes…</span></div>
-  </div>
+<header class="topbar">
+  <div class="brand"><span class="logo" data-icon="peak"></span><span>Banff '27<small>Dec 31 – Jan 4</small></span></div>
+  <button class="me" id="meTop" type="button"></button>
 </header>
 
-<nav class="jump" aria-label="Sections">
-  <div class="wrap">
-    <a href="#crew">Who's in</a><a href="#flight">Return flight</a><a href="#costs">Costs</a><a href="#days">Day by day</a><a href="#transit">Getting around</a><a href="#stay">Where to stay</a><a href="#offslope">Off the slopes</a><a href="#ideas">Ideas</a><a href="#tobook">To book</a><a href="#sources">Sources</a>
-  </div>
-</nav>
-
 <main>
-  <section id="crew"><div class="wrap">
-    <div class="sec-head"><h2>Who's in</h2><p>Tell everyone whether you're coming. Your answer and votes are saved for the whole group.</p></div>
-    <div class="crew">
-      <div id="nickBox" class="nick" hidden>
-        <label for="nickInput" class="muted">Your name, so friends know whose votes are whose:</label>
-        <input id="nickInput" maxlength="24" placeholder="e.g. Sam">
-        <button id="nickSave" class="btn small">Save name</button>
-      </div>
-      <div class="crew-row">
-        <span class="muted">Are you going?</span>
-        <div class="seg" id="rsvp">
-          <button data-v="in">I'm in</button><button data-v="maybe">Maybe</button><button data-v="out">Can't make it</button>
+  <!-- HOME -->
+  <section class="view" id="v-home">
+    <div class="hero">
+      <svg class="art" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fb7e6"/><stop offset=".55" stop-color="#c6def0"/><stop offset="1" stop-color="#f6d9c4"/></linearGradient>
+          <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3fb7b4"/><stop offset="1" stop-color="#0d6b72"/></linearGradient>
+          <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9bb1c9"/><stop offset="1" stop-color="#6f88a6"/></linearGradient>
+          <linearGradient id="near" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f6683"/><stop offset="1" stop-color="#2d405a"/></linearGradient>
+        </defs>
+        <rect width="800" height="400" fill="url(#sky)"/>
+        <circle cx="640" cy="92" r="34" fill="#fff4dc" opacity=".9"/>
+        <path fill="url(#far)" d="M0 250L90 170L150 205L250 95L330 175L410 120L500 190L590 80L680 170L760 130L800 160V300H0Z"/>
+        <path fill="#fff" opacity=".85" d="M250 95L228 122L246 117L256 128L268 115L280 121ZM590 80L566 108L584 103L595 114L607 101L620 106ZM410 120L394 140L408 136L416 144L425 134L434 138Z"/>
+        <path fill="url(#near)" d="M0 300L70 235L130 270L210 190L300 280L380 225L470 285L560 210L650 280L730 240L800 275V320H0Z"/>
+        <path fill="#fff" opacity=".9" d="M210 190L192 212L206 208L214 218L223 207L232 211ZM560 210L543 231L556 227L564 236L573 226L582 230Z"/>
+        <rect y="300" width="800" height="100" fill="url(#lake)"/>
+        <path d="M0 312H800M60 330H360M420 342H760M120 360H500" stroke="#bfeeea" stroke-opacity=".35" stroke-width="3"/>
+        <g fill="#16353d">
+          <path d="M40 310L58 250L76 310Z"/><path d="M70 312L92 238L114 312Z"/><path d="M700 312L720 256L740 312Z"/><path d="M732 310L756 240L780 310Z"/>
+        </g>
+      </svg>
+      <div class="in">
+        <span class="tag">⛷ Lake Louise · 4 friends</span>
+        <h1>Banff New Year's Trip</h1>
+        <p>Land Thu Dec 31, 11:40 PM · Banff &amp; Lake Louise</p>
+        <div class="count" id="count" aria-label="Countdown to landing in Calgary">
+          <div><b id="cD">--</b><span>days</span></div><div><b id="cH">--</b><span>hrs</span></div><div><b id="cM">--</b><span>min</span></div><div><b id="cS">--</b><span>sec</span></div>
         </div>
       </div>
-      <div class="crew-row"><span class="eyebrow">In</span><div class="people" id="crewIn"><span class="muted">No one yet</span></div></div>
-      <div class="crew-row"><span class="eyebrow">Maybe</span><div class="people" id="crewMaybe"><span class="muted">—</span></div></div>
     </div>
-  </div></section>
 
-  <section id="flight"><div class="wrap">
-    <div class="sec-head"><h2>Return flight</h2><p>Same flight down for everyone. These are the three ways home. Prices per person use your settings in Costs below.</p></div>
-    <div class="opts" id="flightOpts"></div>
-  </div></section>
-
-  <section id="costs"><div class="wrap">
-    <div class="sec-head"><h2>Costs per person</h2><p>USD at CA$1 ≈ US$0.72. Lift tickets, rentals and the Airporter are official 2026/27 prices; lodging is from Google Hotels for 4 adults; food is an estimate.</p></div>
-    <div class="calc">
-      <div class="controls">
-        <div class="field"><span class="lbl">Return flight</span><div class="seg" id="cOpt"><button data-v="A">Jan 3 AM</button><button data-v="B">Jan 3 PM</button><button data-v="C">Jan 4 AM</button></div></div>
-        <div class="field"><label for="cLodge">Banff lodging</label><select id="cLodge"></select></div>
-        <div class="field"><span class="lbl">People splitting rooms</span>
-          <div class="stepper"><button class="btn small" id="gMinus" aria-label="Fewer people">−</button><span class="num" id="gVal">4</span><button class="btn small" id="gPlus" aria-label="More people">+</button></div></div>
-        <div class="field"><span class="lbl">Food</span><div class="seg" id="cFood"><button data-v="budget">Budget</button><button data-v="mid">Mid</button><button data-v="comfy">Eat out</button></div></div>
-        <label class="check"><input type="checkbox" id="cPlus"><span>Lake Louise Plus+Card (CA$160, first day free, then 20% off; price ends Dec 25)</span></label>
-        <label class="check"><input type="checkbox" id="cRent"><span>I need ski rentals (mid-performance package)</span></label>
+    <div class="card">
+      <div class="card-head"><h2>Who's in</h2><span class="live" id="live"><i></i><span>Connecting…</span></span></div>
+      <div class="seg" id="rsvp" role="group" aria-label="Are you going?">
+        <button data-v="in" type="button">I'm in</button><button data-v="maybe" type="button">Maybe</button><button data-v="out" type="button">Can't go</button>
       </div>
-      <div class="bill"><table><tbody id="billBody"></tbody></table></div>
+      <div class="people" id="crew"></div>
     </div>
-    <p class="note">Your settings stay on this device only. They don't change anyone else's view.</p>
-  </div></section>
 
-  <section id="days"><div class="wrap">
-    <div class="sec-head"><h2>Day by day</h2><p id="daysSub">Follows the return flight picked in Costs.</p></div>
-    <div class="days" id="dayList"></div>
-  </div></section>
+    <div class="grid3">
+      <a class="stat" href="#costs"><span>Per person</span><b id="sTotal">$—</b><span id="sTotalSub">all-in estimate</span></a>
+      <a class="stat" href="#plan"><span>On the slopes</span><b id="sSki">—</b><span>Lake Louise</span></a>
+      <a class="stat" href="#plan"><span>Fly home</span><b id="sHome">—</b><span id="sHomeSub"></span></a>
+    </div>
 
-  <section id="transit"><div class="wrap">
-    <div class="sec-head"><h2>Getting around</h2><p>No car needed. The Airporter drops you at your Banff hotel, and the Lake Louise ski bus picks up at Banff hotels for free.</p></div>
-    <div class="two">
-      <div class="panel">
-        <h3>Banff Airporter · YYC → Banff</h3>
-        <p class="num">CA$88.90 one way, CA$177.80 return + GST. About 2 hours. Winter schedule from Dec 15.</p>
+    <div class="card">
+      <div class="card-head"><h2>Still to decide</h2><a class="link" href="#vote">Vote →</a></div>
+      <div class="rows" id="decide"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>To book</h2><span class="pill" id="taskCount">0 of 10</span></div>
+      <div class="rows" id="tasks"></div>
+    </div>
+  </section>
+
+  <!-- PLAN -->
+  <section class="view" id="v-plan" hidden>
+    <div><h1>Day by day</h1><p class="muted">Pick a return flight to see that version of the trip.</p></div>
+    <div class="seg" id="planOpt"></div>
+    <div class="card" id="days"></div>
+
+    <div class="section-title"><h2>Getting around</h2><span class="muted small">No car needed</span></div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head"><h3>Airporter · Calgary airport → Banff</h3><span class="pill">CA$88.90</span></div>
         <div class="times" id="tOut"></div>
-        <p class="note">Last bus leaves at 11:00 PM, before we clear customs on Dec 31. Plan on 9:00 AM Jan 1.</p>
+        <p class="small muted">About 2 hours, drops you at your hotel. The last bus (11 PM) leaves before we clear customs, so we take the 9 AM on Jan 1.</p>
       </div>
-      <div class="panel">
-        <h3>Banff Airporter · Banff → YYC</h3>
-        <p>Arrives 2 hours after departure.</p>
+      <div class="card">
+        <div class="card-head"><h3>Airporter · Banff → Calgary airport</h3><span class="pill">CA$88.90</span></div>
         <div class="times" id="tBack"></div>
-        <p class="note">The first bus arrives at 7:00 AM, too late for a 7 AM flight, so we sleep at the airport the night before.</p>
+        <p class="small muted">The first bus arrives at 7 AM, too late for a 7 AM flight, so we sleep at the airport the night before.</p>
       </div>
-      <div class="panel">
-        <h3>Free ski bus · Banff ⇄ Lake Louise</h3>
-        <p>Picks up at Banff hotels including Banff Caribou Lodge, Banff Park Lodge and the Brewster Transportation Centre. About an hour each way.</p>
-        <div><span class="eyebrow">To the hill</span><div class="times"><span>8:30–9:00 AM</span><span>10:45–11:15 AM</span></div></div>
-        <div><span class="eyebrow">Back to Banff</span><div class="times"><span>12:15 PM</span><span>2:15 PM</span><span class="key">4:45 PM</span><span>6:00 PM</span></div></div>
-        <p class="note">Times are the posted Nov 1 – Dec 3 schedule. Check the holiday schedule in mid-December.</p>
+      <div class="card">
+        <div class="card-head"><h3>Free ski bus · Banff ⇄ Lake Louise</h3><span class="pill good">Free</span></div>
+        <div><p class="small muted">To the hill</p><div class="times"><span>8:30–9:00 AM</span><span>10:45–11:15 AM</span></div></div>
+        <div><p class="small muted">Back to Banff</p><div class="times"><span>12:15</span><span>2:15</span><span class="key">4:45 PM</span><span>6:00</span></div></div>
+        <p class="small muted">Picks up at Banff hotels like Banff Caribou Lodge and Banff Park Lodge. Holiday times are posted mid-December.</p>
       </div>
-      <div class="panel">
-        <h3>Super 8 Calgary Airport</h3>
-        <p>3030 Barlow Trail NE, about 5 km from the terminal. Airport shuttle needs a reservation and may cost about CA$10 per room. Free breakfast.</p>
-        <p class="note">Book the shuttle for Dec 31 late night and for the last night before a 7 AM flight.</p>
+      <div class="card">
+        <div class="card-head"><h3>Super 8 Calgary Airport</h3><span class="pill">~$60/night</span></div>
+        <p class="small muted">3030 Barlow Trail NE, 5 km from the terminal. Free breakfast. Reserve the airport shuttle (may be about CA$10 per room) for Dec 31 and our last night.</p>
       </div>
     </div>
-  </div></section>
+    <footer class="src">
+      <span>Prices checked Nov 24, 2026.</span>
+      <a href="https://banffairporter.com/schedule-rates/" target="_blank" rel="noopener">Airporter</a>
+      <a href="https://www.skilouise.com/getting-here/by-shuttle/" target="_blank" rel="noopener">Ski bus</a>
+      <a href="https://www.skilouise.com/tickets-passes/winter-tickets/single-day-lift-tickets/" target="_blank" rel="noopener">Lift tickets</a>
+      <a href="https://www.skilouise.com/tickets-passes/plus-cards/" target="_blank" rel="noopener">Plus+Card</a>
+      <a href="https://www.skilouise.com/rentals-lessons/rentals/ski-rentals/" target="_blank" rel="noopener">Rentals</a>
+      <a href="https://www.google.com/travel/search?q=hotels%20in%20Banff" target="_blank" rel="noopener">Banff hotels</a>
+    </footer>
+  </section>
 
-  <section id="stay"><div class="wrap">
-    <div class="sec-head"><h2>Where to stay in Banff</h2><p>Room for 4, per night with taxes and fees. Vote for one. The airport nights are at the Super 8 either way.</p></div>
-    <div class="list" id="lodgeList"></div>
-  </div></section>
+  <!-- COSTS -->
+  <section class="view" id="v-costs" hidden>
+    <div><h1>Costs per person</h1><p class="muted">USD at CA$1 ≈ US$0.72. Your settings stay on your device.</p></div>
+    <div class="grid2">
+      <div class="card">
+        <div class="field"><span class="lbl">RETURN FLIGHT</span><div class="seg" id="cOpt"></div></div>
+        <div class="field"><label for="cLodge">BANFF LODGING</label><select id="cLodge"></select></div>
+        <div class="field"><span class="lbl">FOOD BUDGET</span><div class="seg" id="cFood"><button data-v="budget" type="button">Budget</button><button data-v="mid" type="button">Mid</button><button data-v="comfy" type="button">Eat out</button></div></div>
+        <div class="toggle"><span>People sharing rooms</span><span class="stepper"><button class="btn sm" id="gMinus" type="button" aria-label="Fewer people">−</button><b id="gVal">4</b><button class="btn sm" id="gPlus" type="button" aria-label="More people">+</button></span></div>
+        <label class="toggle" for="cPlus"><span>Lake Louise Plus+Card<br><span class="small muted">CA$160, first day free, then 20% off · by Dec 25</span></span><span class="sw"><input type="checkbox" id="cPlus"><i></i></span></label>
+        <label class="toggle" for="cRent"><span>I need ski rentals</span><span class="sw"><input type="checkbox" id="cRent"><i></i></span></label>
+      </div>
+      <div class="card bill">
+        <div id="bill"></div>
+        <div class="total"><span>Total</span><b id="billTotal">$—</b></div>
+      </div>
+    </div>
+  </section>
 
-  <section id="offslope"><div class="wrap">
-    <div class="sec-head"><h2>Off the slopes</h2><p>Thumbs-up anything you'd do. Marked like ski runs by cost.</p></div>
-    <div class="legend"><span><i class="mk free"></i>Free</span><span><i class="mk cheap"></i>Under ~CA$30</span><span><i class="mk splurge"></i>Worth paying for</span></div>
-    <div class="filters"><span class="muted">Show</span><div class="seg" id="actSort"><button data-v="tier">By cost</button><button data-v="votes">Most votes</button></div></div>
-    <div class="list" id="actList"></div>
-  </div></section>
+  <!-- VOTE -->
+  <section class="view" id="v-vote" hidden>
+    <div><h1>Vote</h1><p class="muted">Pick one flight and one place to stay, and heart anything you'd do off the slopes.</p></div>
+    <div class="section-title"><h2>Return flight</h2><span class="muted small">Prices from your Costs settings</span></div>
+    <div class="hscroll" id="flights"></div>
 
-  <section id="ideas"><div class="wrap">
-    <div class="sec-head"><h2>Ideas</h2><p>Anything else: a restaurant, a change of plan, what to pack.</p></div>
-    <form class="idea-form" id="ideaForm">
-      <label for="ideaText" class="muted">Add an idea</label>
+    <div class="section-title"><h2>Where to stay in Banff</h2><span class="muted small">Room for 4, per night</span></div>
+    <div class="card"><div class="rows" id="lodges"></div></div>
+
+    <div class="section-title"><h2>Off the slopes</h2></div>
+    <div class="chips" id="actFilter"></div>
+    <div class="card"><div class="rows" id="acts"></div></div>
+  </section>
+
+  <!-- IDEAS -->
+  <section class="view" id="v-ideas" hidden>
+    <div><h1>Ideas</h1><p class="muted">Restaurants, plan changes, what to pack — anything.</p></div>
+    <form class="card composer" id="ideaForm">
+      <label for="ideaText" class="lbl small muted">New idea</label>
       <textarea id="ideaText" maxlength="400" placeholder="Hot springs on Jan 1 after we check in?"></textarea>
-      <div class="bar"><span class="note num" id="ideaCount">0 / 400</span><button class="btn on" id="ideaPost" type="submit">Post idea</button></div>
+      <div class="bar"><span class="small muted num" id="ideaCount">0 / 400</span><button class="btn primary" type="submit" id="ideaPost">Post</button></div>
     </form>
-    <div class="ideas" id="ideaList"><div class="empty">No ideas yet. Post the first one above.</div></div>
-  </div></section>
-
-  <section id="tobook"><div class="wrap">
-    <div class="sec-head"><h2>To book</h2><p>Claim a task so nobody double-books, and tick it off when it's done.</p></div>
-    <div class="list" id="taskList"></div>
-  </div></section>
-
-  <section id="sources"><div class="wrap">
-    <div class="sec-head"><h2>Sources</h2><p>Prices checked Nov 24, 2026. Holiday prices can rise, so recheck before booking.</p></div>
-    <ul class="sources">
-      <li><a href="https://banffairporter.com/schedule-rates/" target="_blank" rel="noopener">Banff Airporter schedule & rates</a></li>
-      <li><a href="https://www.skilouise.com/getting-here/by-shuttle/" target="_blank" rel="noopener">Lake Louise free shuttles</a></li>
-      <li><a href="https://www.skilouise.com/tickets-passes/winter-tickets/single-day-lift-tickets/" target="_blank" rel="noopener">Lake Louise lift tickets</a></li>
-      <li><a href="https://passes.skilouise.com/en/catalogue/adult-full-day-lift-ticket-18-64_1817/" target="_blank" rel="noopener">Lake Louise ticket calendar</a></li>
-      <li><a href="https://www.skilouise.com/tickets-passes/plus-cards/" target="_blank" rel="noopener">Lake Louise Plus+Card</a></li>
-      <li><a href="https://www.skilouise.com/rentals-lessons/rentals/ski-rentals/" target="_blank" rel="noopener">Lake Louise ski rentals</a></li>
-      <li><a href="https://www.google.com/travel/search?q=hotels%20in%20Banff" target="_blank" rel="noopener">Google Hotels, Banff</a></li>
-      <li><a href="https://www.wyndhamhotels.com/super-8/calgary-alberta/super-8-calgary-airport/overview" target="_blank" rel="noopener">Super 8 Calgary Airport</a></li>
-      <li><a href="https://www.parks.canada.ca/pn-np/ab/banff/sources-banff-springs/tarifs-fees" target="_blank" rel="noopener">Banff Upper Hot Springs fees</a></li>
-      <li><a href="https://www.banffjaspercollection.com/attractions/banff-gondola/tickets/" target="_blank" rel="noopener">Banff Gondola tickets</a></li>
-      <li><a href="https://www.banffadventures.com/Things-To-Do/Winter-Activities/Ice-Walks/Johnston-Canyon-Evening-Icewalk" target="_blank" rel="noopener">Johnston Canyon icewalk</a></li>
-      <li><a href="https://www.banffadventures.com/packages/giddy-up-glide" target="_blank" rel="noopener">Icewalk + sleigh ride</a></li>
-      <li><a href="https://www.banffadventures.com/packages/icewalk-tubing" target="_blank" rel="noopener">Icewalk + tubing</a></li>
-      <li><a href="https://www.parks.canada.ca/lhn-nhs/ab/caveandbasin/visit" target="_blank" rel="noopener">Cave and Basin</a></li>
-    </ul>
-  </div></section>
+    <div id="ideas" style="display:flex;flex-direction:column;gap:12px"></div>
+  </section>
 </main>
-<footer><div class="wrap">Estimates, not quotes. Prices checked Nov 24, 2026.</div></footer>
+
+<nav class="tabbar" id="tabNav" aria-label="Main"></nav>
+
+<div class="scrim" id="nameSheet" hidden>
+  <form class="sheet" id="nameForm" role="dialog" aria-modal="true" aria-labelledby="nameTitle">
+    <h2 id="nameTitle">What should we call you?</h2>
+    <p class="muted small">Your name shows next to your votes and ideas. No account needed.</p>
+    <input type="text" id="nameInput" maxlength="24" placeholder="e.g. Sam" autocomplete="nickname">
+    <div class="btns"><button class="btn" type="button" id="nameSkip">Just looking</button><button class="btn primary" type="submit">Save</button></div>
+  </form>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 (function(){
 "use strict";
-const FX=0.72, GST=1.05, S8=60;
+/* ---------- data ---------- */
+const FX=0.72,GST=1.05,S8=60;
 const OPTS={
-  A:{label:"Sun Jan 3 · 7:00 AM",flight:142,s8:2,banff:1,ski:1,skiNote:"1 ski day",foodDays:2.25,blurb:"Cheapest. One ski day, then an early wake-up at the airport hotel."},
-  B:{label:"Sun Jan 3 · 8:00 PM",flight:182,s8:1,banff:2,ski:2,skiNote:"1 ski day + a morning",foodDays:3,blurb:"$40 more. Ski Jan 2 and Sunday morning, then a 3:30 PM bus."},
-  C:{label:"Mon Jan 4 · 7:00 AM",flight:142,s8:2,banff:2,ski:2,skiNote:"2 full ski days",foodDays:3.25,blurb:"Same fare as Jan 3 AM. Two full days on the mountain."}
+  A:{label:"Sun Jan 3 · 7 AM",short:"Jan 3 AM",day:"Sun",time:"7 AM",flight:142,s8:2,banff:1,ski:1,skiNote:"1 day",foodDays:2.25,blurb:"Cheapest. One ski day, then an early start from the airport hotel."},
+  B:{label:"Sun Jan 3 · 8 PM",short:"Jan 3 PM",day:"Sun",time:"8 PM",flight:182,s8:1,banff:2,ski:2,skiNote:"1½ days",foodDays:3,blurb:"$40 more. Ski Jan 2 and Sunday morning, then a 3:30 PM bus."},
+  C:{label:"Mon Jan 4 · 7 AM",short:"Jan 4 AM",day:"Mon",time:"7 AM",flight:142,s8:2,banff:2,ski:2,skiNote:"2 days",foodDays:3.25,blurb:"Same fare as Jan 3 AM. Two full days on the mountain."}
 };
 const LODGES={
-  hi:{name:"HI Banff Alpine Centre",night:215,note:"Hostel · private room or 4 beds · on Tunnel Mountain Rd"},
-  samesun:{name:"Samesun Banff",night:235,note:"Hostel · on Banff Ave, close to ski-bus stops"},
-  inn:{name:"Banff Inn",night:255,note:"Hotel · on Banff Ave · about $245–270"}
+  hi:{name:"HI Banff Alpine Centre",night:215,note:"Hostel · private room or 4 beds",emoji:"🏔"},
+  samesun:{name:"Samesun Banff",night:235,note:"Hostel on Banff Ave, by the ski-bus stops",emoji:"🛏"},
+  inn:{name:"Banff Inn",night:255,note:"Hotel on Banff Ave · ~$245–270",emoji:"🏨"}
 };
-const FOOD={budget:{cad:45},mid:{cad:55},comfy:{cad:80}};
-const TOUT=["9:00","10:00","11:00","12:00","1:00 PM","1:30","2:30","3:30","4:30","5:30","6:30","7:30","9:00 PM","11:00 PM"];
+const FOOD={budget:45,mid:55,comfy:80};
+const TOUT=["9:00 AM","10:00","11:00","12:00","1:00 PM","1:30","2:30","3:30","4:30","5:30","6:30","7:30","9:00","11:00 PM"];
 const TBACK=["5:00 AM","6:00","7:00","8:00","9:00","10:00","11:30","12:30 PM","1:30","2:30","3:30","4:30","6:00","8:00 PM"];
 const ACTS=[
-  ["free","bow-falls","Bow Falls","15-minute walk from town, often partly frozen"],
+  ["free","bow-falls","Bow Falls","15-min walk from town, often partly frozen"],
   ["free","banff-ave","Banff Avenue stroll","Shops, holiday lights, mountain views"],
   ["free","springs-hotel","Fairmont Banff Springs","Wander the castle hotel's lobby and terrace"],
   ["free","surprise","Surprise Corner viewpoint","The postcard view of the Banff Springs"],
-  ["free","vermilion","Vermilion Lakes at sunset","2 km from town. Skate only if the ice is marked safe"],
-  ["free","tunnel","Tunnel Mountain summit","2–3 hours round trip from town. Bring ice cleats"],
+  ["free","vermilion","Vermilion Lakes at sunset","2 km from town; skate only where marked safe"],
+  ["free","tunnel","Tunnel Mountain summit","2–3 hours round trip, bring ice cleats"],
   ["free","hoodoos","Hoodoos & Bow River trail","Flat walk with frozen-river views"],
-  ["free","fenland","Fenland Trail","Easy forest loop, good for spotting elk"],
+  ["free","fenland","Fenland Trail","Easy forest loop, good for elk"],
   ["free","rinks","Town outdoor rinks","Bring or rent skates"],
-  ["free","ll-skate","Skate on Lake Louise","Cleared rink on the lake. Rentals extra. Ski bus or Roam 8X"],
+  ["free","ll-skate","Skate on Lake Louise","Cleared rink on the lake; rentals extra"],
   ["free","stars","Stargazing","A few minutes outside town"],
-  ["cheap","hot-springs","Banff Upper Hot Springs","About CA$20. Door tickets only. Roam Route 1"],
-  ["cheap","cave","Cave and Basin","About CA$9. Where the national park started"],
-  ["cheap","whyte","Whyte Museum","Art and Rockies history, small fee"],
-  ["cheap","snowshoe","Snowshoe rental","About CA$20–30 a day, then the trails near town"],
-  ["cheap","xc","Cross-country ski rental","Groomed trails near town"],
+  ["cheap","hot-springs","Banff Upper Hot Springs","~CA$20, door tickets only, Roam Route 1"],
+  ["cheap","cave","Cave and Basin","~CA$9, where the national park began"],
+  ["cheap","whyte","Whyte Museum","Art and Rockies history"],
+  ["cheap","snowshoe","Snowshoe rental","~CA$20–30/day, trails near town"],
+  ["cheap","xc","Cross-country skiing","Groomed trails near town"],
   ["cheap","fatbike","Fat-bike rental","Big-tire bikes on snowy trails"],
-  ["cheap","bowling","High Rollers bowling","Bowling, pizza and drinks on Banff Ave"],
-  ["cheap","canmore","Canmore day trip","Cheap Roam Route 3 bus. Cafés and the Nordic Centre"],
+  ["cheap","bowling","High Rollers bowling","Bowling, pizza and drinks"],
+  ["cheap","canmore","Canmore day trip","Cheap Roam Route 3 bus"],
   ["cheap","pubs","Banff Ave pubs","Drinking age in Alberta is 18"],
   ["cheap","beavertails","BeaverTails & hot chocolate","A Canadian classic"],
-  ["splurge","gondola","Banff Gondola / Nightrise","About CA$55–70. Light show at the top after dark"],
-  ["splurge","johnston","Johnston Canyon icewalk","About CA$80–110 with pickup. Frozen waterfalls"],
-  ["splurge","sleigh","Icewalk + sleigh ride","From about CA$148"],
-  ["splurge","norquay","Norquay snow tubing","Night tubing. Combos with the icewalk from ~CA$143"],
+  ["splurge","gondola","Banff Gondola / Nightrise","~CA$55–70, light show after dark"],
+  ["splurge","johnston","Johnston Canyon icewalk","~CA$80–110 with pickup, frozen waterfalls"],
+  ["splurge","sleigh","Icewalk + sleigh ride","From ~CA$148"],
+  ["splurge","norquay","Norquay snow tubing","Night tubing, combos from ~CA$143"],
   ["splurge","ll-tube","Lake Louise tube park","Easy add-on on a ski day"],
-  ["splurge","dogsled","Dog sledding","Out of Canmore, usually well over CA$150"],
-  ["splurge","iceclimb","Intro ice climbing","Guided, a once-in-a-lifetime thing"],
+  ["splurge","dogsled","Dog sledding","Out of Canmore, usually over CA$150"],
+  ["splurge","iceclimb","Intro ice climbing","Guided, once-in-a-lifetime"],
   ["splurge","spa","Hotel spa day","Splurge level"]
 ];
-const TIERS={free:"Free",cheap:"Cheap",splurge:"Worth paying for"};
+const TIER={free:"Free",cheap:"Cheap",splurge:"Splurge"};
 const TASKS=[
-  ["passport","Valid passport","Everyone. Needed to fly into Canada.",""],
-  ["pluscard","Lake Louise Plus+Card","Each person, CA$160. First ski day free, then 20% off.","By Dec 25"],
-  ["flight","Return flight","Once we agree on the vote above.",""],
-  ["airporter","Banff Airporter, return","Out Jan 1 at 9:00 AM. Back per the flight we pick.",""],
-  ["super8","Super 8 Calgary Airport + shuttle","Dec 31 night, plus the last night if flying at 7 AM.",""],
-  ["banff","Banff lodging","Per the vote. Book soon, New Year's prices rise.",""],
-  ["tickets","Pick ski days online","Plus+Card holders choose dates on the Lake Louise site.",""],
-  ["rentals","Ski or snowboard rentals","CA$70/day, CA$58/day for 3 days.",""],
-  ["skibus","Check the holiday ski-bus schedule","Lake Louise posts it in mid-December.","Mid-Dec"],
-  ["groceries","Groceries for the trip","Some stores close on Jan 1. Pack lunches for the hill.","Dec 31"]
+  ["passport","Valid passport","Everyone needs one to fly into Canada",""],
+  ["pluscard","Lake Louise Plus+Card","Each person · CA$160","Dec 25"],
+  ["flight","Return flight","After the vote",""],
+  ["airporter","Banff Airporter, return","Out Jan 1 at 9 AM",""],
+  ["super8","Super 8 + airport shuttle","Dec 31, plus last night if flying at 7 AM",""],
+  ["banff","Banff lodging","Per the vote, before prices rise",""],
+  ["tickets","Pick ski days online","Plus+Card holders choose dates",""],
+  ["rentals","Ski or snowboard rentals","CA$70/day, CA$58/day for 3",""],
+  ["skibus","Check holiday ski-bus times","Posted mid-December","Mid-Dec"],
+  ["groceries","Groceries","Stores may close Jan 1","Dec 31"]
+];
+const DAYS=[
+  {dow:"Thu",d:"31",m:"Dec",all:[["11:40 PM","Land in Calgary, clear customs, Super 8 shuttle"],["Night","Super 8 Calgary Airport"]]},
+  {dow:"Fri",d:"1",m:"Jan",all:[["~8:15 AM","Super 8 shuttle back to the terminal"],["9:00 AM","Banff Airporter, arrives 11:00 at the hotel"],["Afternoon","Free time: hot springs, gondola, Banff Ave"],["Night","Banff"]]},
+  {dow:"Sat",d:"2",m:"Jan",
+    A:[["8:30 AM","Free ski bus from a Banff hotel stop"],["9:30–4:30","Ski Lake Louise (Plus+Card free day)"],["4:45 PM","Ski bus back, grab bags"],["8:00 PM","Airporter to YYC, arrives 10 PM"],["Night","Super 8 Calgary Airport"]],
+    B:[["8:30 AM","Free ski bus from a Banff hotel stop"],["9:30–4:30","Ski Lake Louise (Plus+Card free day)"],["4:45 PM","Ski bus back to Banff"],["Night","Banff"]],
+    C:[["8:30 AM","Free ski bus from a Banff hotel stop"],["9:30–4:30","Ski Lake Louise (Plus+Card free day)"],["4:45 PM","Ski bus back to Banff"],["Night","Banff"]]},
+  {dow:"Sun",d:"3",m:"Jan",
+    A:[["5:00 AM","At the airport (US customs is in Calgary)"],["7:00 AM","Fly home"]],
+    B:[["8:30 AM","Check out, leave bags, ski bus"],["9:30–12:15","Ski the morning"],["12:15 PM","Ski bus back, pick up bags"],["3:30 PM","Airporter to YYC, arrives 5:30"],["8:00 PM","Fly home"]],
+    C:[["8:30 AM","Check out, leave bags, ski bus"],["9:30–4:30","Ski Lake Louise, day 2"],["4:45 PM","Ski bus back, pick up bags"],["8:00 PM","Airporter to YYC, arrives 10 PM"],["Night","Super 8 Calgary Airport"]]},
+  {dow:"Mon",d:"4",m:"Jan",C:[["5:00 AM","At the airport"],["7:00 AM","Fly home"]]}
 ];
 
+/* ---------- helpers ---------- */
 const $=s=>document.querySelector(s);
 const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;};
 const usd=n=>"$"+Math.round(n).toLocaleString("en-US");
+const ICONS={
+  home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',
+  plan:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/>',
+  costs:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>',
+  vote:'<path d="M20.8 6.6a5 5 0 0 0-8.8-2.1 5 5 0 0 0-8.8 2.1c-.6 4.5 4.6 8.6 8.8 12.4 4.2-3.8 9.4-7.9 8.8-12.4z"/>',
+  ideas:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V17h5.2v-1.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/>',
+  check:'<path d="m5 12 5 5 9-10"/>',
+  peak:'<path d="m3 19 6.5-11 3.5 6 2-3 6 8z" fill="#fff" stroke="none"/><path d="m9.5 8 1.6 2.7L9.5 10 8 10.7z" fill="#0b5d63" stroke="none"/>'
+};
+const svg=(name,stroke)=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+(stroke||2)+'" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICONS[name]+'</svg>';
+const AV=["#0f8b8d","#d9822b","#7a5cd6","#d23a55","#2f6fd0","#2f9e5b","#b0549a","#4f6683"];
+function avColor(id){let h=0;String(id||"").split("").forEach(c=>{h=(h*31+c.charCodeAt(0))>>>0;});return AV[h%AV.length];}
+function avatar(w){const a=el("span","av",(String((w&&w.n)||"?").trim().charAt(0)||"?").toUpperCase());a.style.background=avColor(w&&w.uid);a.title=nameOf(w);return a;}
+function nameOf(w){return (w&&w.uid&&w.uid===st.me)?"You":((w&&w.n)||"Someone");}
+let toastT=0;
+function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true;},3800);}
 
-/* ---------- per-viewer settings (this device only) ---------- */
-const DEF={opt:"C",lodge:"hi",group:4,food:"mid",plus:true,rent:false,sort:"tier"};
+/* ---------- settings (this device) ---------- */
+const DEF={opt:"C",lodge:"hi",group:4,food:"mid",plus:true,rent:false,filter:"all"};
 let set=Object.assign({},DEF);
 try{const s=JSON.parse(localStorage.getItem("banffTripSettings")||"null");if(s&&typeof s==="object")set=Object.assign({},DEF,s);}catch(e){}
-if(!OPTS[set.opt])set.opt="C";if(!LODGES[set.lodge])set.lodge="hi";if(!FOOD[set.food])set.food="mid";
+if(!OPTS[set.opt])set.opt="C";if(!LODGES[set.lodge])set.lodge="hi";if(!(set.food in FOOD))set.food="mid";
 set.group=Math.min(8,Math.max(1,parseInt(set.group,10)||4));
 function saveSet(){try{localStorage.setItem("banffTripSettings",JSON.stringify(set));}catch(e){}}
 
 function costs(key){
-  const o=OPTS[key], d=o.ski, rooms=Math.ceil(set.group/4);
+  const o=OPTS[key],d=o.ski,rooms=Math.ceil(set.group/4);
   const lodging=rooms*(o.s8*S8+o.banff*LODGES[set.lodge].night)/set.group;
   const shuttle=177.80*GST*FX;
   const lift=set.plus?(160+Math.max(0,d-1)*148)*GST*FX:d*185*GST*FX;
   const rate=d>=3?58:70;
   const rent=set.rent?d*rate*GST*FX:0;
-  const food=o.foodDays*FOOD[set.food].cad*FX;
+  const food=o.foodDays*FOOD[set.food]*FX;
   const rows=[
-    ["Flight, PHX ⇄ YYC",o.flight,"Your fare"],
-    ["Lodging, your share",lodging,o.s8+" Super 8 night"+(o.s8>1?"s":"")+" + "+o.banff+" Banff night"+(o.banff>1?"s":"")+", "+rooms+" room"+(rooms>1?"s":"")+" split "+set.group+" ways"],
-    ["Banff Airporter, return",shuttle,"CA$177.80 + GST"],
-    ["Lift tickets",lift,set.plus?"Plus+Card CA$160 covers day 1"+(d>1?", then CA$148 (20% off CA$185)":"")+" + GST":d+" × CA$185 holiday rate + GST"],
+    ["Flight",o.flight,"PHX ⇄ YYC, your fare"],
+    ["Lodging",lodging,o.s8+" Super 8 + "+o.banff+" Banff night"+(o.banff>1?"s":"")+", split "+set.group+" ways"],
+    ["Banff Airporter",shuttle,"Return, CA$177.80 + GST"],
+    ["Lift tickets",lift,set.plus?"Plus+Card covers day 1"+(d>1?", then 20% off":""):d+" × CA$185 holiday rate"],
     ["Ski rentals",rent,set.rent?d+" × CA$"+rate+" + GST":"Not included"],
-    ["Food",food,"About CA$"+FOOD[set.food].cad+"/day × "+o.foodDays+" days"],
-    ["Ski bus, Banff ⇄ Lake Louise",0,"Free"]
+    ["Food",food,"~CA$"+FOOD[set.food]+"/day × "+o.foodDays+" days"],
+    ["Ski bus",0,"Free"]
   ];
   return {rows,total:rows.reduce((a,r)=>a+r[1],0)};
 }
@@ -484,250 +518,230 @@ function costs(key){
 /* ---------- shared state (Firebase) ---------- */
 const FIREBASE_CONFIG={apiKey:"AIzaSyDJKMCT-zHJrOPTJmAA9_Owi3hTcsGLmwg",authDomain:"red-air-296505.firebaseapp.com",projectId:"red-air-296505",storageBucket:"red-air-296505.firebasestorage.app",messagingSenderId:"808516215098",appId:"1:808516215098:web:e4e03cbd3dc70a78987003"};
 const FB_VER="10.12.2";
-const st={me:null,nick:null,votes:{},ideas:[],tasks:{},fs:null,readOnly:false,isOwner:false,loaded:false};
+const st={me:null,nick:null,votes:{},ideas:[],tasks:{},fs:null,loaded:false,conn:"connecting"};
 try{const n=localStorage.getItem("banffTripNick");if(n)st.nick=n.slice(0,24);}catch(e){}
-function myKey(){return st.me&&st.nick?st.me:null;}
-function myWho(){return st.me?{uid:st.me,n:st.nick||"Someone"}:null;}
-function whoKey(w){return w&&w.uid?w.uid:null;}
-function myVote(){return st.me&&st.votes[st.me]?st.votes[st.me]:{};}
+const myVote=()=>(st.me&&st.votes[st.me])||{};
+const voters=pred=>Object.values(st.votes).filter(v=>v&&v.who&&pred(v)).map(v=>v.who);
 
-function setStatus(kind,text){const s=$("#status");s.className="status"+(kind?" "+kind:"");$("#statusText").textContent=text;}
-
-/* people rendering: names come from what each person typed */
-function initialOf(n){return (String(n||"?").trim().charAt(0)||"?").toUpperCase();}
-function whoNode(w){
-  const wrap=el("span","person");
-  const c=el("span","av",initialOf(w&&w.n));
-  c.style.cssText="display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;background:var(--teal);color:var(--surface)";
-  wrap.append(c);
-  wrap.append(el("span",null,(w&&w.uid&&w.uid===st.me)?"You":((w&&w.n)||"Someone")));
-  return wrap;
-}
-function stackNode(whos){
-  const s=el("span","stack");
-  whos.slice(0,7).forEach(w=>{const g=el("span","gchip",initialOf(w.n));g.title=(w.uid===st.me)?"You":(w.n||"Someone");s.append(g);});
-  return s;
-}
-function fillNames(){}
-function votersWhere(pred){return Object.values(st.votes).filter(v=>v&&v.who&&pred(v)).map(v=>v.who);}
-
-/* ---------- writes ---------- */
 const chains={},pending={};
 function queueWrite(path,fn){
-  pending[path]=fn;
-  if(chains[path])return;
-  chains[path]=(async()=>{
-    while(pending[path]){const f=pending[path];pending[path]=null;
-      try{await f();}catch(e){await writeFailed(e,f);} }
-    chains[path]=null;
-  })();
+  pending[path]=fn;if(chains[path])return;
+  chains[path]=(async()=>{while(pending[path]){const f=pending[path];pending[path]=null;
+    try{await f();}catch(e){const c=e&&e.code;
+      if(c==="unavailable"||c==="deadline-exceeded"){await new Promise(r=>setTimeout(r,900));try{await f();continue;}catch(e2){}}
+      toast(c==="permission-denied"?"That change wasn't allowed. Reload and try again.":"Couldn't save. Check your connection.");}}
+    chains[path]=null;})();
 }
-async function writeFailed(e,f){
-  const code=e&&e.code;
-  if(code==="unavailable"||code==="deadline-exceeded"){await new Promise(r=>setTimeout(r,800+Math.random()*800));try{await f();return;}catch(e2){}}
-  if(code==="permission-denied"){setStatus("warn","That change wasn't allowed. Reload the page and try again.");return;}
-  setStatus("warn","Couldn't save that change. Check your connection and try again.");
-}
-function canWrite(){
-  if(!st.fs){setStatus("warn","Can't reach the shared votes right now. Reload the page to try again.");return false;}
-  if(!st.nick){ $("#nickBox").hidden=false; $("#nickInput").focus(); setStatus("warn","Add your name first so friends know whose votes are whose."); return false;}
+function ready(){
+  if(!st.fs){toast("Can't reach the shared votes right now.");return false;}
+  if(!st.nick){openName();return false;}
   return true;
 }
 function saveMyVote(mut){
-  if(!canWrite())return;
-  const v=JSON.parse(JSON.stringify(st.votes[st.me]||{}));
-  delete v.who;
-  mut(v);
-  v.n=st.nick;
-  v.at=Date.now();
-  Object.keys(v).forEach(k=>{if(v[k]===null)delete v[k];});
+  if(!ready())return;
+  const v=JSON.parse(JSON.stringify(myVote()));delete v.who;
+  mut(v);v.n=st.nick;v.at=Date.now();
+  Object.keys(v).forEach(k=>{if(v[k]===null||v[k]===undefined)delete v[k];});
   st.votes[st.me]=Object.assign({},v,{who:{uid:st.me,n:st.nick}});
-  renderVotes();
-  const path="votes/"+st.me;
-  queueWrite(path,()=>st.fs.set(path,v));
+  renderAll();
+  queueWrite("votes/"+st.me,()=>st.fs.set("votes/"+st.me,v));
 }
+function setTask(id,patch){
+  if(!ready())return;
+  const next=Object.assign({done:false,who:null},st.tasks[id]||{},patch);
+  st.tasks[id]=next;renderHome();
+  queueWrite("tasks/"+id,()=>st.fs.set("tasks/"+id,next));
+}
+
+/* ---------- navigation ---------- */
+const VIEWS=[["home","Home"],["plan","Plan"],["costs","Costs"],["vote","Vote"],["ideas","Ideas"]];
+function buildNav(box){VIEWS.forEach(([id,label])=>{const a=el("a","tab");a.href="#"+id;a.dataset.view=id;a.innerHTML=svg(id);a.append(el("span",null,label));box.append(a);});}
+buildNav($("#tabNav"));buildNav($("#sideNav"));
+document.querySelectorAll("[data-icon]").forEach(n=>{n.innerHTML=svg(n.dataset.icon,0);});
+function show(){
+  let v=location.hash.slice(1);if(!VIEWS.some(x=>x[0]===v))v="home";
+  VIEWS.forEach(([id])=>{$("#v-"+id).hidden=id!==v;});
+  document.querySelectorAll(".tab").forEach(t=>{const on=t.dataset.view===v;t.classList.toggle("on",on);if(on)t.setAttribute("aria-current","page");else t.removeAttribute("aria-current");});
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",show);
 
 /* ---------- renderers ---------- */
-function renderCrew(){
+function renderMe(){
+  [$("#meTop"),$("#meSide")].forEach(b=>{b.replaceChildren();
+    if(st.nick){b.append(avatar({uid:st.me,n:st.nick}));b.append(el("span",null,st.nick));}
+    else{const a=el("span","av","+");a.style.background="var(--muted)";b.append(a);b.append(el("span",null,"Add your name"));}});
+}
+function renderLive(){
+  const l=$("#live");l.className="live"+(st.conn==="live"?" ok":st.conn==="down"?" bad":"");
+  l.querySelector("span").textContent=st.conn==="live"?"Syncing live":st.conn==="down"?"Offline":"Connecting…";
+}
+function renderHome(){
   const mine=myVote().rsvp;
-  document.querySelectorAll("#rsvp button").forEach(b=>{b.classList.toggle("on",b.dataset.v===mine);b.disabled=st.readOnly;});
-  [["in","#crewIn","No one yet"],["maybe","#crewMaybe","—"]].forEach(([val,sel,empty])=>{
-    const box=$(sel);box.replaceChildren();
-    const whos=votersWhere(v=>v.rsvp===val);
-    if(!whos.length)box.append(el("span","muted",empty));
-    whos.forEach(w=>box.append(whoNode(w)));
-    fillNames(box);
+  document.querySelectorAll("#rsvp button").forEach(b=>b.classList.toggle("on",b.dataset.v===mine));
+  const crew=$("#crew");crew.replaceChildren();
+  const ins=voters(v=>v.rsvp==="in"),maybes=voters(v=>v.rsvp==="maybe");
+  if(!ins.length&&!maybes.length)crew.append(el("span","muted small","No one has answered yet. Be the first!"));
+  ins.forEach(w=>{const p=el("span","person");p.append(avatar(w));p.append(el("span",null,nameOf(w)));crew.append(p);});
+  maybes.forEach(w=>{const p=el("span","person");p.append(avatar(w));p.append(el("span",null,nameOf(w)+" · maybe"));p.style.opacity=".7";crew.append(p);});
+
+  const o=OPTS[set.opt];
+  $("#sTotal").textContent=usd(costs(set.opt).total);
+  $("#sSki").textContent=o.skiNote;
+  $("#sHome").textContent=o.day+" "+o.time;
+  $("#sHomeSub").textContent=set.opt==="C"?"Jan 4":"Jan 3";
+
+  const dec=$("#decide");dec.replaceChildren();
+  const lead=(field,map,labelOf)=>{const counts={};Object.values(st.votes).forEach(v=>{if(v&&v[field]&&map[v[field]])counts[v[field]]=(counts[v[field]]||0)+1;});
+    const best=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];return best?{key:best[0],n:best[1],label:labelOf(best[0])}:null;};
+  [["✈️","Return flight","flight",OPTS,k=>OPTS[k].label],["🛏","Where to stay","lodge",LODGES,k=>LODGES[k].name]].forEach(([emo,title,field,map,labelOf])=>{
+    const r=el("div","r");const ic=el("span","icon-tile",emo);r.append(ic);
+    const d=el("div");d.append(el("div","t",title));const L=lead(field,map,labelOf);
+    d.append(el("div","s",L?"Leading: "+L.label+" ("+L.n+" vote"+(L.n>1?"s":"")+")":"No votes yet"));r.append(d);
+    const a=el("a","btn sm","Vote");a.href="#vote";a.style.textDecoration="none";r.append(a);dec.append(r);
   });
-}
-function renderFlight(){
-  const box=$("#flightOpts");box.replaceChildren();
-  const mine=myVote().flight;
-  Object.entries(OPTS).forEach(([k,o])=>{
-    const c=el("div","opt"+(mine===k?" mine":""));
-    if(k==="C")c.append(el("span","pick","Best value"));
-    c.append(el("h3",null,o.label));
-    c.append(el("div","price num",usd(costs(k).total)));
-    c.append(el("div","meta",o.skiNote+" · flight "+usd(o.flight)));
-    c.append(el("p",null,o.blurb));
-    const whos=votersWhere(v=>v.flight===k);
-    const vr=el("div","voters");
-    if(whos.length){vr.append(stackNode(whos));vr.append(el("span",null,whos.length+" vote"+(whos.length>1?"s":"")));}
-    else vr.append(el("span",null,"No votes yet"));
-    c.append(vr);
-    const b=el("button","btn"+(mine===k?" on":""),mine===k?"Your vote":"Vote for this");
-    b.disabled=st.readOnly;
-    b.addEventListener("click",()=>saveMyVote(v=>{v.flight=v.flight===k?null:k;}));
-    c.append(b);
-    box.append(c);
-  });
-  fillNames(box);
-}
-function renderCalc(){
-  document.querySelectorAll("#cOpt button").forEach(b=>b.classList.toggle("on",b.dataset.v===set.opt));
-  document.querySelectorAll("#cFood button").forEach(b=>b.classList.toggle("on",b.dataset.v===set.food));
-  $("#cLodge").value=set.lodge;$("#gVal").textContent=set.group;$("#cPlus").checked=set.plus;$("#cRent").checked=set.rent;
-  const {rows,total}=costs(set.opt);
-  const tb=$("#billBody");tb.replaceChildren();
-  rows.forEach(r=>{const tr=el("tr");const a=el("td");a.append(el("span",null,r[0]));a.append(el("small",null,r[2]));tr.append(a);tr.append(el("td","amt",r[1]?usd(r[1]):"$0"));tb.append(tr);});
-  const tr=el("tr","total");tr.append(el("td",null,"Total per person"));tr.append(el("td","amt",usd(total)));tb.append(tr);
-}
-const DAYS=[
-  {d:"Thu Dec 31",all:[["11:40 PM","Land at Calgary. Customs, then the Super 8 airport shuttle."],["Night","Super 8 Calgary Airport"]]},
-  {d:"Fri Jan 1",all:[["~8:15 AM","Super 8 shuttle back to the terminal"],["9:00 AM","Banff Airporter to Banff, arrives 11:00 at the hotel"],["Afternoon","Free time in Banff: hot springs, gondola, Banff Ave"],["Night","Banff"]]},
-  {d:"Sat Jan 2",
-    A:[["8:30–9:00 AM","Free ski bus from a Banff hotel stop. Leave bags at the hotel"],["9:30–4:30","Ski Lake Louise (Plus+Card free day)"],["4:45 PM","Ski bus back to Banff, pick up bags"],["8:00 PM","Banff Airporter to YYC, arrives 10:00 PM"],["Night","Super 8 Calgary Airport"]],
-    B:[["8:30–9:00 AM","Free ski bus from a Banff hotel stop"],["9:30–4:30","Ski Lake Louise (Plus+Card free day)"],["4:45 PM","Ski bus back to Banff"],["Night","Banff"]],
-    C:[["8:30–9:00 AM","Free ski bus from a Banff hotel stop"],["9:30–4:30","Ski Lake Louise (Plus+Card free day)"],["4:45 PM","Ski bus back to Banff"],["Night","Banff"]]},
-  {d:"Sun Jan 3",
-    A:[["5:00 AM","At the airport. US customs is done in Calgary"],["7:00 AM","Fly home"]],
-    B:[["8:30–9:00 AM","Check out, leave bags, take the ski bus"],["9:30–12:15","Ski the morning"],["12:15 PM","Ski bus back to Banff, pick up bags"],["3:30 PM","Banff Airporter to YYC, arrives 5:30 PM"],["8:00 PM","Fly home"]],
-    C:[["8:30–9:00 AM","Check out, leave bags, take the ski bus"],["9:30–4:30","Ski Lake Louise, day 2"],["4:45 PM","Ski bus back to Banff, pick up bags"],["8:00 PM","Banff Airporter to YYC, arrives 10:00 PM"],["Night","Super 8 Calgary Airport"]]},
-  {d:"Mon Jan 4",C:[["5:00 AM","At the airport"],["7:00 AM","Fly home"]]}
-];
-function renderDays(){
-  $("#daysSub").textContent="Showing the "+OPTS[set.opt].label+" return. Change it in Costs.";
-  const box=$("#dayList");box.replaceChildren();
-  DAYS.forEach(day=>{
-    const items=day.all||day[set.opt];if(!items)return;
-    const row=el("div","day");row.append(el("div","d",day.d));
-    const ol=el("ol");items.forEach(([t,x])=>{const li=el("li");li.append(el("b",null,t));li.append(el("span",null,x));ol.append(li);});
-    row.append(ol);box.append(row);
-  });
-}
-function renderLodges(){
-  const box=$("#lodgeList");box.replaceChildren();
-  const mine=myVote().lodge;
-  Object.entries(LODGES).forEach(([k,l])=>{
-    const r=el("div","row");const t=el("div","t");const d=el("div");
-    d.append(el("div","name",l.name));d.append(el("div","sub num","~"+usd(l.night)+"/night · ~"+usd(l.night/4)+" each · "+l.note));
-    t.append(d);r.append(t);
-    const a=el("div","act");const whos=votersWhere(v=>v.lodge===k);
-    if(whos.length)a.append(stackNode(whos));
-    a.append(el("span","count",String(whos.length)));
-    const b=el("button","btn small"+(mine===k?" on":""),mine===k?"Your pick":"Pick");b.disabled=st.readOnly;
-    b.addEventListener("click",()=>saveMyVote(v=>{v.lodge=v.lodge===k?null:k;}));
-    a.append(b);r.append(a);box.append(r);
-  });
-  fillNames(box);
-}
-function renderActs(){
-  document.querySelectorAll("#actSort button").forEach(b=>b.classList.toggle("on",b.dataset.v===set.sort));
-  const box=$("#actList");box.replaceChildren();
-  const mine=new Set(Array.isArray(myVote().acts)?myVote().acts:[]);
-  const count=id=>votersWhere(v=>Array.isArray(v.acts)&&v.acts.includes(id));
-  const rowFor=([tier,id,name,sub])=>{
-    const r=el("div","row");const t=el("div","t");t.append(el("i","mk "+tier));
-    const d=el("div");d.append(el("div","name",name));d.append(el("div","sub",sub));t.append(d);r.append(t);
-    const a=el("div","act");const whos=count(id);
-    if(whos.length)a.append(stackNode(whos));
-    const on=mine.has(id);
-    const b=el("button","btn small vote"+(on?" on":""));b.setAttribute("aria-pressed",on?"true":"false");b.setAttribute("aria-label",(on?"Remove your vote for ":"Vote for ")+name);
-    b.append(el("span",null,"👍"));b.append(el("span","count",String(whos.length)));b.disabled=st.readOnly;
-    b.addEventListener("click",()=>saveMyVote(v=>{const s=new Set(Array.isArray(v.acts)?v.acts:[]);s.has(id)?s.delete(id):s.add(id);v.acts=[...s];}));
-    a.append(b);r.append(a);return r;
-  };
-  if(set.sort==="votes"){
-    [...ACTS].sort((x,y)=>count(y[1]).length-count(x[1]).length).forEach(a=>box.append(rowFor(a)));
-  }else{
-    Object.keys(TIERS).forEach(tier=>{const g=el("div","groupname");g.append(el("i","mk "+tier));g.append(el("span",null,TIERS[tier]));box.append(g);
-      ACTS.filter(a=>a[0]===tier).forEach(a=>box.append(rowFor(a)));});
-  }
-  fillNames(box);
-}
-function timeAgo(ms){const s=(Date.now()-ms)/1000;if(s<90)return"just now";const m=s/60;if(m<60)return Math.round(m)+" min ago";const h=m/60;if(h<36)return Math.round(h)+" h ago";return new Date(ms).toLocaleDateString(undefined,{month:"short",day:"numeric"});}
-function renderIdeas(){
-  const box=$("#ideaList");box.replaceChildren();
-  $("#ideaPost").disabled=st.readOnly;$("#ideaText").disabled=st.readOnly;
-  if(!st.ideas.length){box.append(el("div","empty",st.loaded?"No ideas yet. Post the first one above.":"Loading ideas…"));return;}
-  st.ideas.forEach(i=>{
-    const c=el("div","idea");c.append(el("div","text",String(i.text||"")));
-    const by=el("div","by");by.append(whoNode(i.who));if(typeof i.at==="number")by.append(el("span",null,timeAgo(i.at)));
-    if(st.me&&whoKey(i.who)===st.me){const del=el("button","linkbtn","Delete");del.addEventListener("click",()=>{if(!st.fs)return;queueWrite("ideas/"+i.id,()=>st.fs.del("ideas/"+i.id));});by.append(del);}
-    c.append(by);box.append(c);
-  });
-  fillNames(box);
-}
-function renderTasks(){
-  const box=$("#taskList");box.replaceChildren();
-  const mk=myKey();
+
+  const box=$("#tasks");box.replaceChildren();let doneN=0;
   TASKS.forEach(([id,name,sub,due])=>{
-    const t=st.tasks[id]||{};
-    const r=el("div","task"+(t.done?" done":""));
-    const cb=el("input");cb.type="checkbox";cb.id="task-"+id;cb.checked=!!t.done;cb.disabled=st.readOnly;cb.setAttribute("aria-label","Mark "+name+" done");
-    cb.addEventListener("change",()=>{if(!canWrite()){cb.checked=!!t.done;return;}const next=Object.assign({},st.tasks[id]||{},{done:cb.checked});st.tasks[id]=next;renderTasks();queueWrite("tasks/"+id,()=>st.fs.set("tasks/"+id,next));});
-    r.append(cb);
-    const d=el("div");if(due)d.append(el("div","due",due));d.append(el("div","name",name));d.append(el("div","sub muted",sub));r.append(d);
+    const t=st.tasks[id]||{};if(t.done)doneN++;
+    const r=el("div","r"+(t.done?" done":""));
+    const cb=el("button","check"+(t.done?" on":""));cb.type="button";cb.innerHTML=svg("check",3);
+    cb.setAttribute("role","checkbox");cb.setAttribute("aria-checked",t.done?"true":"false");cb.setAttribute("aria-label",name);
+    cb.addEventListener("click",()=>setTask(id,{done:!t.done}));r.append(cb);
+    const d=el("div");if(due)d.append(el("div","due","By "+due));d.append(el("div","t",name));d.append(el("div","s",sub));r.append(d);
     const a=el("div","act");
-    const owner=t.who&&whoKey(t.who);
-    if(t.who)a.append(whoNode(t.who));
-    if(!st.readOnly){
-      if(!owner){const b=el("button","btn small","I'll book it");b.addEventListener("click",()=>{if(!canWrite())return;const next=Object.assign({},st.tasks[id]||{},{who:myWho()});st.tasks[id]=next;renderTasks();queueWrite("tasks/"+id,()=>st.fs.set("tasks/"+id,next));});a.append(b);}
-      else if(owner===st.me){const b=el("button","linkbtn","Unclaim");b.addEventListener("click",()=>{if(!canWrite())return;const next=Object.assign({},st.tasks[id]||{},{who:null});st.tasks[id]=next;renderTasks();queueWrite("tasks/"+id,()=>st.fs.set("tasks/"+id,next));});a.append(b);}
-    }
+    if(t.who&&t.who.uid){const p=el("span","person");p.append(avatar(t.who));p.append(el("span",null,nameOf(t.who)));a.append(p);
+      if(t.who.uid===st.me){const u=el("button","link","Unclaim");u.type="button";u.addEventListener("click",()=>setTask(id,{who:null}));a.append(u);}}
+    else{const c=el("button","btn sm","I'll book it");c.type="button";c.addEventListener("click",()=>setTask(id,{who:{uid:st.me,n:st.nick}}));a.append(c);}
     r.append(a);box.append(r);
   });
-  fillNames(box);
+  $("#taskCount").textContent=doneN+" of "+TASKS.length+" done";
+  $("#taskCount").className="pill"+(doneN===TASKS.length?" good":"");
 }
-function renderVotes(){renderCrew();renderFlight();renderLodges();renderActs();}
-function renderAll(){renderVotes();renderCalc();renderDays();renderIdeas();renderTasks();}
+function segOpts(box,onPick){
+  box.replaceChildren();
+  Object.entries(OPTS).forEach(([k,o])=>{const b=el("button",set.opt===k?"on":null,o.short);b.type="button";b.addEventListener("click",()=>onPick(k));box.append(b);});
+}
+function pickOpt(k){set.opt=k;saveSet();renderAll();}
+function renderPlan(){
+  segOpts($("#planOpt"),pickOpt);
+  const box=$("#days");box.replaceChildren();
+  DAYS.forEach((day,i)=>{const items=day.all||day[set.opt];if(!items)return;
+    const row=el("div","day");if(i)row.style.cssText="border-top:1px solid var(--line);padding-top:16px";
+    const dt=el("div","date");dt.append(el("span",null,day.dow));dt.append(el("b",null,day.d));dt.append(el("span",null,day.m));row.append(dt);
+    const ol=el("ol","tl");items.forEach(([t,x])=>{const li=el("li");li.append(el("span","time",t));li.append(el("span",null,x));ol.append(li);});
+    row.append(ol);box.append(row);});
+  const keyOut="9:00 AM",keyBack=set.opt==="B"?"3:30":"8:00 PM";
+  $("#tOut").replaceChildren(...TOUT.map(t=>el("span",t===keyOut?"key":null,t)));
+  $("#tBack").replaceChildren(...TBACK.map(t=>el("span",t===keyBack?"key":null,t)));
+}
+function renderCosts(){
+  segOpts($("#cOpt"),pickOpt);
+  document.querySelectorAll("#cFood button").forEach(b=>b.classList.toggle("on",b.dataset.v===set.food));
+  $("#cLodge").value=set.lodge;$("#gVal").textContent=set.group;$("#cPlus").checked=set.plus;$("#cRent").checked=set.rent;
+  const {rows,total}=costs(set.opt);const box=$("#bill");box.replaceChildren();
+  rows.forEach(([a,b,c])=>{const l=el("div","line");const d=el("div");d.append(el("span",null,a));d.append(el("small",null,c));l.append(d);l.append(el("span","amt",b?usd(b):"$0"));box.append(l);});
+  $("#billTotal").textContent=usd(total);
+}
+function renderVote(){
+  const myV=myVote();
+  const fb=$("#flights");fb.replaceChildren();
+  Object.entries(OPTS).forEach(([k,o])=>{
+    const c=el("div","card fl"+(myV.flight===k?" mine":""));
+    if(k==="C"){const p=el("span","pill good ribbon","Best value");c.append(p);}
+    c.append(el("h3",null,o.label));
+    const pr=el("div");pr.append(el("span","price",usd(costs(k).total)));pr.append(el("span","muted small"," /person"));c.append(pr);
+    c.append(el("p","small muted",o.blurb));
+    const row=el("div","row");const ws=voters(v=>v.flight===k);
+    const left=el("div");left.style.cssText="display:flex;align-items:center;gap:8px";
+    if(ws.length){const s=el("span","stack");ws.slice(0,6).forEach(w=>s.append(avatar(w)));left.append(s);}
+    left.append(el("span","small muted",ws.length?ws.length+" vote"+(ws.length>1?"s":""):"No votes"));row.append(left);
+    const b=el("button","btn sm"+(myV.flight===k?" primary":""),myV.flight===k?"Your pick ✓":"Pick");b.type="button";
+    b.addEventListener("click",()=>saveMyVote(v=>{v.flight=v.flight===k?null:k;}));row.append(b);c.append(row);fb.append(c);
+  });
+  const lb=$("#lodges");lb.replaceChildren();
+  Object.entries(LODGES).forEach(([k,l])=>{
+    const r=el("div","r");r.append(el("span","icon-tile",l.emoji));
+    const d=el("div");d.append(el("div","t",l.name));d.append(el("div","s","~"+usd(l.night)+"/night · ~"+usd(l.night/4)+" each · "+l.note));r.append(d);
+    const a=el("div","act");const ws=voters(v=>v.lodge===k);
+    if(ws.length){const s=el("span","stack");ws.slice(0,5).forEach(w=>s.append(avatar(w)));a.append(s);}
+    const b=el("button","btn sm"+(myV.lodge===k?" primary":""),myV.lodge===k?"Picked ✓":"Pick");b.type="button";
+    b.addEventListener("click",()=>saveMyVote(v=>{v.lodge=v.lodge===k?null:k;}));a.append(b);r.append(a);lb.append(r);
+  });
+  const fbx=$("#actFilter");fbx.replaceChildren();
+  [["all","All"],["free","Free"],["cheap","Cheap"],["splurge","Splurge"],["top","Most loved"]].forEach(([k,lab])=>{
+    const c=el("button","chip"+(set.filter===k?" on":""));c.type="button";
+    if(TIER[k])c.append(el("i","mk "+k));c.append(el("span",null,lab));
+    c.addEventListener("click",()=>{set.filter=k;saveSet();renderVote();});fbx.append(c);});
+  const mine=new Set(Array.isArray(myV.acts)?myV.acts:[]);
+  const cnt=id=>voters(v=>Array.isArray(v.acts)&&v.acts.includes(id));
+  let list=ACTS.filter(a=>set.filter==="all"||set.filter==="top"||a[0]===set.filter);
+  if(set.filter==="top")list=[...list].sort((x,y)=>cnt(y[1]).length-cnt(x[1]).length);
+  const ab=$("#acts");ab.replaceChildren();
+  list.forEach(([tier,id,name,sub])=>{
+    const r=el("div","r");const ic=el("span","icon-tile");ic.append(el("i","mk "+tier));r.append(ic);
+    const d=el("div");d.append(el("div","t",name));d.append(el("div","s",TIER[tier]+" · "+sub));r.append(d);
+    const ws=cnt(id),on=mine.has(id);
+    const b=el("button","heart"+(on?" on":""));b.type="button";b.setAttribute("aria-pressed",on?"true":"false");b.setAttribute("aria-label",(on?"Unlike ":"Like ")+name);
+    b.innerHTML=svg("vote");b.querySelector("svg").setAttribute("fill",on?"currentColor":"none");b.append(el("span",null,String(ws.length)));
+    b.addEventListener("click",()=>saveMyVote(v=>{const s=new Set(Array.isArray(v.acts)?v.acts:[]);s.has(id)?s.delete(id):s.add(id);v.acts=[...s];}));
+    const a=el("div","act");a.append(b);r.append(a);ab.append(r);
+  });
+}
+function ago(ms){const s=(Date.now()-ms)/1000;if(s<90)return"just now";const m=s/60;if(m<60)return Math.round(m)+" min ago";const h=m/60;if(h<36)return Math.round(h)+" h ago";return new Date(ms).toLocaleDateString(undefined,{month:"short",day:"numeric"});}
+function renderIdeas(){
+  const box=$("#ideas");box.replaceChildren();
+  if(!st.ideas.length){box.append(el("div","empty",st.loaded?"No ideas yet. Post the first one!":"Loading ideas…"));return;}
+  st.ideas.forEach(i=>{
+    const c=el("div","card idea");c.append(avatar(i.who));
+    const b=el("div","body");const m=el("div","meta");m.append(el("b",null,nameOf(i.who)));if(typeof i.at==="number")m.append(el("span",null,ago(i.at)));
+    if(i.who&&i.who.uid===st.me){const del=el("button","link","Delete");del.type="button";del.style.fontSize=".78rem";
+      del.addEventListener("click",()=>{if(st.fs)queueWrite("ideas/"+i.id,()=>st.fs.del("ideas/"+i.id));});m.append(del);}
+    b.append(m);b.append(el("div","text",String(i.text||"")));c.append(b);box.append(c);
+  });
+}
+function renderAll(){renderMe();renderLive();renderHome();renderPlan();renderCosts();renderVote();renderIdeas();}
 
-/* ---------- static bits + controls ---------- */
+/* ---------- controls ---------- */
 Object.entries(LODGES).forEach(([k,l])=>{const o=el("option",null,l.name+" (~"+usd(l.night)+"/night)");o.value=k;$("#cLodge").append(o);});
-TOUT.forEach(t=>{$("#tOut").append(el("span",t==="9:00"?"key":null,t==="9:00"?"9:00 AM":t));});
-TBACK.forEach(t=>{const key=(t==="8:00 PM"||t==="3:30");$("#tBack").append(el("span",key?"key":null,t));});
-const onCalc=()=>{saveSet();renderCalc();renderDays();renderFlight();};
-document.querySelectorAll("#cOpt button").forEach(b=>b.addEventListener("click",()=>{set.opt=b.dataset.v;onCalc();}));
-document.querySelectorAll("#cFood button").forEach(b=>b.addEventListener("click",()=>{set.food=b.dataset.v;onCalc();}));
-document.querySelectorAll("#actSort button").forEach(b=>b.addEventListener("click",()=>{set.sort=b.dataset.v;saveSet();renderActs();}));
-$("#cLodge").addEventListener("change",e=>{set.lodge=e.target.value;onCalc();});
-$("#cPlus").addEventListener("change",e=>{set.plus=e.target.checked;onCalc();});
-$("#cRent").addEventListener("change",e=>{set.rent=e.target.checked;onCalc();});
-$("#gMinus").addEventListener("click",()=>{set.group=Math.max(1,set.group-1);onCalc();});
-$("#gPlus").addEventListener("click",()=>{set.group=Math.min(8,set.group+1);onCalc();});
+const onSet=()=>{saveSet();renderAll();};
+$("#cLodge").addEventListener("change",e=>{set.lodge=e.target.value;onSet();});
+document.querySelectorAll("#cFood button").forEach(b=>b.addEventListener("click",()=>{set.food=b.dataset.v;onSet();}));
+$("#cPlus").addEventListener("change",e=>{set.plus=e.target.checked;onSet();});
+$("#cRent").addEventListener("change",e=>{set.rent=e.target.checked;onSet();});
+$("#gMinus").addEventListener("click",()=>{set.group=Math.max(1,set.group-1);onSet();});
+$("#gPlus").addEventListener("click",()=>{set.group=Math.min(8,set.group+1);onSet();});
 document.querySelectorAll("#rsvp button").forEach(b=>b.addEventListener("click",()=>saveMyVote(v=>{v.rsvp=v.rsvp===b.dataset.v?null:b.dataset.v;})));
 $("#ideaText").addEventListener("input",e=>{$("#ideaCount").textContent=e.target.value.length+" / 400";});
 $("#ideaForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  const text=$("#ideaText").value.trim();
-  if(!text)return;
-  if(!canWrite())return;
-  const id=st.fs.newId();
-  const body={text:text.slice(0,400),n:st.nick,uid:st.me,at:Date.now()};
+  e.preventDefault();const text=$("#ideaText").value.trim();if(!text||!ready())return;
+  const id=st.fs.newId();const body={text:text.slice(0,400),n:st.nick,uid:st.me,at:Date.now()};
   $("#ideaText").value="";$("#ideaCount").textContent="0 / 400";
-  queueWrite("ideas/"+id,()=>st.fs.set("ideas/"+id,body));
+  queueWrite("ideas/"+id,()=>st.fs.set("ideas/"+id,body));toast("Posted");
 });
-$("#nickSave").addEventListener("click",()=>{
-  const n=$("#nickInput").value.trim().slice(0,24);if(!n)return;
-  st.nick=n;
-  try{localStorage.setItem("banffTripNick",n);}catch(e){}
-  $("#nickBox").hidden=true;
-  if(st.fs){setStatus("live","Live. Votes and ideas save for everyone.");}
-  if(st.me&&st.votes[st.me])saveMyVote(()=>{});
-  renderAll();
+function openName(){$("#nameInput").value=st.nick||"";$("#nameSheet").hidden=false;setTimeout(()=>$("#nameInput").focus(),30);}
+function closeName(){$("#nameSheet").hidden=true;}
+[$("#meTop"),$("#meSide")].forEach(b=>b.addEventListener("click",openName));
+$("#nameSkip").addEventListener("click",closeName);
+$("#nameSheet").addEventListener("click",e=>{if(e.target===e.currentTarget)closeName();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#nameSheet").hidden)closeName();});
+$("#nameForm").addEventListener("submit",e=>{
+  e.preventDefault();const n=$("#nameInput").value.trim().slice(0,24);if(!n)return;
+  st.nick=n;try{localStorage.setItem("banffTripNick",n);}catch(err){}
+  closeName();toast("Hi "+n+"! You can vote now.");
+  if(st.me&&st.votes[st.me])saveMyVote(()=>{});else renderAll();
 });
-$("#nickInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("#nickSave").click();}});
 
-renderAll();
+/* ---------- countdown ---------- */
+const TARGET=Date.UTC(2027,0,1,6,40);
+const pad=n=>String(n).padStart(2,"0");
+function tick(){let ms=TARGET-Date.now();
+  if(ms<=0){$("#count").replaceChildren(el("div",null,"Wheels down. Welcome to Canada!"));return false;}
+  const D=Math.floor(ms/864e5);ms-=D*864e5;const H=Math.floor(ms/36e5);ms-=H*36e5;const M=Math.floor(ms/6e4);ms-=M*6e4;
+  $("#cD").textContent=D;$("#cH").textContent=pad(H);$("#cM").textContent=pad(M);$("#cS").textContent=pad(Math.floor(ms/1e3));return true;}
+if(tick()){const iv=setInterval(()=>{if(!tick())clearInterval(iv);},1000);}
+
+show();renderAll();
 
 /* ---------- connect (Firebase, anonymous sign-in) ---------- */
 (async()=>{
@@ -735,121 +749,20 @@ renderAll();
   try{
     const base="https://www.gstatic.com/firebasejs/"+FB_VER+"/";
     const [appM,authM,fsMod]=await Promise.all([import(base+"firebase-app.js"),import(base+"firebase-auth.js"),import(base+"firebase-firestore.js")]);
-    fsM=fsMod;
-    const app=appM.initializeApp(FIREBASE_CONFIG);
-    const auth=authM.getAuth(app);
+    fsM=fsMod;const app=appM.initializeApp(FIREBASE_CONFIG);
     db=fsM.getFirestore(app);
-    const cred=await authM.signInAnonymously(auth);
-    st.me=cred.user.uid;
-  }catch(e){setStatus("warn","Can't connect to the shared votes right now. Everything else on this page still works.");st.loaded=true;renderAll();return;}
-  st.fs={
-    set:(p,d)=>fsM.setDoc(fsM.doc(db,p),d),
-    del:p=>fsM.deleteDoc(fsM.doc(db,p)),
-    newId:()=>fsM.doc(fsM.collection(db,"ideas")).id
-  };
-  if(!st.nick)$("#nickBox").hidden=false;
-  const firstReal={votes:false,ideas:false,tasks:false};
-  const timer=setTimeout(()=>{if(!st.loaded)setStatus("warn","Can't reach the shared votes yet. What you see may be out of date.");},10000);
-  const done=k=>{firstReal[k]=true;if(Object.values(firstReal).every(Boolean)&&!st.loaded){st.loaded=true;clearTimeout(timer);
-    setStatus(st.nick?"live":"warn",st.nick?"Live. Votes and ideas save for everyone.":"Add your name under Who's in to vote and post ideas.");renderAll();}};
-  const onErr=()=>{clearTimeout(timer);st.loaded=true;setStatus("warn","Lost the connection to shared votes. Reload the page to try again.");};
-  const meta={includeMetadataChanges:false};
-  fsM.onSnapshot(fsM.collection(db,"votes"),meta,s=>{const all={};s.docs.forEach(d=>{const v=d.data();all[d.id]=Object.assign({},v,{who:{uid:d.id,n:v.n||"Someone"}});});st.votes=all;renderVotes();if(!s.metadata.fromCache)done("votes");},onErr);
-  fsM.onSnapshot(fsM.query(fsM.collection(db,"ideas"),fsM.orderBy("at","desc"),fsM.limit(200)),meta,s=>{st.ideas=s.docs.map(d=>{const x=d.data();return {id:d.id,text:x.text,at:x.at,who:{uid:x.uid,n:x.n}};});renderIdeas();if(!s.metadata.fromCache)done("ideas");},onErr);
-  fsM.onSnapshot(fsM.collection(db,"tasks"),meta,s=>{const t={};s.docs.forEach(d=>{t[d.id]=d.data();});st.tasks=t;renderTasks();if(!s.metadata.fromCache)done("tasks");},onErr);
+    st.me=(await authM.signInAnonymously(authM.getAuth(app))).user.uid;
+  }catch(e){st.conn="down";st.loaded=true;renderAll();toast("Can't reach the shared votes. Everything else still works.");return;}
+  st.fs={set:(p,d)=>fsM.setDoc(fsM.doc(db,p),d),del:p=>fsM.deleteDoc(fsM.doc(db,p)),newId:()=>fsM.doc(fsM.collection(db,"ideas")).id};
+  if(!st.nick)setTimeout(openName,600);
+  const seen={votes:false,ideas:false,tasks:false};
+  const timer=setTimeout(()=>{if(!st.loaded){st.conn="down";renderLive();}},10000);
+  const done=k=>{seen[k]=true;if(Object.values(seen).every(Boolean)&&!st.loaded){st.loaded=true;st.conn="live";clearTimeout(timer);renderAll();}};
+  const onErr=()=>{clearTimeout(timer);st.loaded=true;st.conn="down";renderAll();toast("Lost the connection. Reload to try again.");};
+  fsM.onSnapshot(fsM.collection(db,"votes"),s=>{const all={};s.docs.forEach(d=>{const v=d.data();all[d.id]=Object.assign({},v,{who:{uid:d.id,n:v.n||"Someone"}});});st.votes=all;renderAll();if(!s.metadata.fromCache)done("votes");},onErr);
+  fsM.onSnapshot(fsM.query(fsM.collection(db,"ideas"),fsM.orderBy("at","desc"),fsM.limit(200)),s=>{st.ideas=s.docs.map(d=>{const x=d.data();return {id:d.id,text:x.text,at:x.at,who:{uid:x.uid,n:x.n}};});renderIdeas();if(!s.metadata.fromCache)done("ideas");},onErr);
+  fsM.onSnapshot(fsM.collection(db,"tasks"),s=>{const t={};s.docs.forEach(d=>{t[d.id]=d.data();});st.tasks=t;renderHome();if(!s.metadata.fromCache)done("tasks");},onErr);
 })();
-})();
-</script>
-
-<script>
-/* Sky effects: countdown, stars, aurora, parallax peaks. Purely decorative. */
-(function(){
-"use strict";
-const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-/* Countdown to landing: Thu Dec 31, 2026, 11:40 PM in Calgary (MST, UTC-7) */
-const TARGET=Date.UTC(2027,0,1,6,40);
-const pad=n=>String(n).padStart(2,"0");
-function tick(){
-  let ms=TARGET-Date.now();
-  const cd=document.getElementById("cd");
-  if(!cd)return false;
-  if(ms<=0){const d=document.createElement("div");d.className="cd-done";d.textContent="Wheels down. Welcome to Canada!";cd.replaceChildren(d);return false;}
-  const D=Math.floor(ms/864e5);ms-=D*864e5;const H=Math.floor(ms/36e5);ms-=H*36e5;const M=Math.floor(ms/6e4);ms-=M*6e4;const S=Math.floor(ms/1e3);
-  document.getElementById("cdD").textContent=String(D);
-  document.getElementById("cdH").textContent=pad(H);
-  document.getElementById("cdM").textContent=pad(M);
-  document.getElementById("cdS").textContent=pad(S);
-  return true;
-}
-if(tick()){const iv=setInterval(()=>{if(!tick())clearInterval(iv);},1000);}
-
-/* Stars + aurora */
-const sky=document.getElementById("sky"),au=document.getElementById("aurora");
-if(!sky||!au||!sky.getContext)return;
-const sx=sky.getContext("2d"),ax=au.getContext("2d");
-let W=0,H=0,stars=[];
-function size(){
-  W=window.innerWidth;H=window.innerHeight;
-  const dpr=Math.min(2,window.devicePixelRatio||1);
-  sky.width=Math.round(W*dpr);sky.height=Math.round(H*dpr);sx.setTransform(dpr,0,0,dpr,0,0);
-  au.width=Math.max(1,Math.ceil(W/4));au.height=Math.max(1,Math.ceil(H/4));
-  const n=Math.min(320,Math.round(W*H/5200));
-  stars=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H*0.9,r:Math.random()*1.15+0.25,p:Math.random()*6.283,s:0.4+Math.random()*1.6}));
-}
-function drawStars(t){
-  sx.clearRect(0,0,W,H);sx.fillStyle="#ffffff";
-  for(const s of stars){sx.globalAlpha=0.25+0.75*Math.abs(Math.sin(s.p+t*0.0007*s.s));sx.beginPath();sx.arc(s.x,s.y,s.r,0,6.283);sx.fill();}
-  sx.globalAlpha=1;
-}
-const BANDS=[
-  {lo:"111,242,192",hi:"143,211,255",y:0.20,a:0.075,th:0.17,sp:1.0,ph:0.0},
-  {lo:"120,255,170",hi:"180,142,255",y:0.30,a:0.06,th:0.13,sp:1.35,ph:2.1},
-  {lo:"180,142,255",hi:"255,138,201",y:0.12,a:0.05,th:0.10,sp:0.7,ph:4.2}
-];
-function drawAurora(t){
-  const w=au.width,h=au.height;
-  ax.clearRect(0,0,w,h);ax.globalCompositeOperation="lighter";
-  for(const b of BANDS){
-    const pts=[];let top=h,bot=0;
-    for(let x=0;x<=w+2;x+=2){
-      const u=x/w;
-      const y=h*b.y+Math.sin(u*6+t*0.00017*b.sp+b.ph)*h*b.a+Math.sin(u*15-t*0.0003*b.sp)*h*b.a*0.35;
-      const th=h*b.th*(0.55+0.45*Math.sin(u*9+t*0.00024+b.ph));
-      pts.push(x,y,th);if(y-th<top)top=y-th;if(y>bot)bot=y;
-    }
-    const g=ax.createLinearGradient(0,top,0,bot+1);
-    g.addColorStop(0,"rgba("+b.hi+",0)");g.addColorStop(0.55,"rgba("+b.hi+",0.32)");g.addColorStop(1,"rgba("+b.lo+",0.9)");
-    ax.fillStyle=g;ax.beginPath();
-    for(let i=0;i<pts.length;i+=3){const X=pts[i],Y=pts[i+1]-pts[i+2];i?ax.lineTo(X,Y):ax.moveTo(X,Y);}
-    for(let i=pts.length-3;i>=0;i-=3)ax.lineTo(pts[i],pts[i+1]);
-    ax.closePath();ax.fill();
-  }
-  ax.globalCompositeOperation="source-over";
-}
-
-/* Parallax peaks and aurora fade on scroll */
-const layers=[...document.querySelectorAll(".peaks .pk")];
-const hero=document.querySelector(".hero");
-function onScroll(){
-  const y=window.scrollY||0;
-  au.style.opacity=String(Math.max(0.42,0.9-y/1600));
-  if(reduce||!hero)return;
-  if(y>hero.offsetHeight+200)return;
-  layers.forEach(l=>{const d=parseFloat(l.dataset.depth)||0;l.style.transform="translate3d(0,"+(y*d).toFixed(1)+"px,0)";});
-}
-
-size();drawStars(0);drawAurora(0);onScroll();
-let raf=0,last=0;
-window.addEventListener("resize",()=>{size();if(reduce){drawStars(0);drawAurora(0);}},{passive:true});
-window.addEventListener("scroll",()=>{if(!raf)onScroll();},{passive:true});
-if(reduce)return;
-function frame(t){
-  if(!document.hidden&&t-last>40){drawStars(t);drawAurora(t);last=t;}
-  onScroll();
-  raf=requestAnimationFrame(frame);
-}
-raf=requestAnimationFrame(frame);
 })();
 </script>
 </body>
