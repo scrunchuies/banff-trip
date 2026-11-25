@@ -317,6 +317,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
     </div>
 
     <div class="section-title"><h2>Day by day</h2></div>
+    <div class="field"><span class="lbl">HOW MANY DAYS ARE YOU SKIING?</span><div class="seg" id="planDays"><button data-v="2" type="button">⛷ 2 days</button><button data-v="1" type="button">⛷ 1 day</button><button data-v="0" type="button">🚶 Not skiing</button></div></div>
     <div class="field" id="planSkiField"><span class="lbl" id="planSkiLbl">YOUR SKI DAYS</span><div class="seg" id="planSki"></div></div>
     <div class="card" id="days"></div>
 
@@ -652,6 +653,7 @@ function dayItems(n){
 function renderPlan(){
   const ps=$("#planSki");ps.replaceChildren();
   $("#planSkiField").hidden=!set.days;
+  document.querySelectorAll("#planDays button").forEach(b=>b.classList.toggle("on",+b.dataset.v===set.days));
   $("#planSkiLbl").textContent=(set.days===2?"YOUR TWO SKI DAYS (ANY 2 OF JAN 1–3)":"YOUR SKI DAY")+(set.ret==="d3"?" · FLYING JAN 3, SO SKI JAN 1–2":"");
   if(set.days===2)Object.entries(SKI).forEach(([k,o])=>{const b=el("button",set.ski===k?"on":null,o.short);b.type="button";b.addEventListener("click",()=>{set.ski=k;saveSet();renderAll();});ps.append(b);});
   else ["1","2","3"].forEach(k=>{const b=el("button",set.ski1===k?"on":null,"Jan "+k);b.type="button";b.addEventListener("click",()=>{set.ski1=k;saveSet();renderAll();});ps.append(b);});
@@ -742,7 +744,7 @@ function renderAll(){renderMe();renderLive();renderHome();renderPlan();renderCos
 
 /* ---------- controls ---------- */
 const onSet=()=>{saveSet();renderAll();};
-document.querySelectorAll("#cDays button").forEach(b=>b.addEventListener("click",()=>{set.days=+b.dataset.v;onSet();}));
+document.querySelectorAll("#cDays button, #planDays button").forEach(b=>b.addEventListener("click",()=>{set.days=+b.dataset.v;onSet();}));
 $("#cDisc").addEventListener("change",e=>{set.disc=e.target.checked;onSet();});
 document.querySelectorAll("#cRet button").forEach(b=>b.addEventListener("click",()=>{set.ret=b.dataset.v;onSet();}));
 document.querySelectorAll("#cFood button").forEach(b=>b.addEventListener("click",()=>{set.food=b.dataset.v;onSet();}));
