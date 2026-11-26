@@ -275,7 +275,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
       <div class="in">
         <span class="tag">⛷ SkiBig3 · New Year's in Banff</span>
         <h1>Banff New Year's Trip</h1>
-        <p>Land Wed Dec 30, 11:40 PM · Home Jan 3 or 4</p>
+        <p id="heroSub">Land Wed Dec 30 · Home Jan 3 or 4</p>
         <div class="count" id="count" aria-label="Countdown to landing in Calgary">
           <div><b id="cD">--</b><span>days</span></div><div><b id="cH">--</b><span>hrs</span></div><div><b id="cM">--</b><span>min</span></div><div><b id="cS">--</b><span>sec</span></div>
         </div>
@@ -313,13 +313,8 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
 
     <div class="card">
       <div class="card-head"><h2>Flights</h2><span class="pill good">$179–$206 round trip</span></div>
-      <div class="rows">
-        <div class="r"><span class="icon-tile">🛫</span><div><div class="t">Wed Dec 30 · 7:25 PM → 11:40 PM</div><div class="s">PHX → YYC · Porter Airlines · nonstop, 3 h 15 m</div></div><span class="pill">Out</span></div>
-        <div class="r"><span class="icon-tile">🛬</span><div><div class="t">Sun Jan 3 · 11:40 AM → 1:55 PM</div><div class="s">YYC → PHX · WestJet · nonstop · $200 round trip</div></div><span class="pill" id="pillD3">Option</span></div>
-        <div class="r"><span class="icon-tile">🛬</span><div><div class="t">Mon Jan 4 · 8:00 PM → 10:15 PM</div><div class="s">YYC → PHX · WestJet · nonstop · $179 round trip</div></div><span class="pill" id="pillD4">Option</span></div>
-        <div class="r"><span class="icon-tile">🛫</span><div><div class="t">Mon Jan 4 · 7:30 AM → 9:43 AM</div><div class="s">YYC → PHX · Porter both ways · nonstop · $206 round trip (Kiwi.com) · no carry-on bag</div></div><span class="pill" id="pillD4am">Option</span></div>
-      </div>
-      <p class="small muted">Return day is still being decided (see Vote). Both prices are with the Porter flight out, cheapest on BudgetAir via Google Flights. They're separate tickets, so if one flight is cancelled the other airline won't rebook you. Bags cost extra.</p>
+      <div class="rows" id="flightRows"></div>
+      <p class="small muted">Still being decided (see Vote). Prices are the cheapest round trips on Google Flights. Several are two separate tickets sold together, so if one flight is cancelled the other airline won't rebook you. Basic fares don't include a carry-on; bags cost extra.</p>
     </div>
 
     <div class="card">
@@ -373,7 +368,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
         <label class="toggle" for="cDisc" id="discRow"><span>I get 25% off my lift ticket</span><span class="sw"><input type="checkbox" id="cDisc"><i></i></span></label>
         <label class="toggle" for="cRent" id="rentRow"><span>I need ski rentals<br><span class="small muted" id="rentSub"></span></span><span class="sw"><input type="checkbox" id="cRent"><i></i></span></label>
         <div class="field"><label for="cHotel">LODGING (DEC 31 – JAN 3)</label><select id="cHotel"></select></div>
-        <div class="field"><span class="lbl">FLY HOME</span><div class="seg" id="cRet"><button data-v="d3" type="button">Sun 11:40 AM · $200</button><button data-v="d4" type="button">Mon 8 PM · $179</button><button data-v="d4am" type="button">Mon 7:30 AM · $206</button></div></div>
+        <div class="field"><span class="lbl">FLIGHTS</span><div class="seg" id="cRet"></div></div>
         <div class="field"><span class="lbl">OFF-SLOPE ACTIVITIES</span><div class="seg" id="cAct"><button data-v="none" type="button">None</button><button data-v="light" type="button">Light</button><button data-v="mid" type="button">Mid</button><button data-v="big" type="button">Big</button></div><span class="small muted" id="actSub"></span></div>
         <div class="field"><span class="lbl">FOOD BUDGET</span><div class="seg" id="cFood"><button data-v="budget" type="button">Budget</button><button data-v="mid" type="button">Mid</button><button data-v="comfy" type="button">Eat out</button></div></div>
         <div class="toggle"><span>People sharing rooms</span><span class="stepper"><button class="btn sm" id="gMinus" type="button" aria-label="Fewer people">−</button><b id="gVal">4</b><button class="btn sm" id="gPlus" type="button" aria-label="More people">+</button></span></div>
@@ -397,7 +392,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
     <div class="section-title"><h2>Where should we stay?</h2><span class="muted small">Dec 31 – Jan 3 · total for the room</span></div>
     <div class="card"><div class="rows" id="hotels"></div></div>
 
-    <div class="section-title"><h2>When do we fly home?</h2><span class="muted small">Hotel checkout is Sun Jan 3</span></div>
+    <div class="section-title"><h2>Which flights?</h2><span class="muted small">Hotel checkout is Sun Jan 3</span></div>
     <div class="card"><div class="rows" id="lodges"></div></div>
 
     <div class="section-title"><h2>Off the slopes</h2><span class="muted small">Great for non-skiers and rest days</span></div>
@@ -445,11 +440,17 @@ const ACT_BUDGET={                  // rough CAD budgets for off-slope plans, fo
 };
 /* Return day. Stored in the vote's "lodge" field (no longer used for lodging). */
 const RET={
-  d3:{label:"Sun Jan 3 · 11:40 AM",short:"Sun Jan 3",time:"11:40 AM",air:"WestJet",flight:200,food:3.25,emoji:"🛬",note:"$200 round trip · early bus Jan 3, ski Jan 1 + 2, home by 2 PM"},
-  d4:{label:"Mon Jan 4 · 8 PM",short:"Mon Jan 4",time:"8 PM",air:"WestJet",flight:179,food:4.5,emoji:"🛬",note:"$179 round trip · no hotel booked for the night of Jan 3"},
-  d4am:{label:"Mon Jan 4 · 7:30 AM",short:"Mon Jan 4",time:"7:30 AM",air:"Porter",flight:206,food:3.5,emoji:"🛫",note:"$206 round trip · Porter both ways · bus to the airport Jan 3 evening and overnight there · no carry-on bag"}
+  d3:{label:"Sun Jan 3 · 11:40 AM",short:"Sun Jan 3",time:"11:40 AM",air:"WestJet",out:"P",back:"Sun Jan 3 · 11:40 AM → 1:55 PM",btn:"Sun 11:40 AM · $200",flight:200,food:3.25,emoji:"🛬",note:"$200 round trip · early bus Jan 3, ski Jan 1 + 2, home by 2 PM"},
+  w3:{label:"Sun Jan 3 · 8 PM (WestJet both ways)",short:"Sun Jan 3",time:"8 PM",air:"WestJet",out:"W",back:"Sun Jan 3 · 8:00 PM → 10:15 PM",btn:"WestJet both · $201",flight:201,food:4,emoji:"✈️",note:"$201 round trip · WestJet both ways · land Dec 30 at 11:15 AM · Ultrabasic: no carry-on, checked bag $160 (Econo $365 includes a carry-on)"},
+  d4:{label:"Mon Jan 4 · 8 PM",short:"Mon Jan 4",time:"8 PM",air:"WestJet",out:"P",back:"Mon Jan 4 · 8:00 PM → 10:15 PM",btn:"Mon 8 PM · $179",flight:179,food:4.5,emoji:"🛬",note:"$179 round trip · no hotel booked for the night of Jan 3"},
+  d4am:{label:"Mon Jan 4 · 7:30 AM",short:"Mon Jan 4",time:"7:30 AM",air:"Porter",out:"P",back:"Mon Jan 4 · 7:30 AM → 9:43 AM",btn:"Mon 7:30 AM · $206",flight:206,food:3.5,emoji:"🛫",note:"$206 round trip · Porter both ways · bus to the airport Jan 3 evening and overnight there · no carry-on bag"}
 };
 const LODGES=RET;
+const OUT={
+  P:{label:"Wed Dec 30 · 7:25 PM → 11:40 PM",air:"Porter",land:Date.UTC(2026,11,31,6,40),landTxt:"Wed Dec 30, 11:40 PM"},
+  W:{label:"Wed Dec 30 · 7:00 AM → 11:15 AM",air:"WestJet",land:Date.UTC(2026,11,30,18,15),landTxt:"Wed Dec 30, 11:15 AM"}
+};
+const outOf=()=>OUT[RET[set.ret].out];
 const FOOD={budget:45,mid:55,comfy:80};
 /* Ski-day choice. Stored in the vote's "flight" field so the existing
    database rules keep working (the flight vote is no longer needed). */
@@ -565,7 +566,7 @@ function saveSet(){try{localStorage.setItem("banffTripSettings3",JSON.stringify(
 function costs(){
   const d=set.days,g=set.group;
   const rows=[
-    ["Flights",RET[set.ret].flight,"Porter out Dec 30, "+RET[set.ret].air+" home "+RET[set.ret].label],
+    ["Flights",RET[set.ret].flight,outOf().air+" out Dec 30, "+RET[set.ret].air+" home "+RET[set.ret].short+" "+RET[set.ret].time],
     ["Lodging",HOTELS[set.hotel].total/g,HOTELS[set.hotel].name+", $"+HOTELS[set.hotel].total+" for 3 nights split "+g+" ways"],
     ["Arrival night",0,"Casino + airport nap, no hotel (rides and gambling not included)"],
     ["FlixBus",FLIX,"Calgary airport ⇄ Banff"]
@@ -663,13 +664,14 @@ function renderHome(){
   $("#sTotal").textContent=usd(costs().total);
   $("#sTotalSub").textContent=set.days?"skiing "+set.days+" day"+(set.days>1?"s":""):"not skiing";
   $("#sSki").textContent=set.days?set.days+" day"+(set.days>1?"s":""):"Not skiing";
+  $("#heroSub").textContent="Land "+outOf().landTxt+" · Home "+RET[set.ret].short+", "+RET[set.ret].time;
   $("#sHome").textContent=RET[set.ret].short;$("#sHomeSub").textContent=RET[set.ret].air+" "+RET[set.ret].time;
   $("#sSkiSub").textContent=set.days===2?SKI[set.ski].short:set.days===1?"Jan "+set.ski1:"Banff day trips";
 
   const dec=$("#decide");dec.replaceChildren();
   const lead=(field,map,labelOf)=>{const counts={};Object.values(st.votes).forEach(v=>{if(v&&v[field]&&map[v[field]])counts[v[field]]=(counts[v[field]]||0)+1;});
     const best=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];return best?{n:best[1],label:labelOf(best[0])}:null;};
-  [["🎿","1 or 2 ski days","days",DAYSV,k=>DAYSV[k].label],["⛷","Ski days",SKI_FIELD,SKI_ALL,k=>SKI_ALL[k].label],["🏨","Where to stay","hotel",HOTELS,k=>HOTELS[k].name],["🛬","Fly home","lodge",RET,k=>RET[k].label]].forEach(([emo,title,field,map,labelOf])=>{
+  [["🎿","1 or 2 ski days","days",DAYSV,k=>DAYSV[k].label],["⛷","Ski days",SKI_FIELD,SKI_ALL,k=>SKI_ALL[k].label],["🏨","Where to stay","hotel",HOTELS,k=>HOTELS[k].name],["🛬","Flights","lodge",RET,k=>RET[k].label]].forEach(([emo,title,field,map,labelOf])=>{
     const r=el("div","r");r.append(el("span","icon-tile",emo));
     const d=el("div");d.append(el("div","t",title));const L=lead(field,map,labelOf);
     d.append(el("div","s",L?"Leading: "+L.label+" ("+L.n+" vote"+(L.n>1?"s":"")+")":"No votes yet"));r.append(d);
@@ -698,6 +700,13 @@ function dayItems(n){
   const mine=skiDaysMine(),ski=mine.includes(n),out=[];
   if(n===3){
     out.push(["11:00 AM","Check out of the hotel, leave bags"]);
+    if(set.ret==="w3"){
+      out.length=0;
+      if(ski)out.push(["8:00 AM","Check out, leave bags, ski bus"],["9:30–12:15","Ski the morning"],["12:15 PM","Ski bus back to Banff, pick up bags"]);
+      else out.push(["11:00 AM","Check out, leave bags"],["Midday","Last walk around Banff"]);
+      out.push(["Afternoon","FlixBus to Calgary airport, arrive by ~5:30 PM"],["8:00 PM","Fly YYC → PHX, WestJet nonstop, land 10:15 PM"]);
+      return out;
+    }
     if(set.ret==="d3"){
       out.length=0;
       out.push(["Early AM","Check out, FlixBus to Calgary airport, arrive by ~9:40 AM"],["11:40 AM","Fly YYC → PHX, WestJet nonstop, land 1:55 PM"]);
@@ -719,11 +728,16 @@ function renderPlan(){
   $("#planSkiLbl").textContent=(set.days===2?"YOUR TWO SKI DAYS (ANY 2 OF JAN 1–3)":"YOUR SKI DAY")+(set.ret==="d3"?" · FLYING JAN 3, SO SKI JAN 1–2":"");
   if(set.days===2)Object.entries(SKI).forEach(([k,o])=>{const b=el("button",set.ski===k?"on":null,o.short);b.type="button";b.addEventListener("click",()=>{set.ski=k;saveSet();renderAll();});ps.append(b);});
   else ["1","2","3"].forEach(k=>{const b=el("button",set.ski1===k?"on":null,"Jan "+k);b.type="button";b.addEventListener("click",()=>{set.ski1=k;saveSet();renderAll();});ps.append(b);});
-  $("#pillD3").textContent=set.ret==="d3"?"Your pick":"Option";$("#pillD3").className="pill"+(set.ret==="d3"?" good":"");
-  $("#pillD4").textContent=set.ret==="d4"?"Your pick":"Option";$("#pillD4").className="pill"+(set.ret==="d4"?" good":"");
-  $("#pillD4am").textContent=set.ret==="d4am"?"Your pick":"Option";$("#pillD4am").className="pill"+(set.ret==="d4am"?" good":"");
+  const fr=$("#flightRows");fr.replaceChildren();
+  Object.entries(RET).sort((a,b)=>a[1].flight-b[1].flight).forEach(([k,r])=>{
+    const o=OUT[r.out];const row=el("div","r");row.append(el("span","icon-tile",r.emoji));
+    const d=el("div");d.append(el("div","t","$"+r.flight+" · home "+r.short+", "+r.time));
+    d.append(el("div","s","Out: "+o.label+" ("+o.air+") · Back: "+r.back+" ("+r.air+")"));row.append(d);
+    const ws=voters(v=>v.lodge===k);const p=el("span","pill"+(set.ret===k?" good":""),set.ret===k?"Your pick":(ws.length?ws.length+" vote"+(ws.length>1?"s":""):"Option"));row.append(p);
+    fr.append(row);
+  });
   const DAYS=[
-    {dow:"Wed",d:"30",m:"Dec",items:[["7:25 PM","Fly PHX → YYC, Porter nonstop"],["11:40 PM","Land in Calgary, clear customs"],["Late night","Casino 🎰, then back to the airport"],["Night","Nap at the airport, no hotel"]]},
+    {dow:"Wed",d:"30",m:"Dec",items:RET[set.ret].out==="W"?[["7:00 AM","Fly PHX → YYC, WestJet nonstop"],["11:15 AM","Land in Calgary, clear customs"],["Afternoon","Free time in Calgary"],["Evening","Casino 🎰, then back to the airport"],["Night","Nap at the airport, no hotel (or book a Dec 30 night)"]]:[["7:25 PM","Fly PHX → YYC, Porter nonstop"],["11:40 PM","Land in Calgary, clear customs"],["Late night","Casino 🎰, then back to the airport"],["Night","Nap at the airport, no hotel"]]},
     {dow:"Thu",d:"31",m:"Dec",items:[["Morning","FlixBus from the airport to Banff (~2 h)"],["Afternoon","Check in at "+HOTELS[set.hotel].name+", groceries"],["Evening","New Year's Eve in Banff 🎉"],["Night",HOTELS[set.hotel].name]]},
     {dow:"Fri",d:"1",m:"Jan",items:dayItems(1)},
     {dow:"Sat",d:"2",m:"Jan",items:dayItems(2)},
@@ -857,7 +871,7 @@ const onSet=()=>{saveSet();renderAll();};
 document.querySelectorAll("#cDays button, #planDays button").forEach(b=>b.addEventListener("click",()=>{set.days=+b.dataset.v;onSet();}));
 $("#cDisc").addEventListener("change",e=>{set.disc=e.target.checked;onSet();});
 $("#cPass").addEventListener("change",e=>{set.pass=e.target.checked;onSet();});
-document.querySelectorAll("#cRet button").forEach(b=>b.addEventListener("click",()=>{set.ret=b.dataset.v;onSet();}));
+Object.entries(RET).forEach(([k,r])=>{const b=el("button",null,r.btn);b.type="button";b.dataset.v=k;b.addEventListener("click",()=>{set.ret=k;onSet();});$("#cRet").append(b);});
 hotelsByTown().forEach(([tid,label,sub,emo,list])=>{const og=document.createElement("optgroup");og.label=label;list.forEach(([k,h])=>{const o=el("option",null,h.name+" · $"+h.total+(h.ikon?" (Ikon)":""));o.value=k;og.append(o);});$("#cHotel").append(og);});
 $("#cHotel").addEventListener("change",e=>{set.hotel=e.target.value;onSet();});
 document.querySelectorAll("#cFood button").forEach(b=>b.addEventListener("click",()=>{set.food=b.dataset.v;onSet();}));
@@ -918,10 +932,9 @@ $("#signOutBtn").addEventListener("click",async()=>{
   renderAll();openName();toast("Signed out of admin.");
 });
 
-/* ---------- countdown: Wed Dec 30, 2026, 11:40 PM in Calgary (MST, UTC-7) ---------- */
-const TARGET=Date.UTC(2026,11,31,6,40);
+/* ---------- countdown to landing in Calgary (MST, UTC-7), per the chosen flights ---------- */
 const pad=n=>String(n).padStart(2,"0");
-function tick(){let ms=TARGET-Date.now();
+function tick(){let ms=outOf().land-Date.now();
   if(ms<=0){$("#count").replaceChildren(el("div",null,"Wheels down. Welcome to Canada!"));return false;}
   const D=Math.floor(ms/864e5);ms-=D*864e5;const H=Math.floor(ms/36e5);ms-=H*36e5;const M=Math.floor(ms/6e4);ms-=M*6e4;
   $("#cD").textContent=D;$("#cH").textContent=pad(H);$("#cM").textContent=pad(M);$("#cS").textContent=pad(Math.floor(ms/1e3));return true;}
