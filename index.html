@@ -309,7 +309,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
 
   <!-- PLAN -->
   <section class="view" id="v-plan" hidden>
-    <div><h1>The plan</h1><p class="muted">Land Dec 30 at 11:15 AM, casino plus an airport nap that night, then three nights of lodging (Dec 31 – Jan 3) that we're voting on. Home Jan 3 at 8 PM. We fly home Jan 3 or Jan 4.</p></div>
+    <div><h1>The plan</h1><p class="muted">Land Dec 30 at 11:15 AM and take the FlixBus straight to Banff, then four nights of lodging (Dec 30 – Jan 3) that we're voting on. Home Jan 3 at 8 PM.</p></div>
 
     <div class="card">
       <div class="card-head"><h2>Flights</h2><span class="pill good">Booked · $191 round trip</span></div>
@@ -321,9 +321,9 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
     </div>
 
     <div class="card">
-      <div class="card-head"><h2>Lodging · Dec 31 – Jan 3</h2><a class="link" href="#vote">Vote →</a></div>
+      <div class="card-head"><h2>Lodging · Dec 30 – Jan 3 · 4 nights</h2><a class="link" href="#vote">Vote →</a></div>
       <div class="rows" id="planLodging"></div>
-      <p class="small muted">Prices are totals for the stay, split between everyone in the room. The Canmore places are a short drive from Banff, so check how the bus and ski shuttles reach them. The Lake Louise Inn price uses the Ikon discount.</p>
+      <p class="small muted">Prices are 4-night totals with tax, split between everyone in the room. Ones marked “estimate” weren't listed for these dates, so they're the old 3-night price plus one more night. The Canmore places are a short drive from Banff, so check how the bus and ski shuttles reach them. The Lake Louise Inn price uses the Ikon discount.</p>
     </div>
 
     <div class="section-title"><h2>Day by day</h2></div>
@@ -335,7 +335,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
     <div class="grid2">
       <div class="card">
         <div class="card-head"><h3>FlixBus · Calgary airport ⇄ Banff</h3><span class="pill">$45</span></div>
-        <p class="small muted">About 2 hours each way. Out on Thu Dec 31 in the morning, straight from the airport. Back on flight day: be at the airport about 2 hours early, since US customs is done in Calgary before you board. For the 11:40 AM Jan 3 flight that means an early-morning bus, so check FlixBus has one.</p>
+        <p class="small muted">About 2 hours each way. Out on Wed Dec 30, straight from the airport after we land. Back on Jan 3: be at the airport about 2 hours early for the 8 PM flight, since US customs is done in Calgary before you board, so take an afternoon bus.</p>
       </div>
       <div class="card">
         <div class="card-head"><h3>Free ski buses from Banff</h3><span class="pill good">Free</span></div>
@@ -344,16 +344,12 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
         <p class="small muted">Pickups at Banff hotels like Banff Caribou Lodge and Banff Park Lodge. Holiday times are posted mid-December.</p>
       </div>
       <div class="card">
-        <div class="card-head"><h3>Arrival night · casino + airport nap</h3><span class="pill good">No hotel</span></div>
-        <p class="small muted">Land 11:40 PM Dec 30, head to a Calgary casino (minimum age in Alberta is 18), then back to the airport to nap until the morning FlixBus. Airport lounges are past security and usually need a boarding pass for a departing flight, so plan on the public seating areas if a lounge won't let you in. Rides to and from the casino aren't in the cost estimate.</p>
-      </div>
-      <div class="card">
         <div class="card-head"><h3>Ski rentals</h3><span class="pill">$39.69/day</span></div>
         <p class="small muted">Online Mid Performance Ski Package on SkiBig3. Your cart has it for <b>1 day on Mon Dec 14</b>, picked up at the Canmore Hub. Change it to your ski dates (2 days) and a pickup spot you can reach from Banff before paying.</p>
       </div>
     </div>
     <footer class="src">
-      <span>Prices from your Google Flights and SkiBig3 screenshots; others checked Nov 24, 2026.</span>
+      <span>Flight and SkiBig3 prices from your screenshots; lodging rechecked on Booking.com Nov 27, 2026.</span>
       <a href="https://www.skibig3.com/" target="_blank" rel="noopener">SkiBig3</a>
       <a href="https://www.flixbus.com/" target="_blank" rel="noopener">FlixBus</a>
       <a href="https://www.skilouise.com/getting-here/by-shuttle/" target="_blank" rel="noopener">Ski bus</a>
@@ -370,7 +366,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
         <label class="toggle" for="cPass" id="passRow"><span>I have a season pass<br><span class="small muted">Ikon, or a Sunshine, Lake Louise or Norquay pass · no lift ticket to buy</span></span><span class="sw"><input type="checkbox" id="cPass"><i></i></span></label>
         <label class="toggle" for="cDisc" id="discRow"><span>I get 25% off my lift ticket</span><span class="sw"><input type="checkbox" id="cDisc"><i></i></span></label>
         <label class="toggle" for="cRent" id="rentRow"><span>I need ski rentals<br><span class="small muted" id="rentSub"></span></span><span class="sw"><input type="checkbox" id="cRent"><i></i></span></label>
-        <div class="field"><label for="cHotel">LODGING (DEC 31 – JAN 3)</label><select id="cHotel"></select></div>
+        <div class="field"><label for="cHotel">LODGING (DEC 30 – JAN 3, 4 NIGHTS)</label><select id="cHotel"></select></div>
         
         <div class="field"><span class="lbl">OFF-SLOPE ACTIVITIES</span><div class="seg" id="cAct"><button data-v="none" type="button">None</button><button data-v="light" type="button">Light</button><button data-v="mid" type="button">Mid</button><button data-v="big" type="button">Big</button></div><span class="small muted" id="actSub"></span></div>
         <div class="field"><span class="lbl">FOOD BUDGET</span><div class="seg" id="cFood"><button data-v="budget" type="button">Budget</button><button data-v="mid" type="button">Mid</button><button data-v="comfy" type="button">Eat out</button></div></div>
@@ -392,7 +388,7 @@ footer.src{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6p
     <div class="section-title"><h2 id="skiQTitle">Which two ski days?</h2><span class="muted small" id="skiQSub">Lift ticket: any 2 of Jan 1–3</span></div>
     <div class="hscroll" id="skiVote"></div>
 
-    <div class="section-title"><h2>Where should we stay?</h2><span class="muted small">Dec 31 – Jan 3 · price per room (sleeps 4)</span></div>
+    <div class="section-title"><h2>Where should we stay?</h2><span class="muted small">Dec 30 – Jan 3 · 4 nights · price per room (sleeps 4)</span></div>
     <div class="card"><div class="rows" id="hotels"></div></div>
 
 
@@ -441,7 +437,7 @@ const ACT_BUDGET={                  // rough CAD budgets for off-slope plans, fo
 };
 /* Flights are booked: WestJet WS1161 out, WS1166 home, $191 round trip. */
 const RET={
-  w3:{label:"Sun Jan 3 · 8 PM",short:"Sun Jan 3",time:"8 PM",air:"WestJet",out:"W",back:"Sun Jan 3 · 8:00 PM → 10:15 PM",flight:191,food:4,emoji:"✈️"}
+  w3:{label:"Sun Jan 3 · 8 PM",short:"Sun Jan 3",time:"8 PM",air:"WestJet",out:"W",back:"Sun Jan 3 · 8:00 PM → 10:15 PM",flight:191,food:5,emoji:"✈️"}
 };
 const LODGES=RET;
 const OUT={
@@ -456,18 +452,18 @@ const SKI_FIELD="flight";
 const SINGLE={
   "1":{label:"Fri Jan 1",note:"New Year's Day on the slopes."},
   "2":{label:"Sat Jan 2",note:"Sleep in on New Year's Day, ski Saturday."},
-  "3":{label:"Sun Jan 3",note:"Only works if we fly home Mon Jan 4."}
+  "3":{label:"Sun Jan 3",note:"Morning only, then the bus to the airport for the 8 PM flight."}
 };
 const HOTELS={
-  banffinn:{town:"banff",name:"Banff Inn",total:864,where:"In Banff",note:"Walk to Banff Ave and the ski-bus stops",emoji:"🏨"},
-  northwinds:{town:"canmore",name:"Northwinds Hotel",total:656,where:"Canmore · 12 mi from Banff",note:"Cheaper, a short drive or bus from Banff",emoji:"🏔"},
-  rmsl:{town:"canmore",name:"Rocky Mountain Ski Lodge",total:637,where:"Canmore · 11 mi from Banff",note:"Cheapest option, a short drive or bus from Banff",emoji:"⛷"},
-  llinn:{town:"lakelouise",name:"Lake Louise Inn",total:716,where:"Lake Louise village, near the ski resort",note:"Ikon discount price · far from Banff (about 35 mi), close to Lake Louise skiing",emoji:"🎿",ikon:true},
-  canmoreinn:{town:"canmore",name:"Canmore Inn & Suites",total:677,where:"Canmore",note:"Hot tub, indoor pool, waterslide · fully refundable · rated 8.4/10 · was $753",emoji:"🛝"},
-  hibanff:{town:"banff",name:"HI Banff Alpine Centre (all 4 beds of a 4-bed room)",total:693,where:"In Banff · Tunnel Mountain Rd, ~2 km uphill from downtown",note:"Book all 4 beds so the room is yours (confirm with the hostel) · shared bathroom; ~$734 with a private bathroom · $153/bed + 13% tax",emoji:"🛏"},
-  elkcabin:{town:"banff",name:"Banff Beaver Cabins · Elk Cabin",total:862,where:"In Banff · one block from the main street",note:"Airbnb · 2 bedrooms, sleeps 4 · all fees included",emoji:"🪵"},
-  gateway:{town:"canmore",name:"Gateway Suites studio",total:525,where:"Harvie Heights · near Canmore, ~16 min drive to Banff",note:"Cheapest that sleeps 4 · 2 queen beds in a 269 sq ft studio · $478 + 11% tax on Booking.com",emoji:"💸"},
-  condo:{town:"canmore",name:"Relaxing condo with pool and hot tub",total:605,where:"Canmore",note:"Free parking, Banff park pass included · cheapest option",emoji:"🏠"}
+  banffinn:{town:"banff",name:"Banff Inn",total:1455,where:"In Banff",note:"Walk to Banff Ave and the ski-bus stops · $1,288 + 13% tax on Booking.com, free cancellation",emoji:"🏨"},
+  northwinds:{town:"canmore",name:"Northwinds Hotel",total:1226,where:"Canmore · 12 mi from Banff",note:"A short drive or bus from Banff · $1,085 + 13% tax on Booking.com ($976 non-refundable)",emoji:"🏔"},
+  rmsl:{town:"canmore",name:"Rocky Mountain Ski Lodge",total:849,where:"Canmore · 11 mi from Banff",note:"A short drive or bus from Banff · estimate, not listed for these dates",emoji:"⛷"},
+  llinn:{town:"lakelouise",name:"Lake Louise Inn",total:955,where:"Lake Louise village, near the ski resort",note:"Ikon discount price (estimate, recheck for 4 nights) · far from Banff (about 35 mi), close to Lake Louise skiing",emoji:"🎿",ikon:true},
+  canmoreinn:{town:"canmore",name:"Canmore Inn & Suites",total:1115,where:"Canmore",note:"Hot tub, indoor pool, waterslide · rated 8.4/10 · $987 + 13% tax on Booking.com",emoji:"🛝"},
+  hibanff:{town:"banff",name:"HI Banff Alpine Centre (all 4 beds of a 4-bed room)",total:924,where:"In Banff · Tunnel Mountain Rd, ~2 km uphill from downtown",note:"Book all 4 beds so the room is yours (confirm with the hostel) · shared bathroom · $204/bed for 4 nights + 13% tax",emoji:"🛏"},
+  elkcabin:{town:"banff",name:"Banff Beaver Cabins · Elk Cabin",total:1149,where:"In Banff · one block from the main street",note:"Airbnb · 2 bedrooms, sleeps 4 · estimate, recheck the 4-night price",emoji:"🪵"},
+  gateway:{town:"canmore",name:"Gateway Suites studio",total:675,where:"Harvie Heights · near Canmore, ~16 min drive to Banff",note:"Cheapest that sleeps 4 · 2 queen beds in a 269 sq ft studio · $608 + 11% tax on Booking.com, non-refundable",emoji:"💸"},
+  condo:{town:"canmore",name:"Relaxing condo with pool and hot tub",total:807,where:"Canmore",note:"Free parking, Banff park pass included · estimate, recheck the 4-night price",emoji:"🏠"}
 };
 const TOWNS=[
   ["banff","In Banff","Walk to Banff Ave, New Year's Eve and the ski-bus stops","🏔"],
@@ -524,11 +520,11 @@ const TASKS=[
   ["pluscard","Bags for the flights","Carry-on and checked bags cost extra",""],
   ["tickets","SkiBig3 lift tickets","1 day $172 or 2 days $344, + GST · not needed with a season pass",""],
   ["rentals","Ski rentals","$39.69/day · fix the date (cart says Dec 14)",""],
-  ["airporter","FlixBus both ways","Airport → Banff Dec 31, back Jan 4",""],
-  ["super8","Arrival night plan","Ride to the casino and back, where to nap",""],
-  ["banff","Book lodging, Dec 31 – Jan 3","Per the vote · $525–$864 total",""],
+  ["airporter","FlixBus both ways","Airport → Banff Dec 30 after we land, back Jan 3 afternoon",""],
+  ["super8","New Year's Eve plans","Where we ring in 2027 in Banff",""],
+  ["banff","Book lodging, Dec 30 – Jan 3","Per the vote · 4 nights",""],
   ["skibus","Check holiday ski-bus times","Posted mid-December","Mid-Dec"],
-  ["groceries","Groceries","Stores may close Jan 1","Dec 31"]
+  ["groceries","Groceries","Stores may close Jan 1","Dec 30"]
 ];
 
 /* ---------- helpers ---------- */
@@ -566,8 +562,7 @@ function costs(){
   const d=set.days,g=set.group;
   const rows=[
     ["Flights",RET[set.ret].flight,"Booked · WestJet WS1161 out Dec 30, WS1166 home Jan 3"],
-    ["Lodging",Math.ceil(g/4)*HOTELS[set.hotel].total/g,HOTELS[set.hotel].name+", $"+HOTELS[set.hotel].total+" for 3 nights"+(g>4?" × "+Math.ceil(g/4)+" rooms (each sleeps 4)":"")+", split "+g+" ways"],
-    ["Arrival night",0,"Casino + airport nap, no hotel (rides and gambling not included)"],
+    ["Lodging",Math.ceil(g/4)*HOTELS[set.hotel].total/g,HOTELS[set.hotel].name+", $"+HOTELS[set.hotel].total.toLocaleString("en-US")+" for 4 nights"+(g>4?" × "+Math.ceil(g/4)+" rooms (each sleeps 4)":"")+", split "+g+" ways"],
     ["FlixBus",FLIX,"Calgary airport ⇄ Banff"]
   ];
   if(d>0){
@@ -721,8 +716,8 @@ function renderPlan(){
   if(set.days===2)Object.entries(SKI).forEach(([k,o])=>{const b=el("button",set.ski===k?"on":null,o.short);b.type="button";b.addEventListener("click",()=>{set.ski=k;saveSet();renderAll();});ps.append(b);});
   else ["1","2","3"].forEach(k=>{const b=el("button",set.ski1===k?"on":null,"Jan "+k);b.type="button";b.addEventListener("click",()=>{set.ski1=k;saveSet();renderAll();});ps.append(b);});
   const DAYS=[
-    {dow:"Wed",d:"30",m:"Dec",items:RET[set.ret].out==="W"?[["7:00 AM","Fly PHX → YYC, WestJet nonstop"],["11:15 AM","Land in Calgary, clear customs"],["Afternoon","Free time in Calgary"],["Evening","Casino 🎰, then back to the airport"],["Night","Nap at the airport, no hotel (or book a Dec 30 night)"]]:[["7:25 PM","Fly PHX → YYC, Porter nonstop"],["11:40 PM","Land in Calgary, clear customs"],["Late night","Casino 🎰, then back to the airport"],["Night","Nap at the airport, no hotel"]]},
-    {dow:"Thu",d:"31",m:"Dec",items:[["Morning","FlixBus from the airport to Banff (~2 h)"],["Afternoon","Check in at "+HOTELS[set.hotel].name+", groceries"],["Evening","New Year's Eve in Banff 🎉"],["Night",HOTELS[set.hotel].name]]},
+    {dow:"Wed",d:"30",m:"Dec",items:[["7:00 AM","Fly PHX → YYC, WestJet nonstop"],["11:15 AM","Land in Calgary, clear customs"],["Afternoon","FlixBus from the airport to Banff (~2 h)"],["Evening","Check in at "+HOTELS[set.hotel].name+", groceries"],["Night",HOTELS[set.hotel].name]]},
+    {dow:"Thu",d:"31",m:"Dec",items:[["Day","Explore Banff: gondola, hot springs, Banff Ave"],["Evening","New Year's Eve in Banff 🎉"],["Night",HOTELS[set.hotel].name]]},
     {dow:"Fri",d:"1",m:"Jan",items:dayItems(1)},
     {dow:"Sat",d:"2",m:"Jan",items:dayItems(2)},
     {dow:"Sun",d:"3",m:"Jan",items:dayItems(3)},
@@ -756,7 +751,7 @@ function hotelRows(box,withVotes){
   const g=el("div","tgroup");g.append(el("b",null,emo+" "+label));g.append(el("span",null,sub));box.append(g);
   list.forEach(([k,h])=>{
     const r=el("div","r");r.append(el("span","icon-tile",h.emoji));
-    const d=el("div");const t=el("div","t",h.name+" · $"+h.total);if(h.ikon){const p=el("span","pill good","Ikon discount");p.style.marginLeft="6px";t.append(p);}d.append(t);
+    const d=el("div");const t=el("div","t",h.name+" · $"+h.total.toLocaleString("en-US"));if(h.ikon){const p=el("span","pill good","Ikon discount");p.style.marginLeft="6px";t.append(p);}d.append(t);
     d.append(el("div","s",h.where+" · ~"+usd(Math.ceil(set.group/4)*h.total/set.group)+" each for "+set.group+(set.group>4?" ("+Math.ceil(set.group/4)+" rooms)":"")+" · "+h.note));r.append(d);
     const a=el("div","act");const ws=voters(v=>v.hotel===k);
     if(ws.length){const s=el("span","stack");ws.slice(0,5).forEach(w=>s.append(avatar(w)));a.append(s);}
@@ -846,7 +841,7 @@ document.querySelectorAll("#cDays button, #planDays button").forEach(b=>b.addEve
 $("#cDisc").addEventListener("change",e=>{set.disc=e.target.checked;onSet();});
 $("#cPass").addEventListener("change",e=>{set.pass=e.target.checked;onSet();});
 
-hotelsByTown().forEach(([tid,label,sub,emo,list])=>{const og=document.createElement("optgroup");og.label=label;list.forEach(([k,h])=>{const o=el("option",null,h.name+" · $"+h.total+(h.ikon?" (Ikon)":""));o.value=k;og.append(o);});$("#cHotel").append(og);});
+hotelsByTown().forEach(([tid,label,sub,emo,list])=>{const og=document.createElement("optgroup");og.label=label;list.forEach(([k,h])=>{const o=el("option",null,h.name+" · $"+h.total.toLocaleString("en-US")+(h.ikon?" (Ikon)":""));o.value=k;og.append(o);});$("#cHotel").append(og);});
 $("#cHotel").addEventListener("change",e=>{set.hotel=e.target.value;onSet();});
 document.querySelectorAll("#cFood button").forEach(b=>b.addEventListener("click",()=>{set.food=b.dataset.v;onSet();}));
 document.querySelectorAll("#cAct button").forEach(b=>b.addEventListener("click",()=>{set.act=b.dataset.v;onSet();}));
